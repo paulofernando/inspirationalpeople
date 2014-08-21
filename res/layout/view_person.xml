@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:id="@+id/componentPersonView">
+    
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="64dp"
+        android:maxHeight="64dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_alignParentLeft="true"
+        />
+        
+    <ImageView 
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/frame"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentLeft="true"/>
+    
+    <TextView 
+        android:id="@+id/person_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/photo"
+        android:layout_marginLeft="12dp"
+        android:textSize="18sp"
+        android:textColor="#444"/>
+    
+    <TextView 
+        android:id="@+id/person_amount_inspirations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/photo"
+        android:layout_below="@id/person_name"
+        android:layout_marginLeft="12dp"
+        android:textSize="14sp"
+        android:textColor="#888"/>
+    
+    <ImageView 
+        android:id="@+id/medalha"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"        
+        />
+    
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"        
+        android:background="#ddd"
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/photo"/>    
+    
+</RelativeLayout>
