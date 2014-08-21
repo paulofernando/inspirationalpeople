@@ -3,6 +3,7 @@ package br.net.paulofernando.pessoasinspiradoras.view;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.provider.ContactsContract.CommonDataKinds.Im;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,9 @@ public class InspirationView extends LinearLayout {
 	
 	@ViewById(R.id.inspiration)
 	TextView inspiration;
+	
+	@ViewById(R.id.inspiration_marker)
+	ImageView marker;
 
 	@ViewById(R.id.inside_menu_inspiration)
 	RelativeLayout insideMenu;
@@ -61,6 +65,7 @@ public class InspirationView extends LinearLayout {
 				@Override
 				public void onClick(View v) {
 					inspiration.setAlpha(0.2f);
+					marker.setAlpha(0.2f);
 					insideMenu.setVisibility(View.VISIBLE);				
 				}
 			});
@@ -74,6 +79,7 @@ public class InspirationView extends LinearLayout {
 	@Click(R.id.bt_back_inpiration) 
 	void btBackInspiration() {
 		inspiration.setAlpha(1f);
+		marker.setAlpha(1f);
 		insideMenu.setVisibility(View.GONE);
 	}
 	
@@ -90,7 +96,7 @@ public class InspirationView extends LinearLayout {
 		input.setLines(2);
 		new AlertDialog.Builder(context)
 				.setTitle("Edit the inspiration").setView(input)				
-				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setIcon(android.R.drawable.ic_dialog_info)
 				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	try {
@@ -98,6 +104,7 @@ public class InspirationView extends LinearLayout {
 	                		helper.updateInspirationById(inspirationEntity.id, input.getText().toString());
 	                		inspiration.setText(input.getText().toString());
 	                		inspiration.setAlpha(1f);
+	                		marker.setAlpha(1f);
 	                		insideMenu.setVisibility(View.GONE);
 						} catch (Exception e) {
 							e.printStackTrace();

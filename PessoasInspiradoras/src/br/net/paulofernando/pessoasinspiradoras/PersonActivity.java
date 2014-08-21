@@ -139,7 +139,7 @@ public class PersonActivity extends Activity {
 		input.setLines(2);
 		new AlertDialog.Builder(PersonActivity.this)
 				.setTitle("What is the new inspiration?").setView(input)
-				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setIcon(android.R.drawable.ic_dialog_info)
 				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                	try {
