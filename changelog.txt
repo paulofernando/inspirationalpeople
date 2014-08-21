@@ -1,0 +1,22 @@
+------------------------------------
+version 1.0 - 20-08-14
+- redesign of the application
+- configurable password
+- settings screen created
+- login and settings screen auto adjust when the virtual keyboard is active
+- auto login when the password is put in the field
+- person photo can be chosen
+- inspirations can be edit now
+- inspirations show a menu when clicked
+- person information can be edited
+- when back button is pressed in the dashboard, the app is closed
+- image crop added (SoundCloud library)
+- login screen redesigned
+- color of the pressed button changed
+- password hidden in the popup to delete person
+- logo added
+- icon "no inspiration" added
+- medals added
+- backup in xml implemented
+- back button in the title bar implemented
+- default person image fixed
