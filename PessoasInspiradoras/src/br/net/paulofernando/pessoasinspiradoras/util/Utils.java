@@ -68,7 +68,13 @@ public class Utils {
 	
 	public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmacao) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, listenerConfirmacao).setNegativeButton(android.R.string.no, null).show();
+                .setPositiveButton("Yes", listenerConfirmacao).setNegativeButton("No", null).show();
+    }
+	
+	public static void showConfirmDialog(Context context, String title, String message, 
+			DialogInterface.OnClickListener listenerConfirmacao, DialogInterface.OnClickListener listenerNegacao) {
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Yes", listenerConfirmacao).setNegativeButton("No", listenerNegacao).show();
     }
 
     public static void showAlertDialog(Context context, String title, String message) {

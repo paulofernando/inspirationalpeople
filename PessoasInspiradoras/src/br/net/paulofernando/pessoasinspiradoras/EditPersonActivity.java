@@ -5,11 +5,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +43,8 @@ public class EditPersonActivity extends Activity {
 	@ViewById(R.id.et_person_name)
 	EditText etPersonName;
 	
+	private boolean changed;
+	
 	private Bitmap bmp;
 	private Uri outputUri;
 	
@@ -46,6 +55,19 @@ public class EditPersonActivity extends Activity {
 		photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
 				photoRaw.length));
 		etPersonName.setText((getIntent().getStringExtra("name")));
+		
+		etPersonName.addTextChangedListener(new TextWatcher() {			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				changed = true;				
+			}
+		});
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -64,6 +86,7 @@ public class EditPersonActivity extends Activity {
 		} else {
 			helper.updatePersonById(personId, etPersonName.getText().toString());
 		}
+		changed = false;
 		this.finish();
 	}
 	
@@ -71,6 +94,7 @@ public class EditPersonActivity extends Activity {
 	void changePhoto() {
 		Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, RESULT_LOAD_IMAGE);
+		changed = true;
 	}
 	
 	@Override
@@ -105,7 +129,27 @@ public class EditPersonActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				this.finish();
+				if(changed) {
+					Utils.showConfirmDialog(
+							this,
+							"Data not saved",
+							"Do you want to save the data before exit?",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									 save();
+									 EditPersonActivity.this.finish();
+								}
+							},
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									 EditPersonActivity.this.finish();
+								}
+							});
+				} else {
+					finish();
+				}
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

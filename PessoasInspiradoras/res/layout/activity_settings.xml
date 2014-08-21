@@ -66,25 +66,28 @@
 		android:orientation="horizontal"
 		android:gravity="center_horizontal"
 		android:layout_alignParentBottom="true"
+		android:weightSum="1"
 		>     
 	     <Button
 	          android:id="@+id/bt_cancel" 
-	          android:layout_width="wrap_content"
-	          android:layout_height="wrap_content"            
+	          android:layout_width="match_parent"
+	          android:layout_height="match_parent"            
 	          android:background="@drawable/button_background"
 	          android:text="@string/bt_cancel"
 	          android:textColor="#222"
 	          android:textSize="14sp"
-	          android:layout_margin="12dp"/>
+	          android:layout_margin="12dp"
+	          android:layout_weight="0.5"/>
 	    <Button
 	          android:id="@+id/bt_save" 
-	          android:layout_width="wrap_content"
-	          android:layout_height="wrap_content"            
+	          android:layout_width="match_parent"
+	          android:layout_height="match_parent"            
 	          android:background="@drawable/button_background"
 	          android:text="@string/bt_save"
 	          android:textColor="#222"
 	          android:textSize="14sp"
-	          android:layout_margin="12dp"/>
+	          android:layout_margin="12dp"
+	          android:layout_weight="0.5"/>
 	    
 	 </LinearLayout>   
 	 
