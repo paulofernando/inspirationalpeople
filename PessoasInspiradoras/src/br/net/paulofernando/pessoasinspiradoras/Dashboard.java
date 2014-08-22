@@ -14,9 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.util.RequestTask;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
 
@@ -49,7 +51,7 @@ public class Dashboard extends Activity {
 		dtoFactory = (DtoFactory) getApplication();
 		loadPersons();
 	}
-
+	
 	private void loadPersons() {
 		dashboard.removeAllViews();
 		DatabaseHelper helper = new DatabaseHelper(this);
@@ -71,7 +73,7 @@ public class Dashboard extends Activity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
 		if (data != null) {
 			Uri uri = data.getData();
 

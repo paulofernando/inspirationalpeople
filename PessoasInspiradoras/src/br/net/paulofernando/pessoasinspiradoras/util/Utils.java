@@ -3,6 +3,8 @@ package br.net.paulofernando.pessoasinspiradoras.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -13,6 +15,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -109,5 +112,20 @@ public class Utils {
 
 		context.startActivity(Intent.createChooser(share, "Send the backup"));
     }
+    
+    public static Bitmap getFacebookProfilePicture(String userID){
+        URL imageURL;
+		try {
+			imageURL = new URL("https://graph.facebook.com/" + userID + "/picture?type=large");
+			Bitmap bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+	        return bitmap;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        return null;
+    }
+
 	
 }
