@@ -132,8 +132,8 @@ public class EditPersonActivity extends Activity {
 				if(changed) {
 					Utils.showConfirmDialog(
 							this,
-							"Data not saved",
-							"Do you want to save the data before exit?",
+							getString(R.string.data_not_saved_title),
+							getString(R.string.data_not_saved_question),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {

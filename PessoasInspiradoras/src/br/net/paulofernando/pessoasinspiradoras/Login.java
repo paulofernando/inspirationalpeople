@@ -59,7 +59,7 @@ public class Login extends Activity {
 			Intent intent = new Intent(this, Dashboard_.class);
 			startActivity(intent);
 		} else {
-			Toast.makeText(this, "Wrong key!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
 		}
 	}
 		

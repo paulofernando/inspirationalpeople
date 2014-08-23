@@ -95,7 +95,7 @@ public class InspirationView extends LinearLayout {
 		input.setId(android.R.id.edit);
 		input.setLines(2);
 		new AlertDialog.Builder(context)
-				.setTitle("Edit the inspiration").setView(input)				
+				.setTitle(context.getString(R.string.edit_inspiration)).setView(input)				
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
@@ -114,8 +114,8 @@ public class InspirationView extends LinearLayout {
 	}
 
 	private void deleteInspiration() {
-		Utils.showConfirmDialog(getContext(), "Delete inspiration",
-				"Do you want to delete this inspiration?",
+		Utils.showConfirmDialog(getContext(), context.getString(R.string.delete_inspiration_title),
+				context.getString(R.string.delete_inspiration_question),
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

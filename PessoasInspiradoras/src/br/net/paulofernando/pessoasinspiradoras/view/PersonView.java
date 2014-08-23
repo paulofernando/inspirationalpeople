@@ -36,8 +36,11 @@ public class PersonView extends LinearLayout {
 	
 	PersonEntity person;
 	
+	private Context context;
+	
 	public PersonView(Context context) {
 		super(context);
+		this.context = context;
 	}
 	
 	public PersonView(PersonEntity person, Context context) {
@@ -53,7 +56,8 @@ public class PersonView extends LinearLayout {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		amountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1  ? " inspirations" : " inspiration"));
+		amountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1  ? " " + 
+				context.getString(R.string.inspirations) : " " + context.getString(R.string.inspiration)));
 		loadPhoto();
 		loadMedal();
 	}

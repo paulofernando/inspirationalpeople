@@ -91,54 +91,64 @@ public class PersonActivity extends Activity {
 	}
 
 	void deletePerson() {
-		Utils.showConfirmDialog(
-				this,
-				"Delete contact",
-				"Do you want to delete this contact? All data about it will be lost!",
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						
-						final EditText input = new EditText(PersonActivity.this);
-						input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-						input.setTransformationMethod(PasswordTransformationMethod.getInstance());						
-						input.setId(android.R.id.edit);
-						input.setLines(1);
-						new AlertDialog.Builder(PersonActivity.this)
-								.setTitle("Inform the password").setView(input)
-								.setIcon(android.R.drawable.ic_dialog_alert)
-								.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-					                public void onClick(DialogInterface dialog, int whichButton) {
-					                	try {
-											if(input.getText().toString().equals(
-													PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, null))) {
+		if((!PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, "").equals(""))) { 
+			Utils.showConfirmDialog(
+					this,
+					getString(R.string.delete_contact_title),
+					getString(R.string.delete_contact_question),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+							final EditText input = new EditText(PersonActivity.this);
+							input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+							input.setTransformationMethod(PasswordTransformationMethod.getInstance());						
+							input.setId(android.R.id.edit);
+							input.setLines(1);
+							new AlertDialog.Builder(PersonActivity.this)
+									.setTitle(getString(R.string.enter_password)).setView(input)
+									.setIcon(android.R.drawable.ic_dialog_alert)
+									.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						                public void onClick(DialogInterface dialog, int whichButton) {
+						                	try {
+												if(input.getText().toString().equals(
+														PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, null))) {
+													
+													deletePersonData();
+													
+													finish();
+												} else {
+													Toast.makeText(PersonActivity.this, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
+												}
 												
-												DatabaseHelper helper = new DatabaseHelper(
-														PersonActivity.this);
-												helper.deletePersonById(personId);						
-												helper.deleteAllInspirationsByUserId(personId);
-												
-												finish();
-											} else {
-												Toast.makeText(PersonActivity.this, "Wrong password!", Toast.LENGTH_SHORT).show();
+											} catch (Exception e) {
+												e.printStackTrace();
 											}
-											
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-					                }
-					            }).show();
-					}
-				});
+						                }
+						            }).show();
+						}
+					});
+		} else {
+			deletePersonData();
+		}
 	}
 
+	private void deletePersonData() {
+		
+		DatabaseHelper helper = new DatabaseHelper(
+				PersonActivity.this);
+		helper.deletePersonById(personId);						
+		helper.deleteAllInspirationsByUserId(personId);
+			
+	}
+	
 	@Click(R.id.add_inspiration)
 	void addInspiration() {
 		final EditText input = new EditText(PersonActivity.this);
 		input.setId(android.R.id.edit);
-		input.setLines(2);
+		input.setLines(3);
 		new AlertDialog.Builder(PersonActivity.this)
-				.setTitle("What is the new inspiration?").setView(input)
+				.setTitle(getString(R.string.new_inspiration_question)).setView(input)
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
@@ -167,7 +177,7 @@ public class PersonActivity extends Activity {
 	    	
 	    	layoutInspirations.addView(InspirationView_.build(inspirationEntity, this));
 		} else {
-			Toast.makeText(this, "You need inform the inspiration", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.enter_the_inspiration), Toast.LENGTH_SHORT).show();
 		}
 	}
 	

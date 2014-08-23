@@ -79,19 +79,19 @@ public class SettingsActivity extends Activity {
 			if(etNewPassword.getText().toString().equals(etConfirmNewPassword.getText().toString())) {
 				PreferenceManager.getDefaultSharedPreferences(this).edit().
 					putString(PREF_KEY, etNewPassword.getText().toString()).commit();
-				Toast.makeText(this, "Password changed!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getString(R.string.password_changed), Toast.LENGTH_SHORT).show();
 				etPassword.setText("");
 				etNewPassword.setText("");
 				etConfirmNewPassword.setText("");
 				changed = false;
 				this.finish();
 			} else {
-				Toast.makeText(this, "Passwords are different!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, getString(R.string.password_different), Toast.LENGTH_SHORT).show();
 				changed = true;
 			}
 		} else {
 			etPassword.requestFocus();
-			Toast.makeText(this, "Password is incorrect!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.password_incorrect), Toast.LENGTH_SHORT).show();
 			changed = true;
 		}		
 	}
@@ -103,8 +103,8 @@ public class SettingsActivity extends Activity {
 				if(changed) {
 					Utils.showConfirmDialog(
 							this,
-							"Data not saved",
-							"Do you want to save the data?",
+							getString(R.string.data_not_saved_title),
+							getString(R.string.save_data_question),
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {

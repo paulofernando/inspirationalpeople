@@ -30,6 +30,14 @@
         	android:textSize="18sp"
         	android:textStyle="bold"
 	        />
+	    <!-- TextView 
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:text="Thiago Marajá's version"
+        	android:textColor="#fff"
+        	android:textSize="11sp"
+        	android:textStyle="italic"
+	        /> -->
     </LinearLayout>
     
     <EditText 

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import br.net.paulofernando.pessoasinspiradoras.R;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -71,13 +72,13 @@ public class Utils {
 	
 	public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmacao) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Yes", listenerConfirmacao).setNegativeButton("No", null).show();
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), null).show();
     }
 	
 	public static void showConfirmDialog(Context context, String title, String message, 
 			DialogInterface.OnClickListener listenerConfirmacao, DialogInterface.OnClickListener listenerNegacao) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton("Yes", listenerConfirmacao).setNegativeButton("No", listenerNegacao).show();
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), listenerNegacao).show();
     }
 
     public static void showAlertDialog(Context context, String title, String message) {
@@ -110,7 +111,7 @@ public class Utils {
 		share.setType("text/plain");
 		share.putExtra(Intent.EXTRA_TEXT, text);
 
-		context.startActivity(Intent.createChooser(share, "Send the backup"));
+		context.startActivity(Intent.createChooser(share, context.getString(R.string.send_backup)));
     }
     
     public static Bitmap getFacebookProfilePicture(String userID){
