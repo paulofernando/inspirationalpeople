@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
+        android:layout_below="@id/logo_login"
         android:textColor="#333"
         android:layout_margin="10dp"/>
     

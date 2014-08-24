@@ -114,8 +114,7 @@ public class PersonActivity extends Activity {
 												if(input.getText().toString().equals(
 														PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, null))) {
 													
-													deletePersonData();
-													
+													deletePersonData();													
 													finish();
 												} else {
 													Toast.makeText(PersonActivity.this, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
@@ -130,16 +129,15 @@ public class PersonActivity extends Activity {
 					});
 		} else {
 			deletePersonData();
+			finish();
 		}
 	}
 
-	private void deletePersonData() {
-		
+	private void deletePersonData() {		
 		DatabaseHelper helper = new DatabaseHelper(
 				PersonActivity.this);
 		helper.deletePersonById(personId);						
-		helper.deleteAllInspirationsByUserId(personId);
-			
+		helper.deleteAllInspirationsByUserId(personId);			
 	}
 	
 	@Click(R.id.add_inspiration)

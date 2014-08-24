@@ -87,4 +87,8 @@ public class PersonView extends LinearLayout {
 		getContext().startActivity(intent);
 	}
 	
+	public PersonEntity getPerson() {
+		return person;
+	}
+	
 }

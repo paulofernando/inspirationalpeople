@@ -113,8 +113,12 @@ public class EditPersonActivity extends Activity {
 	private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
         	try {
-        		bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);
-        		photo.setImageBitmap(bmp);
+        		bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);        		
+        		if(bmp.getWidth() > 480) {
+        			photo.setImageBitmap(Bitmap.createScaledBitmap(bmp, 480, 480, false));
+        		} else {
+        			photo.setImageBitmap(bmp);
+        		}
         	} catch (FileNotFoundException e) {
         		e.printStackTrace();
         	} catch (IOException e) {
