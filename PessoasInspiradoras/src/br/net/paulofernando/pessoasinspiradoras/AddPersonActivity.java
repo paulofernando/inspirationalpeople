@@ -3,58 +3,56 @@ package br.net.paulofernando.pessoasinspiradoras;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Calendar;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
+import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.j256.ormlite.dao.Dao;
 import com.soundcloud.android.crop.Crop;
 
-@EActivity(R.layout.activity_edit_person)
-public class EditPersonActivity extends Activity {
+@EActivity(R.layout.activity_add_person)
+public class AddPersonActivity extends Activity {
 
 	public static final int RESULT_LOAD_IMAGE = 1;
 	public static final int RESULT_CROP = 2;
-	private long personId;
-		
-	@ViewById(R.id.person_photo)
+	
+	@ViewById(R.id.add_person_photo)
 	ImageView photo;
 	
-	@ViewById(R.id.et_person_name)
+	@ViewById(R.id.et_add_person_name)
 	EditText etPersonName;
 	
 	private boolean changed;
 	
-	private Bitmap bmp;
+	private Bitmap bmp = null;
 	private Uri outputUri;
+	private DtoFactory dtoFactory;
 	
 	@AfterViews
 	void init() {
-		personId = getIntent().getLongExtra("id", -1);
-		byte[] photoRaw = getIntent().getByteArrayExtra("photo");
-		photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
-				photoRaw.length));
-		etPersonName.setText((getIntent().getStringExtra("name")));
+		dtoFactory = (DtoFactory) getApplication();
+		photo.setImageDrawable(getResources().getDrawable(R.drawable.person));
 		
 		etPersonName.addTextChangedListener(new TextWatcher() {			
 			@Override
@@ -72,25 +70,52 @@ public class EditPersonActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
-	@Click(R.id.bt_edit_cancel)
+	@Click(R.id.bt_add_cancel)
 	void cancelSettings() {
 		this.finish();
 	}
 	
-	@Click(R.id.bt_edit_save)
+	@Click(R.id.bt_add_save)
 	void save() {
-		DatabaseHelper helper = new DatabaseHelper(this);
-		if(bmp != null) {
-			helper.updatePersonById(personId, etPersonName.getText().toString(), 
-					Utils.getByteArrayFromBitmap(bmp));
-		} else {
-			helper.updatePersonById(personId, etPersonName.getText().toString());
+		if(etPersonName.getText().toString().equals("")) {
+			Toast.makeText(this, getString(R.string.empty_field_name), Toast.LENGTH_SHORT).show();
+			return;
 		}
+		
+		savePerson();		
 		changed = false;
 		this.finish();
 	}
 	
-	@Click(R.id.person_photo)
+	private void savePerson() {
+		
+		Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
+		
+		PersonEntity person;
+		try {
+			// person = new PersonEntity(SimpleCrypto.encrypt(Utils.key, name),
+			// id, SimpleCrypto.encrypt(Utils.key, phoneNumber));
+			person = new PersonEntity(etPersonName.getText().toString(), Calendar.getInstance().getTimeInMillis(), "");
+			
+			if(bmp != null) {
+				person.setPhoto(Utils.getByteArrayFromBitmap(bmp));
+			} else {
+				person.setPhoto(Utils.getPhotoByResource(R.drawable.person, this));
+			}
+						
+			try {
+				pDao.create(person);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				Log.e("AddPerson", "Error on addPerson");
+			}
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	@Click(R.id.add_person_photo)
 	void changePhoto() {
 		Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, RESULT_LOAD_IMAGE);
@@ -115,7 +140,7 @@ public class EditPersonActivity extends Activity {
         	try {
         		bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);        		
         		if(bmp.getWidth() > 256) {
-        			bmp = Bitmap.createScaledBitmap(bmp, 256, 256, false);
+        			bmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);        			
         		}
         		
         		photo.setImageBitmap(bmp);
@@ -143,13 +168,13 @@ public class EditPersonActivity extends Activity {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									 save();
-									 EditPersonActivity.this.finish();
+									 AddPersonActivity.this.finish();
 								}
 							},
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									 EditPersonActivity.this.finish();
+									 AddPersonActivity.this.finish();
 								}
 							});
 				} else {

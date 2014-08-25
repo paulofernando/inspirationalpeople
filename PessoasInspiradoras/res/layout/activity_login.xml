@@ -30,14 +30,14 @@
         	android:textSize="18sp"
         	android:textStyle="bold"
 	        />
-	    <!-- TextView 
+	    <TextView 
 	        android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
-        	android:text="Thiago Marajá's version"
+        	android:text="@string/version"
         	android:textColor="#fff"
         	android:textSize="11sp"
         	android:textStyle="italic"
-	        /> -->
+	        />
     </LinearLayout>
     
     <EditText 
@@ -46,7 +46,6 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
-        android:layout_below="@id/logo_login"
         android:textColor="#333"
         android:layout_margin="10dp"/>
     

@@ -5,7 +5,8 @@
 	
 	
 	<string name="title_settings">Settings</string>
-	<string name="title_edit_person">Edit Person</string>	
+	<string name="title_edit_person">Edit Person</string>
+	<string name="title_add_person">Add person</string>
 	<string name="title_crop_image">Crop image</string>
 	
 	<string name="menu_settings">Settings</string>
@@ -56,5 +57,8 @@
     <string name="send_backup">Send the backup</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="empty_field_name">You need to inform the person\'s name</string>
+    
+    <string name="version">Beta version</string>
 	
 </resources>

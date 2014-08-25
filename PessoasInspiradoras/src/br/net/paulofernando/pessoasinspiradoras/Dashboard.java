@@ -46,23 +46,6 @@ public class Dashboard extends Activity {
 	Button btnAddPerson;
 
 	private DtoFactory dtoFactory;
-
-	OnLongClickListener longPressListener = new OnLongClickListener() {
-		public boolean onLongClick(final View personView) {			
-			Utils.showConfirmDialog(Dashboard.this, Dashboard.this.getString(R.string.delete_inspiration_title),
-					Dashboard.this.getString(R.string.delete_inspiration_question),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							DatabaseHelper helper = new DatabaseHelper(Dashboard.this);
-							helper.deleteInspirationById(((PersonView)(personView)).getPerson().id);
-							Dashboard.this.loadPersons();
-						}
-					});
-			
-			return true;
-		}
-	};
 	
 	@AfterViews
 	protected void init() {
@@ -84,10 +67,13 @@ public class Dashboard extends Activity {
 	}
 
 	@Click(R.id.btn_add_person)
-	void addClick() {						
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+	void addClick() {		
+		/*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
 		intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-		startActivityForResult(intent, 1);
+		startActivityForResult(intent, 1);*/
+		
+		Intent intent = new Intent(this, AddPersonActivity_.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -153,7 +139,6 @@ public class Dashboard extends Activity {
 					.size());
 			dashboard.addView(PersonView_.build(person, this));
 		}
-		registerLongPressAllPeronViews();
 	}
 
 	@Override
@@ -185,14 +170,4 @@ public class Dashboard extends Activity {
 		return false;
 	}
 
-	private void registerLongPressAllPeronViews() {
-		int childcount = dashboard.getChildCount();
-		for (int i=0; i < childcount; i++){
-		      View v = dashboard.getChildAt(i);
-		      if(v instanceof PersonView) {
-		    	  ((PersonView) v).setOnLongClickListener(longPressListener);
-		      }
-		}
-	}
-	
 }

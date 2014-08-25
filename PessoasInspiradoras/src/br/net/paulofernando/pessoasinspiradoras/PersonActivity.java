@@ -58,9 +58,9 @@ public class PersonActivity extends Activity {
 	@AfterViews
 	void init() {
 		personId = getIntent().getLongExtra("id", -1);
-		byte[] photoRaw = getIntent().getByteArrayExtra("photo");
-		photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
-				photoRaw.length));
+		//byte[] photoRaw = getIntent().getByteArrayExtra("photo");
+//		photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
+//				photoRaw.length));
 		
 		try {
 			personName.setText(getIntent().getStringExtra("name"));

@@ -6,6 +6,7 @@
 	
 	<string name="title_settings">Configurações</string>
 	<string name="title_edit_person">Editar Pessoa</string>	
+	<string name="title_add_person">Adicionar Pessoa</string>
 	<string name="title_crop_image">Cortar imagem</string>
 	
 	<string name="menu_settings">Configurações</string>
@@ -18,7 +19,7 @@
 	<string name="bt_backup">Backup</string>
 	<string name="bt_restore">Restore</string>
 	<string name="bt_cancel">Cancelar</string>
-	<string name="bt_save">Savar</string>
+	<string name="bt_save">Salvar</string>
 	<string name="entrar">Entrar</string>
 	<string name="change_password">Mudar senha</string>
 	<string name="current_password">Senha atual</string>
@@ -56,5 +57,8 @@
     <string name="send_backup">Enviar backup</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="empty_field_name">Você precisa informar o nome da pessoa</string>
+    
+    <string name="version">Versão beta</string>
 	
 </resources>
