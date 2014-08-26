@@ -1,12 +1,13 @@
 package br.net.paulofernando.pessoasinspiradoras.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import br.net.paulofernando.pessoasinspiradoras.R;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -20,9 +21,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.DisplayPhoto;
+import android.util.Log;
 import android.widget.EditText;
+import br.net.paulofernando.pessoasinspiradoras.R;
 
 public class Utils {
 	
@@ -128,5 +132,26 @@ public class Utils {
         return null;
     }
 
+    public static void saveBackupInFile(Context context, String text) {
+    	String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/backup_insp");    
+        String fname = "backup.xml";
+        
+        myDir.mkdirs();        
+        File file = new File (myDir, fname);
+        
+        if (file.exists ()) { 
+        	file.delete (); 
+        }
+        
+        try {
+           FileOutputStream out = new FileOutputStream(file);
+           out.write(text.getBytes());
+           out.flush();
+           out.close();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+    }
 	
 }

@@ -10,7 +10,8 @@
 	<string name="title_crop_image">Cortar imagem</string>
 	
 	<string name="menu_settings">Configurações</string>
-	<string name="menu_backup">Backup</string>
+	<string name="menu_backup">backup</string>
+	<string name="menu_restore">Restaurar backup</string>
 	<string name="menu_delete_person">Deletar</string>
 	<string name="add_person">Adicionar pessoa</string>
 	<string name="delete_person">Deletar contato</string>

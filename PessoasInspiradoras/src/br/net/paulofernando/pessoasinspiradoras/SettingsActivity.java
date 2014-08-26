@@ -5,11 +5,14 @@ import android.content.DialogInterface;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -21,6 +24,8 @@ import com.googlecode.androidannotations.annotations.ViewById;
 public class SettingsActivity extends Activity {
 
 	public final static String PREF_KEY = "pref_key";
+	private static final int MENU_BACKUP = 0;
+	private static final int MENU_RESTORE = 1;
 	
 	@ViewById(R.id.tv_password)
 	TextView tvPassword;
@@ -53,6 +58,7 @@ public class SettingsActivity extends Activity {
 		}
 		
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
 		
 		TextWatcher textWatcher = new TextWatcher() {			
 			@Override
@@ -95,7 +101,7 @@ public class SettingsActivity extends Activity {
 			changed = true;
 		}		
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -115,8 +121,26 @@ public class SettingsActivity extends Activity {
 					this.finish();
 				}
 				return true;
+			case R.id.menu_backup:
+				 DatabaseHelper helper = new DatabaseHelper(this);
+				 //Utils.showSharePopup(this, helper.backup());
+				 Utils.saveBackupInFile(this, helper.backup());
+				 return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {  
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+		
+		/*menu.add(0, MENU_BACKUP, Menu.NONE, R.string.menu_backup).setIcon(android.R.drawable.ic_menu_save)
+    	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		menu.add(0, MENU_RESTORE, Menu.NONE, R.string.menu_restore).setIcon(android.R.drawable.ic_menu_upload)
+    	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
+        //return true;
+    }
 }
