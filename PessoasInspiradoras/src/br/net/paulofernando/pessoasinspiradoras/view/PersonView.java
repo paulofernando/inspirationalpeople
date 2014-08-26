@@ -82,7 +82,7 @@ public class PersonView extends LinearLayout {
 		//IntentBuilder builder = PersonActivity_.intent(getContext()).get();
 		Intent intent = new Intent(getContext(), PersonActivity_.class);
 		intent.putExtra("name", person.name);
-		//intent.putExtra("photo", person.photo);
+		intent.putExtra("photo", person.photo);
 		intent.putExtra("id", person.id);
 		getContext().startActivity(intent);
 	}
