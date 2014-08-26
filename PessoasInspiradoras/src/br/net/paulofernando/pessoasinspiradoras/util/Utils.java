@@ -134,7 +134,7 @@ public class Utils {
 
     public static void saveBackupInFile(Context context, String text) {
     	String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/backup_insp");    
+        File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/backup");    
         String fname = "backup.xml";
         
         myDir.mkdirs();        

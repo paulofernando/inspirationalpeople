@@ -59,6 +59,7 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="empty_field_name">Você precisa informar o nome da pessoa</string>
+    <string name="image_not_created">Erro: a imagem não foi criada</string>
     
     <string name="version">Versão beta</string>
 	

@@ -1,9 +1,12 @@
 package br.net.paulofernando.pessoasinspiradoras.view;
 
+import java.io.File;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.provider.ContactsContract.CommonDataKinds.Im;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.PersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
@@ -93,7 +97,13 @@ public class InspirationView extends LinearLayout {
 	
 	@Click(R.id.bt_share_inspiration)
 	void btShareClicked() {
-		Utils.showSharePopup(context, inspiration.getText().toString());
+		//Utils.showSharePopup(context, inspiration.getText().toString());		
+		Uri imageUri = new ImageFromSentence(context).getImageFromSentence(inspiration.getText().toString(), 640, 640);
+		
+		Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(imageUri, "image/*");
+        context.startActivity(intent);
 	}
 	
 	@Click(R.id.bt_edit_inpiration)
