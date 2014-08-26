@@ -45,6 +45,9 @@ public class InspirationView extends LinearLayout {
 	@ViewById(R.id.bt_delete_inspiration)
 	ImageView btDeleteInspiration;
 	
+	@ViewById(R.id.bt_share_inspiration)
+	ImageView btShareInspiration;
+	
 	InspiracaoEntity inspirationEntity;
 
 	private Context context;
@@ -86,6 +89,11 @@ public class InspirationView extends LinearLayout {
 	@Click(R.id.bt_delete_inspiration)
 	void btDeleteClicked() {
 		deleteInspiration();
+	}
+	
+	@Click(R.id.bt_share_inspiration)
+	void btShareClicked() {
+		Utils.showSharePopup(context, inspiration.getText().toString());
 	}
 	
 	@Click(R.id.bt_edit_inpiration)

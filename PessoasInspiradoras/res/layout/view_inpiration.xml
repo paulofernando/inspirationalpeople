@@ -72,6 +72,15 @@
         	android:layout_marginRight="15dp"
         	android:layout_toRightOf="@id/bt_edit_inpiration"
             />
+        <ImageView
+            android:id="@+id/bt_share_inspiration"
+            android:src="@drawable/content_share"
+            android:layout_width="48dp"
+        	android:layout_height="48dp"
+        	android:layout_marginLeft="15dp"
+        	android:layout_marginRight="15dp"
+        	android:layout_toRightOf="@id/bt_delete_inspiration"
+            />
     </RelativeLayout>
     
 </RelativeLayout>
