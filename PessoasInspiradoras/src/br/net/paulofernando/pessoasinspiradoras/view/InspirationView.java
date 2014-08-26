@@ -98,12 +98,10 @@ public class InspirationView extends LinearLayout {
 	@Click(R.id.bt_share_inspiration)
 	void btShareClicked() {
 		//Utils.showSharePopup(context, inspiration.getText().toString());		
-		Uri imageUri = new ImageFromSentence(context).getImageFromSentence(inspiration.getText().toString(), 640, 640);
+		new ImageFromSentence(context).getImageFromSentence(inspiration.getText().toString(),
+				inspirationEntity.idUser, 640, 640);
 		
-		Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(imageUri, "image/*");
-        context.startActivity(intent);
+		btBackInspiration();
 	}
 	
 	@Click(R.id.bt_edit_inpiration)

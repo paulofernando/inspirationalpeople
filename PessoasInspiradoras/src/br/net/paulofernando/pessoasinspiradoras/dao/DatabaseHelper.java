@@ -10,6 +10,8 @@ import org.xmlpull.v1.XmlSerializer;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
@@ -107,6 +109,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			}
 		}		
 		return userInspiration;
+	}
+	
+	public Bitmap getPhotoByUserId(long idUser) {
+		PersonEntity person = getPerson(idUser);
+		return BitmapFactory.decodeByteArray(person.photo , 0, person.photo .length);
 	}
 	
 	public PersonEntity getPerson(long id) {
