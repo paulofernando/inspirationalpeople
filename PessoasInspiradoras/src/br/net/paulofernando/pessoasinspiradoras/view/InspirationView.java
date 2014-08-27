@@ -1,12 +1,13 @@
 package br.net.paulofernando.pessoasinspiradoras.view;
 
 import java.io.File;
-
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +20,6 @@ import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EViewGroup;
@@ -69,10 +69,13 @@ public class InspirationView extends LinearLayout {
 			//inspiration.setText(SimpleCrypto.decrypt(Utils.key, inspirationEntity.inspiration));
 			this.setOnClickListener(new OnClickListener() {
 				
+				@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 				@Override
 				public void onClick(View v) {
-					inspiration.setAlpha(0.2f);
-					marker.setAlpha(0.2f);
+					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+						inspiration.setAlpha(0.2f);
+						marker.setAlpha(0.2f);
+					}
 					insideMenu.setVisibility(View.VISIBLE);				
 				}
 			});
@@ -83,10 +86,13 @@ public class InspirationView extends LinearLayout {
 		
 	}
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Click(R.id.bt_back_inpiration) 
 	void btBackInspiration() {
-		inspiration.setAlpha(1f);
-		marker.setAlpha(1f);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			inspiration.setAlpha(1f);
+			marker.setAlpha(1f);
+		}
 		insideMenu.setVisibility(View.GONE);
 	}
 	
@@ -113,13 +119,16 @@ public class InspirationView extends LinearLayout {
 				.setTitle(context.getString(R.string.edit_inspiration)).setView(input)				
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-	                public void onClick(DialogInterface dialog, int whichButton) {
+	                @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+					public void onClick(DialogInterface dialog, int whichButton) {
 	                	try {
 	                		DatabaseHelper helper = new DatabaseHelper(context);
 	                		helper.updateInspirationById(inspirationEntity.id, input.getText().toString());
 	                		inspiration.setText(input.getText().toString());
-	                		inspiration.setAlpha(1f);
-	                		marker.setAlpha(1f);
+	                		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+		                		inspiration.setAlpha(1f);
+		                		marker.setAlpha(1f);
+	                		}
 	                		insideMenu.setVisibility(View.GONE);
 						} catch (Exception e) {
 							e.printStackTrace();
