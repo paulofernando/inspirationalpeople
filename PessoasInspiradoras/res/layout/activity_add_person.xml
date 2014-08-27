@@ -25,7 +25,8 @@
 	          android:text="@string/bt_cancel"
 	          android:textColor="#222"
 	          android:textSize="14sp"
-	          android:layout_margin="12dp"
+	          android:layout_margin="12dp"	          
+	          android:padding="15dp"
 	          android:layout_weight="0.5"/>
 	    <Button
 	          android:id="@+id/bt_add_save" 
@@ -35,6 +36,7 @@
 	          android:text="@string/bt_save"
 	          android:textColor="#222"
 	          android:textSize="14sp"
+	          android:padding="15dp"
 	          android:layout_margin="12dp"
 	          android:layout_weight="0.5"/>			    
 	 </LinearLayout>

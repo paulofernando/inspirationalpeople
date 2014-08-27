@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,7 +22,6 @@ import android.widget.Toast;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
@@ -32,7 +31,7 @@ import com.j256.ormlite.dao.Dao;
 import com.soundcloud.android.crop.Crop;
 
 @EActivity(R.layout.activity_add_person)
-public class AddPersonActivity extends Activity {
+public class AddPersonActivity extends ActionBarActivity {
 
 	public static final int RESULT_LOAD_IMAGE = 1;
 	public static final int RESULT_CROP = 2;
@@ -67,7 +66,7 @@ public class AddPersonActivity extends Activity {
 			}
 		});
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Click(R.id.bt_add_cancel)

@@ -3,11 +3,11 @@ package br.net.paulofernando.pessoasinspiradoras;
 import java.sql.SQLException;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +27,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.j256.ormlite.dao.Dao;
 
 @EActivity(R.layout.activity_main)
-public class Dashboard extends Activity {
+public class Dashboard extends ActionBarActivity {
 
 	private static final int MENU_SETTING = 0;
 	
@@ -146,7 +146,7 @@ public class Dashboard extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(1, MENU_SETTING, Menu.NONE, R.string.menu_settings).setIcon(android.R.drawable.ic_menu_preferences)
-        	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        	/*.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)*/;
         return true;
     }
 

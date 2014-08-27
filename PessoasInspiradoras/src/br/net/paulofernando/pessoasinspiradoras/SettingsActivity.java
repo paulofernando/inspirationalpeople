@@ -1,8 +1,8 @@
 package br.net.paulofernando.pessoasinspiradoras;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -21,7 +21,7 @@ import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_settings)
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 
 	public final static String PREF_KEY = "pref_key";
 	private static final int MENU_BACKUP = 0;
@@ -57,7 +57,7 @@ public class SettingsActivity extends Activity {
 			etPassword.setVisibility(View.VISIBLE);
 		}
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		
 		TextWatcher textWatcher = new TextWatcher() {			

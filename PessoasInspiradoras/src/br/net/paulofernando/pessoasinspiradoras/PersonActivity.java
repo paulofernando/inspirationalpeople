@@ -3,12 +3,12 @@ package br.net.paulofernando.pessoasinspiradoras;
 import java.sql.SQLException;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
@@ -33,7 +33,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.j256.ormlite.dao.Dao;
 
 @EActivity(R.layout.activity_person)
-public class PersonActivity extends Activity {
+public class PersonActivity extends ActionBarActivity {
 
 	private static final int MENU_DELETE_PERSON = 0;
 	
@@ -75,7 +75,7 @@ public class PersonActivity extends Activity {
 			btnAdddInspiration.setEnabled(false);
 		}
 				
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	public void loadInspirations() {
@@ -189,7 +189,7 @@ public class PersonActivity extends Activity {
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {        
         menu.add(0, MENU_DELETE_PERSON, Menu.NONE, R.string.menu_delete_person).setIcon(android.R.drawable.ic_menu_delete)
-        	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);        
+        	/*.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)*/;        
         return true;
     }
 	

@@ -4,19 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,7 +27,7 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.soundcloud.android.crop.Crop;
 
 @EActivity(R.layout.activity_edit_person)
-public class EditPersonActivity extends Activity {
+public class EditPersonActivity extends ActionBarActivity {
 
 	public static final int RESULT_LOAD_IMAGE = 1;
 	public static final int RESULT_CROP = 2;
@@ -69,7 +65,7 @@ public class EditPersonActivity extends Activity {
 			}
 		});
 		
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	@Click(R.id.bt_edit_cancel)
