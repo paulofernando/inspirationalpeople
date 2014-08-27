@@ -122,6 +122,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return simpleDao.queryForId(String.valueOf(id));
 	}
 	
+	public InspiracaoEntity getInspiration(long id) {
+		DatabaseHelper helper = new DatabaseHelper(contex);
+		RuntimeExceptionDao<InspiracaoEntity, String> simpleDao = helper.getInspirationSimpleDataDao();		
+		return simpleDao.queryForId(String.valueOf(id));
+	}
+	
 	public Dao<PersonEntity, String> getPersonDao() throws SQLException {
 		if (simplePersonDao == null) {
 			try {

@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 public class ImageFromSentence {
@@ -35,7 +35,7 @@ public class ImageFromSentence {
 		this.context = context;		
 	}
 	
-	public void getImageFromSentence(final String sentence, final long userId, final int imgWidth, final int imgHeight) {
+	public void getImageFromSentence(final long inspirationId, final int imgWidth, final int imgHeight) {
 		
 		Thread processingImage = new Thread(new Runnable() {
 			
@@ -46,7 +46,11 @@ public class ImageFromSentence {
 			    Canvas canvas = new Canvas(dest);	    
 			    Paint paint = new Paint();
 			    
-			    Bitmap photo = new DatabaseHelper(context).getPhotoByUserId(userId);
+			    DatabaseHelper helper = new DatabaseHelper(context);
+			    
+			    InspiracaoEntity inspiration = helper.getInspiration(inspirationId);
+			    String sentence = inspiration.inspiration;
+			    Bitmap photo = helper.getPhotoByUserId(inspiration.idUser);
 			    
 			    if(photo.getWidth() > 128) {
 			    	photo = Bitmap.createScaledBitmap(photo, 96, 96, false);
@@ -93,22 +97,34 @@ public class ImageFromSentence {
 			    
 			    canvas.drawCircle(imgWidth/2, (cropped.getHeight()/2) + margin, cropped.getWidth()/2, paintFrame);
 			    
-			    Paint paintName = new Paint();
-			    paintName.setFlags(Paint.ANTI_ALIAS_FLAG);
-			    paintName.setColor(Color.parseColor("#eeeeee"));
-			    paintName.setTextSize(28);
+			    paint = new Paint();
+			    paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+			    paint.setColor(Color.parseColor("#eeeeee"));
+			    paint.setTextSize(28);
 			    
-			    String name = new DatabaseHelper(context).getPerson(userId).name;
-			    canvas.drawText(name, (imgWidth/2) - (paintName.measureText(name)/2), 
-			    		cropped.getHeight() + ((int)(margin * 2.5)), paintName);
+			    String name = new DatabaseHelper(context).getPerson(inspiration.idUser).name;
+			    canvas.drawText(name, (imgWidth/2) - (paint.measureText(name)/2), 
+			    		cropped.getHeight() + ((int)(margin * 2.5)), paint);
 			    
 			    //--------------------------------------------------
+			    
+			    //------------------- Inspirational People logo -------------------
+			    paint.setTextSize(18);
+			    Bitmap logo = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_white), 64, 64, false);
+			    
+			    String appName = context.getResources().getString(R.string.app_name);
+			    canvas.drawText(appName, imgWidth - (paint.measureText(appName)) - margin, 
+			    		imgHeight - margin, paint);
+			    
+			    
+			    canvas.drawBitmap(logo, (imgWidth - (paint.measureText(appName) / 2)) - margin - (logo.getWidth()/2), imgHeight - (int)((1.5 * margin)) - logo.getHeight(), paint);
+			    //-----------------------------------------------------------------
 			    
 			    try {
 			    	String root = Environment.getExternalStorageDirectory().toString();
 			    	File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/inspirations");
 			    	myDir.mkdirs();	    	
-			    	file = new File (myDir, "inspiration-" + userId + ".jpg");
+			    	file = new File (myDir, "inspiration-" + inspiration.id + ".jpg");
 			    	
 			    	if (file.exists ()) { 
 			        	file.delete (); 
