@@ -24,8 +24,6 @@ import com.googlecode.androidannotations.annotations.ViewById;
 public class SettingsActivity extends ActionBarActivity {
 
 	public final static String PREF_KEY = "pref_key";
-	private static final int MENU_BACKUP = 0;
-	private static final int MENU_RESTORE = 1;
 	
 	@ViewById(R.id.tv_password)
 	TextView tvPassword;
@@ -120,27 +118,10 @@ public class SettingsActivity extends ActionBarActivity {
 				} else {
 					this.finish();
 				}
-				return true;
-			case R.id.menu_backup:
-				 DatabaseHelper helper = new DatabaseHelper(this);
-				 //Utils.showSharePopup(this, helper.backup());
-				 Utils.saveBackupInFile(this, helper.backup());
-				 return true;
+				return true;			
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 	
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {  
-		MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_settings, menu);
-        return super.onCreateOptionsMenu(menu);
-		
-		/*menu.add(0, MENU_BACKUP, Menu.NONE, R.string.menu_backup).setIcon(android.R.drawable.ic_menu_save)
-    	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		menu.add(0, MENU_RESTORE, Menu.NONE, R.string.menu_restore).setIcon(android.R.drawable.ic_menu_upload)
-    	.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
-        //return true;
-    }
 }

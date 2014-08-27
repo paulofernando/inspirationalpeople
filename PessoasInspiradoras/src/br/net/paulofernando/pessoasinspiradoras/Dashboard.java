@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,10 +29,7 @@ import com.j256.ormlite.dao.Dao;
 
 @EActivity(R.layout.activity_main)
 public class Dashboard extends ActionBarActivity {
-
-	private static final int MENU_SETTING = 0;
-	
-	
+		
 	@ViewById(R.id.layout_dashboard)
 	LinearLayout dashboard;
 
@@ -145,17 +143,26 @@ public class Dashboard extends ActionBarActivity {
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(1, MENU_SETTING, Menu.NONE, R.string.menu_settings).setIcon(android.R.drawable.ic_menu_preferences)
-        	/*.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)*/;
-        return true;
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_dashboard, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+	
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case MENU_SETTING:
+			case R.id.menu_settings:
 				Intent i = new Intent(this, SettingsActivity_.class);			 
 				startActivity(i);			 			
 				return true;
+			case R.id.menu_backup:
+				 DatabaseHelper helper = new DatabaseHelper(this);
+				 Utils.saveBackupInFile(this, helper.backup());
+				 return true;
+			/*case R.id.menu_restore:
+				Intent i2 = new Intent(this, ImportInspirationsActivity_.class);			 
+				startActivity(i2);			 			
+				return true;*/
 		}
 		return false;
 	}

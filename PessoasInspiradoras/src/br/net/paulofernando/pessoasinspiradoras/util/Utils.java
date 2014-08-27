@@ -1,19 +1,29 @@
 package br.net.paulofernando.pessoasinspiradoras.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -29,8 +39,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.DisplayPhoto;
 import android.widget.EditText;
+import android.widget.Toast;
 import br.net.paulofernando.pessoasinspiradoras.R;
 
 public class Utils {
@@ -58,17 +68,6 @@ public class Utils {
 	    Uri person = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
 	    return Uri.withAppendedPath(person, ContactsContract.Contacts.Photo.CONTENT_DIRECTORY);
 	}
-	
-	public static InputStream openDisplayPhoto(long photoFileId, Context context) {
-	     Uri displayPhotoUri = ContentUris.withAppendedId(DisplayPhoto.CONTENT_URI, photoFileId);
-	     try {
-	         AssetFileDescriptor fd = context.getContentResolver().openAssetFileDescriptor(
-	             displayPhotoUri, "r");
-	         return fd.createInputStream();
-	     } catch (IOException e) {
-	         return null;
-	     }
-	 }
 	
 	public static byte[] getPhotoByResource(int resource, Context context) {
 		Resources res = context.getResources();
@@ -154,9 +153,56 @@ public class Utils {
            out.write(text.getBytes());
            out.flush();
            out.close();
+           
+           Toast.makeText(context, context.getResources().getString(R.string.backup_completed), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
            e.printStackTrace();
         }
+    }
+    
+    public static void restoreBackup(Context context) {
+    	String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/backup");    
+        String fname = "backup.xml";
+        
+        String read_data = null;
+
+        try {
+	        File myFile = new File(myDir + "/" + fname);
+	        FileInputStream fis = new FileInputStream(myFile);
+	
+	        byte[] dataArray = new byte[fis.available()];
+	        while (fis.read(dataArray) != -1) {
+	        	read_data = new String(dataArray);
+	        }
+	        fis.close();
+        } catch (FileNotFoundException e) {
+        	e.printStackTrace();
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        
+        InputStream is;
+		try {
+			is = new ByteArrayInputStream(read_data.getBytes("UTF-8"));
+			 
+			// Build XML document
+	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder db = dbf.newDocumentBuilder();	        
+	        Document doc = db.parse(is);
+	        
+	        
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+       
     }
     
     public static Bitmap getCroppedBitmap(Bitmap bitmap) {
