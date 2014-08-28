@@ -53,7 +53,7 @@ public class XMLPullParserHandler {
                     } else if (tagname.equalsIgnoreCase("inspiration")) {
                         person.addInspitation(text);
                     } else if (tagname.equalsIgnoreCase("id")) {
-                    	person.setId(text);
+                    	person.setPersonId(text);
                     } else if (tagname.equalsIgnoreCase("name")) {
                     	person.setName(text);
                     }

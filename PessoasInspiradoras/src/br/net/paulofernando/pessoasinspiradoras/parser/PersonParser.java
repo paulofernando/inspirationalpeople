@@ -5,8 +5,11 @@ import java.util.List;
 
 public class PersonParser {
 
+	/** Person's name */
 	public String name;
-    public String id;
+	/** Person's id */
+    public long id;
+    /** Person's inspirations */
     public List<String> inspirations = new ArrayList<String>();
     
     public PersonParser() {}
@@ -23,12 +26,12 @@ public class PersonParser {
 		this.name = name;
 	}
 
-	public String getId() {
+	public long getPersonId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setPersonId(String id) {
+		this.id = Long.parseLong(id);
 	}
 
 	public List<String> getInspirations() {

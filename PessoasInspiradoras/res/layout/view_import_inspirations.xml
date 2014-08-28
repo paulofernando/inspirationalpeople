@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:id="@+id/componentImportView">
     
     <TextView 
@@ -23,7 +22,7 @@
         android:textSize="14sp"
         android:textColor="@color/text_inspirations_count"/>
     
-    <TextView 
+    <!-- <TextView 
         android:id="@+id/merge_inspirations_import"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,22 +31,23 @@
         android:textStyle="italic"
         android:textSize="12sp"
         android:textColor="@color/text_inspirations_merge"/>
-    
+     -->
     <CheckBox
         android:id="@+id/check_import"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:checked="true"/>
     
     <ImageView
         android:id="@+id/merge_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/merge"
         android:visibility="gone"
-        android:layout_alignLeft="@id/check_import"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"    
+        android:layout_toLeftOf="@id/check_import"
         />
     
     <View
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"        
         android:background="#ddd"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/person_amount_inspirations_import"/>    
     
 </RelativeLayout>

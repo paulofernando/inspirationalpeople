@@ -62,6 +62,14 @@ public class ImportInspirationsView extends LinearLayout {
 	@Click(R.id.componentPersonView)
 	void click() {
 		check.setChecked(!check.isChecked());
-	}	
+	}
+	
+	public boolean isChecked() {
+		return check.isChecked();
+	}
+
+	public ImportEntity getImportPerson() {
+		return importPerson;
+	}
 
 }
