@@ -66,6 +66,7 @@
     <string name="file_not_found">File not found</string>
     <string name="backup_not_found">The backup file was not found!</string>
     <string name="no_data_backup">No data to export!</string>
+    <string name="no_data_to_import">No data to import!</string>
     
     <string name="error">Error</string>
     <string name="warning">Warning</string>
