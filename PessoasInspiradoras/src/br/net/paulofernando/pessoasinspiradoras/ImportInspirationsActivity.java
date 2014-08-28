@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
+import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.ImportInspirationsView_;
 import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -47,10 +50,24 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	private void loadImports() {
 		containerImports.removeAllViews();
 		DatabaseHelper helper = new DatabaseHelper(this);
-		//addPersons(helper.getPersonsData());
-		Utils.restoreBackup(this);
+		
+		createFields(Utils.importPeopleFromXML(this));		
 		helper.close();
 				
+	}
+	
+	private void createFields(List<PersonParser> people) {
+		
+		for(PersonParser person: people) {
+			PersonEntity personEntity = new PersonEntity();
+			personEntity.name = person.getName();
+			personEntity.id = Long.parseLong(person.getId());
+			personEntity.setAmountInpirations(person.inspirations.size());
+			
+			containerImports.addView(ImportInspirationsView_.build(personEntity, this));
+			
+			//InspiracaoEntity
+		}
 	}
 
 	@Click(R.id.btn_import_inspirations)

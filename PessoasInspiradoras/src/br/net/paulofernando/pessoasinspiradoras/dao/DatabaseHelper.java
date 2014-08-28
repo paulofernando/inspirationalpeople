@@ -274,16 +274,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			xmlSerializer.startTag("", "backup");
 			for(PersonEntity person: people) {
 				xmlSerializer.startTag("", "person");
-				xmlSerializer.attribute("", "id", String.valueOf(person.id));
-				xmlSerializer.attribute("", "nome", String.valueOf(person.name));
+					xmlSerializer.startTag("", "id");
+					xmlSerializer.text(String.valueOf(person.id));
+					xmlSerializer.endTag("", "id");
+					
+					xmlSerializer.startTag("", "name");
+					xmlSerializer.text(String.valueOf(person.name));
+					xmlSerializer.endTag("", "name");
 				List<InspiracaoEntity> inspirations = getInspirationData(person.id);
 				if(inspirations.size() > 0) {
 					for(InspiracaoEntity inspiration: inspirations) {
 						xmlSerializer.startTag("", "inspiration");
-						xmlSerializer.attribute("", "id", String.valueOf(inspiration.id));					
-							xmlSerializer.startTag("", "text");
-							xmlSerializer.text(inspiration.inspiration);
-							xmlSerializer.endTag("", "text");
+						xmlSerializer.attribute("", "id", String.valueOf(inspiration.id));
+						xmlSerializer.text(inspiration.inspiration);
 						xmlSerializer.endTag("", "inspiration");
 					}
 				}

@@ -159,10 +159,15 @@ public class Dashboard extends ActionBarActivity {
 				 DatabaseHelper helper = new DatabaseHelper(this);
 				 Utils.saveBackupInFile(this, helper.backup());
 				 return true;
-			/*case R.id.menu_restore:
-				Intent i2 = new Intent(this, ImportInspirationsActivity_.class);			 
-				startActivity(i2);			 			
-				return true;*/
+			case R.id.menu_restore:
+				if(Utils.hasBackup(this)) {
+					Intent i2 = new Intent(this, ImportInspirationsActivity_.class);			 
+					startActivity(i2);			 			
+				} else {
+					Utils.showAlertDialog(this, this.getResources().getString(R.string.file_not_found), 
+							this.getResources().getString(R.string.backup_not_found));
+				}
+				return true;
 		}
 		return false;
 	}

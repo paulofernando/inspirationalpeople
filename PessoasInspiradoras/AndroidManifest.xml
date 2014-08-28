@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="br.net.paulofernando.pessoasinspiradoras"
-	android:versionCode="4"
-	android:versionName="1.0.2" >
+	android:versionCode="6"
+	android:versionName="1.0.4" >
 	
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
     
@@ -16,7 +16,7 @@
 		android:allowBackup="false">
 		
 		<activity
-			android:name="Login_"								
+			android:name="Login_"				
 			android:windowSoftInputMode="adjustResize"
 			android:noHistory="true"
 			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
@@ -43,6 +43,12 @@
             android:theme="@style/Theme.AppCompat.Light"
             />
 		
+		<activity
+            android:name="br.net.paulofernando.pessoasinspiradoras.ImportInspirationsActivity_"
+            android:label="@string/title_import"
+            android:theme="@style/Theme.AppCompat.Light"
+            />
+				
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.AddPersonActivity_"
             android:label="@string/title_add_person"

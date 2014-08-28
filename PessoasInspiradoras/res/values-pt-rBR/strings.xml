@@ -6,14 +6,16 @@
 	
 	<string name="title_settings">Configurações</string>
 	<string name="title_edit_person">Editar Pessoa</string>	
+	<string name="title_import">Importar Inspirações</string>
 	<string name="title_add_person">Adicionar Pessoa</string>
 	<string name="title_crop_image">Cortar imagem</string>
 	
 	<string name="menu_settings">Configurações</string>
-	<string name="menu_backup">backup</string>
-	<string name="menu_restore">Restaurar backup</string>
+	<string name="menu_backup">Exportar Inspirações</string>
+	<string name="menu_restore">Importar Inspirações</string>
 	<string name="menu_delete_person">Deletar</string>
 	<string name="add_person">Adicionar pessoa</string>
+	<string name="import_inspirations">Importar</string>
 	<string name="delete_person">Deletar contato</string>
 	<string name="add_inspiration">Adicionar inspiração</string>
 	<string name="enter_password">Informe a senha</string>
@@ -60,6 +62,9 @@
     <string name="no">Não</string>
     <string name="empty_field_name">Você precisa informar o nome da pessoa</string>
     <string name="image_not_created">Erro: a imagem não foi criada</string>
+    <string name="backup_completed">Backup salvo com sucesso!</string>
+    <string name="file_not_found">Arquivo não encontrado</string>
+    <string name="backup_not_found">O arquivo de backup não foi encontrado!</string>
     
     <string name="version">Versão beta</string>
 	

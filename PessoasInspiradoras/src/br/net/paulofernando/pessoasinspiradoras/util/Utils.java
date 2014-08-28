@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +43,8 @@ import android.provider.ContactsContract;
 import android.widget.EditText;
 import android.widget.Toast;
 import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.parser.PersonParser;
+import br.net.paulofernando.pessoasinspiradoras.parser.XMLPullParserHandler;
 
 public class Utils {
 	
@@ -160,49 +163,23 @@ public class Utils {
         }
     }
     
-    public static void restoreBackup(Context context) {
+    public static List<PersonParser> importPeopleFromXML(Context context) {
     	String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/backup");    
         String fname = "backup.xml";
         
-        String read_data = null;
-
         try {
 	        File myFile = new File(myDir + "/" + fname);
-	        FileInputStream fis = new FileInputStream(myFile);
-	
-	        byte[] dataArray = new byte[fis.available()];
-	        while (fis.read(dataArray) != -1) {
-	        	read_data = new String(dataArray);
-	        }
-	        fis.close();
+	        InputStream is = new FileInputStream(myFile);
+	        
+	        XMLPullParserHandler parser = new XMLPullParserHandler();
+	        return parser.parse(is);
+	      
         } catch (FileNotFoundException e) {
-        	e.printStackTrace();
-        } catch (IOException e) {
         	e.printStackTrace();
         }
         
-        InputStream is;
-		try {
-			is = new ByteArrayInputStream(read_data.getBytes("UTF-8"));
-			 
-			// Build XML document
-	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder db = dbf.newDocumentBuilder();	        
-	        Document doc = db.parse(is);
-	        
-	        
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-       
+        return null;
     }
     
     public static Bitmap getCroppedBitmap(Bitmap bitmap) {
@@ -225,6 +202,15 @@ public class Utils {
         //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
         //return _bmp;
         return output;
+    }
+    
+    public static boolean hasBackup(Context context) {
+        File myDir = new File(Environment.getExternalStorageDirectory().toString() + "/" + 
+        		(context.getResources().getString(R.string.app_name)) + "/backup");    
+        String fname = "backup.xml";                
+        File myFile = new File(myDir + "/" + fname);
+        
+	    return myFile.exists();	    
     }
 	
 }
