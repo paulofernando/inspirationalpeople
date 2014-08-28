@@ -117,7 +117,8 @@ public class PersonActivity extends ActionBarActivity {
 													deletePersonData();													
 													finish();
 												} else {
-													Toast.makeText(PersonActivity.this, getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
+													Utils.showErrorDialog(PersonActivity.this, getResources().getString(R.string.error), 
+															getResources().getString(R.string.wrong_password));
 												}
 												
 											} catch (Exception e) {
@@ -143,6 +144,7 @@ public class PersonActivity extends ActionBarActivity {
 	@Click(R.id.add_inspiration)
 	void addInspiration() {
 		final EditText input = new EditText(PersonActivity.this);
+		input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 		input.setId(android.R.id.edit);
 		input.setLines(3);
 		new AlertDialog.Builder(PersonActivity.this)
@@ -175,7 +177,8 @@ public class PersonActivity extends ActionBarActivity {
 	    	
 	    	layoutInspirations.addView(InspirationView_.build(inspirationEntity, this));
 		} else {
-			Toast.makeText(this, getString(R.string.enter_the_inspiration), Toast.LENGTH_SHORT).show();
+			Utils.showAlertDialog(PersonActivity.this, getResources().getString(R.string.warning), 
+					getResources().getString(R.string.enter_the_inspiration));
 		}
 	}
 	

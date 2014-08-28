@@ -90,12 +90,14 @@ public class SettingsActivity extends ActionBarActivity {
 				changed = false;
 				this.finish();
 			} else {
-				Toast.makeText(this, getString(R.string.password_different), Toast.LENGTH_SHORT).show();
+				Utils.showErrorDialog(this, getResources().getString(R.string.error), 
+						getResources().getString(R.string.password_different));
 				changed = true;
 			}
 		} else {
 			etPassword.requestFocus();
-			Toast.makeText(this, getString(R.string.password_incorrect), Toast.LENGTH_SHORT).show();
+			Utils.showErrorDialog(this, getResources().getString(R.string.error), 
+					getResources().getString(R.string.password_incorrect));			
 			changed = true;
 		}		
 	}

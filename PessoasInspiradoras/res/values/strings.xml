@@ -62,9 +62,15 @@
     <string name="no">No</string>
     <string name="empty_field_name">You need to inform the person\'s name</string>
     <string name="image_not_created">Error: the image was not created</string>
-    <string name="backup_completed">Backup saved successfully!</string>
+    <string name="backup_completed">Data exported successfully!</string>
     <string name="file_not_found">File not found</string>
     <string name="backup_not_found">The backup file was not found!</string>
+    <string name="no_data_backup">No data to export!</string>
+    
+    <string name="error">Error</string>
+    <string name="warning">Warning</string>
+    <string name="info">Info</string>
+    <string name="success">Success</string>    
     
     <string name="version">Beta version</string>
 	

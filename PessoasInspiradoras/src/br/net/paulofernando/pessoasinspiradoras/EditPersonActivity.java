@@ -121,7 +121,7 @@ public class EditPersonActivity extends ActionBarActivity {
         	} catch (IOException e) {
         		e.printStackTrace();
         	}
-        } else if (resultCode == Crop.RESULT_ERROR) {
+        } else if (resultCode == Crop.RESULT_ERROR) {        	
             Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

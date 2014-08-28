@@ -97,6 +97,16 @@ public class Utils {
                 .setNeutralButton(android.R.string.ok, null).show();
     }
     
+    public static void showInfoDialog(Context context, String title, String message) {
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_info)
+                .setNeutralButton(android.R.string.ok, null).show();
+    }
+    
+    public static void showErrorDialog(Context context, String title, String message) {
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_info)
+                .setNeutralButton(android.R.string.ok, null).show();
+    }
+    
     public static void showTextDialog(Context context, String title, DialogInterface.OnClickListener listenerConfirmacao) {
     	final EditText input = new EditText(context);
     	input.setId(android.R.id.edit);
@@ -157,7 +167,9 @@ public class Utils {
            out.flush();
            out.close();
            
-           Toast.makeText(context, context.getResources().getString(R.string.backup_completed), Toast.LENGTH_SHORT).show();
+           Utils.showInfoDialog(context, context.getResources().getString(R.string.success), 
+					context.getResources().getString(R.string.backup_completed));
+           
         } catch (Exception e) {
            e.printStackTrace();
         }

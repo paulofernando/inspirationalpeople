@@ -15,8 +15,10 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
+import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -258,8 +260,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		List<PersonEntity> people = getPersonsData();
 		//------------------------------------------------
 		
-		if(people.size() == 0) {
-			Toast.makeText(contex, "No data to backup", Toast.LENGTH_SHORT).show();
+		if(people.size() == 0) {			
+			Utils.showAlertDialog(contex, contex.getResources().getString(R.string.warning), 
+					contex.getResources().getString(R.string.no_data_backup));
 			return null;
 		}
 		
