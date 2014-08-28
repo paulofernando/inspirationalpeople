@@ -26,7 +26,7 @@
 	        android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="@string/app_name"
-        	android:textColor="#fff"
+        	android:textColor="@color/text_login"
         	android:textSize="18sp"
         	android:textStyle="bold"
 	        />
@@ -34,8 +34,8 @@
 	        android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
         	android:text="@string/version"
-        	android:textColor="#fff"
-        	android:textSize="11sp"
+        	android:textColor="@color/text_login"
+        	android:textSize="12sp"
         	android:textStyle="italic"
 	        />
     </LinearLayout>
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:layout_centerVertical="true"
-        android:textColor="#333"
+        android:textColor="@color/text_edit_login"
         android:layout_margin="10dp"/>
     
     <TextView
@@ -57,7 +57,7 @@
         android:layout_centerVertical="true"
         android:layout_above="@id/ed_chave"
         android:textSize="16sp"
-        android:textColor="#fff"
+        android:textColor="@color/text_login"
         android:layout_centerHorizontal="true"/>    
     
 </RelativeLayout>

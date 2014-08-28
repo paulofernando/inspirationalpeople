@@ -57,14 +57,14 @@ public class ImageFromSentence {
 			    }
 			    
 			    //------------------- background ---------------------
-			    paint.setShader(new LinearGradient(0, 0, 0, imgHeight, Color.parseColor("#19a5f6"), Color.parseColor("#37b7fb"), Shader.TileMode.MIRROR));
+			    paint.setShader(new LinearGradient(0, 0, 0, imgHeight, context.getResources().getColor(R.color.image_gradient_start), context.getResources().getColor(R.color.image_gradient_end), Shader.TileMode.MIRROR));
 			    canvas.drawPaint(paint);
 			    //----------------------------------------------------
 			    
 			    //------------------ Text ----------------------------
 			    Paint paintText = new Paint();
 			    paintText.setTextSize(35);
-			    paintText.setColor(Color.WHITE);
+			    paintText.setColor(context.getResources().getColor(R.color.image_text_inspiration));
 			    paintText.setStyle(Style.FILL);
 			    paintText.setFlags(Paint.ANTI_ALIAS_FLAG);
 			    	    
@@ -85,7 +85,7 @@ public class ImageFromSentence {
 			    
 			    //------------------ person's photo ----------------
 			    Paint paintFrame = new Paint();
-			    paintFrame.setColor(Color.parseColor("#eeeeee"));
+			    paintFrame.setColor(context.getResources().getColor(R.color.image_circle_frame));
 			    paintFrame.setStyle(Paint.Style.STROKE);
 			    paintFrame.setFlags(Paint.ANTI_ALIAS_FLAG);
 			    paintFrame.setStrokeWidth(3f);
@@ -99,7 +99,7 @@ public class ImageFromSentence {
 			    
 			    paint = new Paint();
 			    paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-			    paint.setColor(Color.parseColor("#eeeeee"));
+			    paint.setColor(context.getResources().getColor(R.color.image_text_person_name));
 			    paint.setTextSize(28);
 			    
 			    String name = new DatabaseHelper(context).getPerson(inspiration.idUser).name;
@@ -110,6 +110,7 @@ public class ImageFromSentence {
 			    
 			    //------------------- Inspirational People logo -------------------
 			    paint.setTextSize(18);
+			    paint.setColor(context.getResources().getColor(R.color.image_text_logo));
 			    Bitmap logo = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_white), 64, 64, false);
 			    
 			    String appName = context.getResources().getString(R.string.app_name);

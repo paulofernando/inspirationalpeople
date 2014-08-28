@@ -31,7 +31,7 @@
         android:layout_below="@id/frame_person_activity"
         android:gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:textColor="#777"
+        android:textColor="@color/text_name_person_screen"
         android:textSize="22sp"/>
       
     <LinearLayout
