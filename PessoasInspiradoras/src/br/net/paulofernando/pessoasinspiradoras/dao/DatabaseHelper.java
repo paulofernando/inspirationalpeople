@@ -124,6 +124,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return simpleDao.queryForId(String.valueOf(id));
 	}
 	
+	public PersonEntity getPerson(String name) {
+		DatabaseHelper helper = new DatabaseHelper(contex);
+		RuntimeExceptionDao<PersonEntity, String> simpleDao = helper.getPersonSimpleDataDao();		
+		return simpleDao.queryForId(String.valueOf(name));
+	}
+	
 	public InspiracaoEntity getInspiration(long id) {
 		DatabaseHelper helper = new DatabaseHelper(contex);
 		RuntimeExceptionDao<InspiracaoEntity, String> simpleDao = helper.getInspirationSimpleDataDao();		

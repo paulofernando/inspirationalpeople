@@ -102,7 +102,7 @@ public class ImageFromSentence {
 			    paint.setColor(context.getResources().getColor(R.color.image_text_person_name));
 			    paint.setTextSize(28);
 			    
-			    String name = new DatabaseHelper(context).getPerson(inspiration.idUser).name;
+			    String name = helper.getPerson(inspiration.idUser).name;
 			    canvas.drawText(name, (imgWidth/2) - (paint.measureText(name)/2), 
 			    		cropped.getHeight() + ((int)(margin * 2.5)), paint);
 			    
@@ -140,6 +140,8 @@ public class ImageFromSentence {
 		        intent.setAction(Intent.ACTION_VIEW);
 		        intent.setDataAndType(Uri.fromFile(file), "image/*");
 		        context.startActivity(intent);
+		        
+		        helper.close();
 			}
 		});
 		

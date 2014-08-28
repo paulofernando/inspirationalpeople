@@ -133,6 +133,7 @@ public class Dashboard extends ActionBarActivity {
 					.size());
 			dashboard.addView(PersonView_.build(person, this));
 		}
+		helper.close();
 	}
 
 	@Override
@@ -158,6 +159,7 @@ public class Dashboard extends ActionBarActivity {
 			case R.id.menu_backup:
 				 DatabaseHelper helper = new DatabaseHelper(this);
 				 Utils.saveBackupInFile(this, helper.backup());
+				 helper.close();
 				 return true;
 			case R.id.menu_restore:
 				if(Utils.hasBackup(this)) {

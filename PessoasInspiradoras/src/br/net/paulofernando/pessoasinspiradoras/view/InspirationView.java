@@ -130,6 +130,7 @@ public class InspirationView extends LinearLayout {
 		                		marker.setAlpha(1f);
 	                		}
 	                		insideMenu.setVisibility(View.GONE);
+	                		helper.close();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -146,6 +147,7 @@ public class InspirationView extends LinearLayout {
 						DatabaseHelper helper = new DatabaseHelper(getContext());
 						helper.deleteInspirationById(inspirationEntity.id);
 						((PersonActivity) getContext()).loadInspirations();
+						helper.close();
 					}
 				});
 	}

@@ -83,6 +83,7 @@ public class EditPersonActivity extends ActionBarActivity {
 			helper.updatePersonById(personId, etPersonName.getText().toString());
 		}
 		changed = false;
+		helper.close();
 		this.finish();
 	}
 	

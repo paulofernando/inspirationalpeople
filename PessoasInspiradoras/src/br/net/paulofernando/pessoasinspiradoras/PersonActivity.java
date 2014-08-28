@@ -138,7 +138,8 @@ public class PersonActivity extends ActionBarActivity {
 		DatabaseHelper helper = new DatabaseHelper(
 				PersonActivity.this);
 		helper.deletePersonById(personId);						
-		helper.deleteAllInspirationsByUserId(personId);			
+		helper.deleteAllInspirationsByUserId(personId);	
+		helper.close();
 	}
 	
 	@Click(R.id.add_inspiration)
@@ -187,6 +188,7 @@ public class PersonActivity extends ActionBarActivity {
 		PersonEntity person =  helper.getPerson(personId);
 		personName.setText(person.name);
 		photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+		helper.close();
 	}
 		
 	@Override
