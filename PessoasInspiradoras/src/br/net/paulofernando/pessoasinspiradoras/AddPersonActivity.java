@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
@@ -81,12 +82,19 @@ public class AddPersonActivity extends ActionBarActivity {
 			return;
 		}
 		
-		savePerson();		
-		changed = false;
-		this.finish();
+		if(savePerson()) {		
+			changed = false;
+			this.finish();
+		}
 	}
 	
-	private void savePerson() {
+	private boolean savePerson() {
+		
+		DatabaseHelper helper = new DatabaseHelper(this);
+		if(helper.getPerson(etPersonName.getText().toString()) != null) {
+			Utils.showErrorDialog(this, getString(R.string.error), getString(R.string.name_registered));
+			return false;
+		}
 		
 		Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
 		
@@ -107,11 +115,13 @@ public class AddPersonActivity extends ActionBarActivity {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				Log.e("AddPerson", "Error on addPerson");
+				return false;
 			}
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		return true;
 	}
 	
 	@Click(R.id.add_person_photo)

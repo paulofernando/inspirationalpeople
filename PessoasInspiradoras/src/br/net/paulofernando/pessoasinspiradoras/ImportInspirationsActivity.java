@@ -145,7 +145,8 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	    		long personId;
 	    		
 	    		if(importEntity.isMerged()) {
-	    			personId = importEntity.getPersonId();
+	    			//get the id of the person with the same name of the imported data
+	    			personId = helper.getPerson(importEntity.getName()).id;
 	    		} else {
 	    			personId = createPerson(importEntity);
 	    		}

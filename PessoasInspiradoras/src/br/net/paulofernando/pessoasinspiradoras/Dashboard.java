@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
+import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
@@ -45,6 +46,15 @@ public class Dashboard extends ActionBarActivity {
 	protected void init() {
 		dtoFactory = (DtoFactory) getApplication();
 		loadPersons();
+		
+		DatabaseHelper helper = new DatabaseHelper(this);
+		List<InspiracaoEntity> l = helper.getInspirationData();
+		for(InspiracaoEntity ins: l) {
+			Log.i("inpiracao", String.valueOf(ins.idUser));
+			Log.i("inpiracao", ins.inspiration);
+			Log.i("--------", "-----------");
+		}
+		
 	}
 	
 	private void loadPersons() {

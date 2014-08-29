@@ -91,7 +91,7 @@ public class PersonActivity extends ActionBarActivity {
 	}
 
 	void deletePerson() {
-		if((!PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, "").equals(""))) { 
+		 
 			Utils.showConfirmDialog(
 					this,
 					getString(R.string.delete_contact_title),
@@ -99,39 +99,39 @@ public class PersonActivity extends ActionBarActivity {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							
-							final EditText input = new EditText(PersonActivity.this);
-							input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-							input.setTransformationMethod(PasswordTransformationMethod.getInstance());						
-							input.setId(android.R.id.edit);
-							input.setLines(1);
-							new AlertDialog.Builder(PersonActivity.this)
-									.setTitle(getString(R.string.enter_password)).setView(input)
-									.setIcon(android.R.drawable.ic_dialog_alert)
-									.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						                public void onClick(DialogInterface dialog, int whichButton) {
-						                	try {
-												if(input.getText().toString().equals(
-														PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, null))) {
+							if((PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, "").equals(""))) {
+	                			deletePersonData();													
+								finish();
+							} else {
+								final EditText input = new EditText(PersonActivity.this);
+								input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+								input.setTransformationMethod(PasswordTransformationMethod.getInstance());						
+								input.setId(android.R.id.edit);
+								input.setLines(1);
+								new AlertDialog.Builder(PersonActivity.this)
+										.setTitle(getString(R.string.enter_password)).setView(input)
+										.setIcon(android.R.drawable.ic_dialog_alert)
+										.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+							                public void onClick(DialogInterface dialog, int whichButton) {
+							                	try {
+							                		if(input.getText().toString().equals(
+															PreferenceManager.getDefaultSharedPreferences(PersonActivity.this).getString(SettingsActivity.PREF_KEY, null))) {
+														deletePersonData();													
+														finish();
+													} else {
+														Utils.showErrorDialog(PersonActivity.this, getResources().getString(R.string.error), 
+																getResources().getString(R.string.wrong_password));
+													}
 													
-													deletePersonData();													
-													finish();
-												} else {
-													Utils.showErrorDialog(PersonActivity.this, getResources().getString(R.string.error), 
-															getResources().getString(R.string.wrong_password));
+												} catch (Exception e) {
+													e.printStackTrace();
 												}
-												
-											} catch (Exception e) {
-												e.printStackTrace();
-											}
-						                }
-						            }).show();
+							                }
+							            }).show();
+							}
 						}
 					});
-		} else {
-			deletePersonData();
-			finish();
-		}
+		
 	}
 
 	private void deletePersonData() {		
