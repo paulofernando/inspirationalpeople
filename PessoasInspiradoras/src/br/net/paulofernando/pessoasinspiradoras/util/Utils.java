@@ -149,30 +149,50 @@ public class Utils {
         return null;
     }
 
-    public static void saveBackupInFile(Context context, String text) {
+    public static void saveBackupInFile(final Context context, final String text) {
     	String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/backup");    
         String fname = "backup.xml";
         
         myDir.mkdirs();        
-        File file = new File (myDir, fname);
+        final File file = new File (myDir, fname);
         
-        if (file.exists ()) { 
-        	file.delete (); 
+        if (file.exists ()) {
+        	Utils.showConfirmDialog(
+					context,
+					context.getString(R.string.warning),
+					context.getString(R.string.overwrite_backup_file_question),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							file.delete();
+							writeBackup(file, text, context);
+						}
+					},
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							return;
+						}
+					});
+        } else {        
+        	writeBackup(file, text, context);
         }
-        
-        try {
-           FileOutputStream out = new FileOutputStream(file);
-           out.write(text.getBytes());
-           out.flush();
-           out.close();
-           
-           Utils.showInfoDialog(context, context.getResources().getString(R.string.success), 
-					context.getResources().getString(R.string.backup_completed));
-           
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+    }
+    
+    private static void writeBackup(File file, String text, Context context) {
+    	try {
+	           FileOutputStream out = new FileOutputStream(file);
+	           out.write(text.getBytes());
+	           out.flush();
+	           out.close();
+	           
+	           Utils.showInfoDialog(context, context.getResources().getString(R.string.success), 
+						context.getResources().getString(R.string.backup_completed));
+	           
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
     }
     
     public static List<PersonParser> importPeopleFromXML(Context context) {
@@ -192,6 +212,15 @@ public class Utils {
         }
         
         return null;
+    }
+    
+    public static long getBackupLastModified(Context context) {
+    	String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/backup");    
+        String fname = "backup.xml";
+        
+	    File myFile = new File(myDir + "/" + fname);
+	    return myFile.lastModified();
     }
     
     public static Bitmap getCroppedBitmap(Bitmap bitmap) {

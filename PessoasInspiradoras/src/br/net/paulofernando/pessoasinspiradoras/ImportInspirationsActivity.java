@@ -2,11 +2,13 @@ package br.net.paulofernando.pessoasinspiradoras;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.ImportEntity;
@@ -38,6 +41,9 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	
 	@ViewById(R.id.btn_import_inspirations)
 	Button btnImport;
+	
+	@ViewById(R.id.date_backup)
+	TextView lastModifiedView;
 
 	private DtoFactory dtoFactory;
 	List<PersonParser> importedPeople;
@@ -48,6 +54,13 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	protected void init() {
 		dtoFactory = (DtoFactory) getApplication();
 		loadImports();
+		
+		Date lastModified = new Date(Utils.getBackupLastModified(this));
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		String formattedDate = sdf.format(lastModified);
+		lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " +
+				formattedDate);
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	

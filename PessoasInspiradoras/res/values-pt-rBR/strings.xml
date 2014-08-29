@@ -68,6 +68,8 @@
     <string name="no_data_backup">Nenhum dado para exportar!</string>
     <string name="no_data_to_import">Nenhum dado para importar!</string>
     <string name="name_registered">Este nome já está cadastrado!</string>
+    <string name="date_backup">Último backup em:</string>
+	<string name="overwrite_backup_file_question">O último backup será sobrescrito. Você deseja continuar?</string>
     
     <string name="error">Erro</string>
     <string name="warning">Aviso</string>

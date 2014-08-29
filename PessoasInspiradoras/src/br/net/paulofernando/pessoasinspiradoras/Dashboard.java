@@ -46,15 +46,6 @@ public class Dashboard extends ActionBarActivity {
 	protected void init() {
 		dtoFactory = (DtoFactory) getApplication();
 		loadPersons();
-		
-		DatabaseHelper helper = new DatabaseHelper(this);
-		List<InspiracaoEntity> l = helper.getInspirationData();
-		for(InspiracaoEntity ins: l) {
-			Log.i("inpiracao", String.valueOf(ins.idUser));
-			Log.i("inpiracao", ins.inspiration);
-			Log.i("--------", "-----------");
-		}
-		
 	}
 	
 	private void loadPersons() {
@@ -71,11 +62,7 @@ public class Dashboard extends ActionBarActivity {
 	}
 
 	@Click(R.id.btn_add_person)
-	void addClick() {		
-		/*Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-		intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-		startActivityForResult(intent, 1);*/
-		
+	void addClick() {
 		Intent intent = new Intent(this, AddPersonActivity_.class);
 		startActivity(intent);
 	}
@@ -119,8 +106,6 @@ public class Dashboard extends ActionBarActivity {
 		
 		PersonEntity person;
 		try {
-			// person = new PersonEntity(SimpleCrypto.encrypt(Utils.key, name),
-			// id, SimpleCrypto.encrypt(Utils.key, phoneNumber));
 			person = new PersonEntity(name, id, phoneNumber);
 			person.setPhoto(Utils.getPhotoByResource(R.drawable.person, this));
 			try {
