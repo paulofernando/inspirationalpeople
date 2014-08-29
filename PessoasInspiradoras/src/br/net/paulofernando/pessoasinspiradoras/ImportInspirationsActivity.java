@@ -56,7 +56,7 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 		loadImports();
 		
 		Date lastModified = new Date(Utils.getBackupLastModified(this));
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		String formattedDate = sdf.format(lastModified);
 		lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " +
 				formattedDate);

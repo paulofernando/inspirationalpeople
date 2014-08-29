@@ -19,7 +19,9 @@
 			android:name="Login_"				
 			android:windowSoftInputMode="adjustResize"
 			android:noHistory="true"
-			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+			android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+			android:configChanges="orientation"
+   			android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -28,31 +30,44 @@
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.PersonActivity_"
             android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
             />
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.Dashboard_"
             android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
             />
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.SettingsActivity_"
             android:label="@string/title_settings"
-            android:theme="@style/Theme.AppCompat.Light"/>
+            android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"/>
+		
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_"
             android:label="@string/title_edit_person"
             android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
             />
 		
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.ImportInspirationsActivity_"
             android:label="@string/title_import"
             android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
             />
 				
 		<activity
             android:name="br.net.paulofernando.pessoasinspiradoras.AddPersonActivity_"
             android:label="@string/title_add_person"
             android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
             />
 		<activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 		
