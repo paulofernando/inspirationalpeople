@@ -149,7 +149,7 @@ public class Dashboard extends ActionBarActivity {
 		switch (item.getItemId()) {
 			case R.id.menu_settings:
 				Intent i = new Intent(this, SettingsActivity_.class);			 
-				startActivity(i);			 			
+				startActivity(i);
 				return true;
 			case R.id.menu_backup:
 				 DatabaseHelper helper = new DatabaseHelper(this);

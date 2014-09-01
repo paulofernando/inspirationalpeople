@@ -48,8 +48,6 @@ public class PersonActivity extends ActionBarActivity {
 	
 	long personId;
 	
-	private DtoFactory dtoFactory;
-
 	@ViewById(R.id.layout_inspirations)
 	LinearLayout layoutInspirations;
 
@@ -69,8 +67,7 @@ public class PersonActivity extends ActionBarActivity {
 			e.printStackTrace();
 		}
 		loadInspirations();
-		
-		dtoFactory = (DtoFactory) getApplication();
+				
 		if(personName.getText().toString().equals("")) {			
 			btnAdddInspiration.setEnabled(false);
 		}
@@ -143,51 +140,20 @@ public class PersonActivity extends ActionBarActivity {
 	}
 	
 	@Click(R.id.add_inspiration)
-	void addInspiration() {
-		final EditText input = new EditText(PersonActivity.this);
-		input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-		input.setId(android.R.id.edit);
-		input.setLines(3);
-		new AlertDialog.Builder(PersonActivity.this)
-				.setTitle(getString(R.string.new_inspiration_question)).setView(input)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-	                public void onClick(DialogInterface dialog, int whichButton) {
-	                	try {
-							saveInspiration(input.getText().toString());
-							//saveInspiration(SimpleCrypto.encrypt(Utils.key, input.getText().toString()));
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-	                }
-	            }).show();		
+	void addInspiration() {		
+		Intent i = new Intent(this, AddInspirationActivity_.class);
+		i.putExtra("id", personId);
+		startActivity(i);
 	}
 	
-	private void saveInspiration(String inspiration) {
-		if(inspiration.length() > 0) {
-			InspiracaoEntity inspirationEntity = new InspiracaoEntity();
-			inspirationEntity.inspiration = inspiration;
-			inspirationEntity.idUser = personId;
-					
-			Dao<InspiracaoEntity, Integer> iDao = dtoFactory.getInspirationDao();    	
-	    	try {
-				iDao.create(inspirationEntity);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	    	
-	    	layoutInspirations.addView(InspirationView_.build(inspirationEntity, this));
-		} else {
-			Utils.showAlertDialog(PersonActivity.this, getResources().getString(R.string.warning), 
-					getResources().getString(R.string.enter_the_inspiration));
-		}
-	}
+	
 	
 	private void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
 		PersonEntity person =  helper.getPerson(personId);
 		personName.setText(person.name);
 		photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+		loadInspirations();
 		helper.close();
 	}
 		
@@ -197,6 +163,7 @@ public class PersonActivity extends ActionBarActivity {
         	/*.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)*/;        
         return true;
     }
+
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

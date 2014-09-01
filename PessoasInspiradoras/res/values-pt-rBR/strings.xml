@@ -8,7 +8,8 @@
 	<string name="title_edit_person">Editar Pessoa</string>	
 	<string name="title_import">Importar Inspirações</string>
 	<string name="title_add_person">Adicionar Pessoa</string>
-	<string name="title_crop_image">Cortar imagem</string>
+	<string name="title_add_inspiration">Adicionar Inspiração</string>
+	<string name="title_crop_image">Cortar Imagem</string>
 	
 	<string name="menu_settings">Configurações</string>
 	<string name="menu_backup">Exportar Inspirações</string>
@@ -61,12 +62,13 @@
     <string name="yes">Sim</string>
     <string name="no">Não</string>
     <string name="empty_field_name">Você precisa informar o nome da pessoa</string>
+    <string name="empty_field_inspiration">A Inspiração não foi informada</string>
     <string name="image_not_created">Erro: a imagem não foi criada</string>
     <string name="backup_completed">Dados exportados com sucesso!</string>
     <string name="file_not_found">Arquivo não encontrado</string>
     <string name="backup_not_found">O arquivo de backup não foi encontrado!</string>
     <string name="no_data_backup">Nenhum dado para exportar!</string>
-    <string name="no_data_to_import">Nenhum dado para importar!</string>
+    <string name="no_data_to_import">Nenhum dado novo para importar!</string>
     <string name="name_registered">Este nome já está cadastrado!</string>
     <string name="date_backup">Último backup em:</string>
 	<string name="overwrite_backup_file_question">O último backup será sobrescrito. Você deseja continuar?</string>

@@ -7,8 +7,9 @@
 	<string name="title_settings">Settings</string>
 	<string name="title_edit_person">Edit Person</string>
 	<string name="title_import">Import Inspirations</string>
-	<string name="title_add_person">Add person</string>
-	<string name="title_crop_image">Crop image</string>
+	<string name="title_add_person">Add Person</string>
+	<string name="title_add_inspiration">Add Inspiration</string>
+	<string name="title_crop_image">Crop Image</string>
 	
 	<string name="menu_settings">Settings</string>
 	<string name="menu_backup">Export Inspirations</string>
@@ -29,7 +30,7 @@
 	<string name="new_password">New password</string>
 	<string name="confirm_new_password">Confirm new password</string>
 	<string name="data_manager">Data manager</string>
-	<string name="person_name">Name</string>
+	<string name="person_name">Name</string>	
 	<string name="person_photo">Picture</string>
 	<string name="person_photo_description">Person\'s photo</string>
 
@@ -61,12 +62,13 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="empty_field_name">You need to inform the person\'s name</string>
+    <string name="empty_field_inspiration">The Inspiration was not informed</string>
     <string name="image_not_created">Error: the image was not created</string>
     <string name="backup_completed">Data exported successfully!</string>
     <string name="file_not_found">File not found</string>
     <string name="backup_not_found">The backup file was not found!</string>
     <string name="no_data_backup">No data to export!</string>
-    <string name="no_data_to_import">No data to import!</string>
+    <string name="no_data_to_import">No new data to import!</string>
     <string name="name_registered">This name is already registered!</string>
     <string name="date_backup">Last backup at:</string>
 	<string name="overwrite_backup_file_question">The last backup will be overwritten. Do you want to continue?</string>
