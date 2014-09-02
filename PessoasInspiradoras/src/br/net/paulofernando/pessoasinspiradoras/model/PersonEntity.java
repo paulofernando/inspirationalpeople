@@ -2,6 +2,9 @@ package br.net.paulofernando.pessoasinspiradoras.model;
 
 import java.io.Serializable;
 
+import android.graphics.drawable.Drawable;
+import br.net.paulofernando.pessoasinspiradoras.R;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -43,5 +46,17 @@ public class PersonEntity implements Serializable {
 
 	public void setAmountInpirations(int amountInpirations) {
 		this.amountInpirations = amountInpirations;
+	}
+	
+	public int getMedal() {
+		if(getAmountInpirations() >= 9) {
+			return R.drawable.nine_plus;			
+		} else if(getAmountInpirations() >= 6) {
+			return R.drawable.six_plus;
+		} else if(getAmountInpirations() >= 3) {
+			return R.drawable.three_plus;
+		} else {
+			return -1;
+		}
 	}
 }

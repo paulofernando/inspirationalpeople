@@ -7,6 +7,15 @@
     android:paddingTop="@dimen/activity_vertical_margin" >
 
     <ImageView
+        android:id="@+id/medal_selected_person"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"/>
+    
+    <ImageView
         android:id="@+id/photo_selected_person"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

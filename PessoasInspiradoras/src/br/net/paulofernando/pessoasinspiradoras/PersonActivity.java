@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +36,9 @@ public class PersonActivity extends ActionBarActivity {
 	
 	@ViewById(R.id.photo_selected_person)
 	ImageView photo;
+	
+	@ViewById(R.id.medal_selected_person)
+	ImageView medal;
 
 	@ViewById(R.id.add_inspiration)
 	Button btnAdddInspiration;
@@ -52,13 +56,9 @@ public class PersonActivity extends ActionBarActivity {
 	@AfterViews
 	void init() {
 		personId = getIntent().getLongExtra("id", -1);
-		//byte[] photoRaw = getIntent().getByteArrayExtra("photo");
-//		photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
-//				photoRaw.length));
 		
 		try {
 			personName.setText(getIntent().getStringExtra("name"));
-			//personName.setText(SimpleCrypto.decrypt(Utils.key, getIntent().getStringExtra("name")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -70,6 +70,21 @@ public class PersonActivity extends ActionBarActivity {
 				
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
+	
+	private void updateMedal(int amountInspirations) {
+		if(amountInspirations >= 9) {
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus));
+			medal.setVisibility(View.VISIBLE);
+		} else if(amountInspirations >= 6) {
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus));
+			medal.setVisibility(View.VISIBLE);
+		} else if(amountInspirations >= 3) {
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus));
+			medal.setVisibility(View.VISIBLE);
+		} else {
+			medal.setVisibility(View.INVISIBLE);
+		}
+	}
 
 	public void loadInspirations() {
 		layoutInspirations.removeAllViews();
@@ -79,7 +94,8 @@ public class PersonActivity extends ActionBarActivity {
     	for(InspiracaoEntity inspiration: list) {
     		layoutInspirations.addView(InspirationView_.build(inspiration, this));
     	}
-    	    	
+    	
+    	updateMedal(list.size());    	
     	helper.close();
 	}
 

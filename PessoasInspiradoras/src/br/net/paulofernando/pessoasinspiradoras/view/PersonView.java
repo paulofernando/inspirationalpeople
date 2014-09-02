@@ -63,14 +63,9 @@ public class PersonView extends LinearLayout {
 	}
 	
 	private void loadMedal() {
-		if(person.getAmountInpirations() >= 9) {
-			medalha.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus));			
-		} else if(person.getAmountInpirations() >= 6) {
-			medalha.setImageDrawable(getResources().getDrawable(R.drawable.six_plus));
-		} else if(person.getAmountInpirations() >= 3) {
-			medalha.setImageDrawable(getResources().getDrawable(R.drawable.three_plus));
-		}
-		
+		if (person.getMedal() != -1 ) {
+			medalha.setImageDrawable(getResources().getDrawable(person.getMedal()));
+		}		
 	}
 
 	void loadPhoto() {
@@ -78,8 +73,7 @@ public class PersonView extends LinearLayout {
 	}
 
 	@Click(R.id.componentPersonView)
-	void click() {
-		//IntentBuilder builder = PersonActivity_.intent(getContext()).get();
+	void click() {		
 		Intent intent = new Intent(getContext(), PersonActivity_.class);
 		intent.putExtra("name", person.name);
 		intent.putExtra("photo", person.photo);
