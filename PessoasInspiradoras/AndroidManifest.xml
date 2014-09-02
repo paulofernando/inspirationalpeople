@@ -78,6 +78,14 @@
    			android:screenOrientation="portrait"
             />
 		
+		<activity
+            android:name="br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity_"
+            android:label="@string/title_edit_inspiration"
+            android:theme="@style/Theme.AppCompat.Light"
+            android:configChanges="orientation"
+   			android:screenOrientation="portrait"
+            />
+		
 		<activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 		
 	</application>

@@ -9,6 +9,7 @@
 	<string name="title_import">Import Inspirations</string>
 	<string name="title_add_person">Add Person</string>
 	<string name="title_add_inspiration">Add Inspiration</string>
+	<string name="title_edit_inspiration">Edit Inspiration</string>
 	<string name="title_crop_image">Crop Image</string>
 	
 	<string name="menu_settings">Settings</string>

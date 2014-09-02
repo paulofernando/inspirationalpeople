@@ -9,6 +9,7 @@
 	<string name="title_import">Importar Inspirações</string>
 	<string name="title_add_person">Adicionar Pessoa</string>
 	<string name="title_add_inspiration">Adicionar Inspiração</string>
+	<string name="title_edit_inspiration">Editar Inspiração</string>
 	<string name="title_crop_image">Cortar Imagem</string>
 	
 	<string name="menu_settings">Configurações</string>

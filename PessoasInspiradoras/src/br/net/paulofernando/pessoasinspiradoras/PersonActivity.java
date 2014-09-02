@@ -1,6 +1,5 @@
 package br.net.paulofernando.pessoasinspiradoras;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -18,9 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
@@ -30,7 +27,6 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
-import com.j256.ormlite.dao.Dao;
 
 @EActivity(R.layout.activity_person)
 public class PersonActivity extends ActionBarActivity {

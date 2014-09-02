@@ -1,6 +1,5 @@
 package br.net.paulofernando.pessoasinspiradoras.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,17 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -41,7 +32,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.widget.EditText;
-import android.widget.Toast;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.parser.XMLPullParserHandler;
