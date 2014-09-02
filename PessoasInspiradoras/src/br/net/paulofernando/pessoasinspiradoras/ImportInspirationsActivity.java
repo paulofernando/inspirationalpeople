@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import br.net.paulofernando.pessoasinspiradoras.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.ImportEntity;
@@ -49,12 +50,16 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	
 	List<String> duplicatedInspirationsToDelete = new ArrayList<String>();
 	
+	private Backup backup;;
+	
 	@AfterViews
 	protected void init() {
 		dtoFactory = (DtoFactory) getApplication();
+		backup = new Backup(this);
+				
 		loadImports();
 		
-		Date lastModified = new Date(Utils.getBackupLastModified(this));
+		Date lastModified = new Date(backup.getLocalBackupLastModified());
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		String formattedDate = sdf.format(lastModified);
 		lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " +
@@ -66,7 +71,9 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	private void loadImports() {
 		containerImports.removeAllViews();
 		DatabaseHelper helper = new DatabaseHelper(this);
-		importedPeople = Utils.importPeopleFromXML(this);
+				
+		importedPeople = backup.importPeopleFromLocalXML();
+		
 		createFields(importedPeople);		
 		helper.close();
 		

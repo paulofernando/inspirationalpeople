@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import br.net.paulofernando.pessoasinspiradoras.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
@@ -145,18 +146,21 @@ public class Dashboard extends ActionBarActivity {
 	
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+		Backup backup;
+		switch (item.getItemId()) {			
 			case R.id.menu_settings:
 				Intent i = new Intent(this, SettingsActivity_.class);			 
 				startActivity(i);
 				return true;
 			case R.id.menu_backup:
 				 DatabaseHelper helper = new DatabaseHelper(this);
-				 Utils.saveBackupInFile(this, helper.backup());
+				 backup = new Backup(this);
+				 backup.saveLocalBackupInFile(this, helper.backup());
 				 helper.close();
 				 return true;
 			case R.id.menu_restore:
-				if(Utils.hasBackup(this)) {
+				backup = new Backup(this);
+				if(backup.hasLocalBackup()) {
 					Intent i2 = new Intent(this, ImportInspirationsActivity_.class);			 
 					startActivity(i2);			 			
 				} else {
