@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.PersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -74,11 +75,19 @@ public class PersonView extends LinearLayout {
 
 	@Click(R.id.componentPersonView)
 	void click() {		
-		Intent intent = new Intent(getContext(), PersonActivity_.class);
-		intent.putExtra("name", person.name);
-		intent.putExtra("photo", person.photo);
-		intent.putExtra("id", person.id);
-		getContext().startActivity(intent);
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			Intent intent = new Intent(getContext(), PagerInspirations.class);
+			intent.putExtra("name", person.name);
+			intent.putExtra("photo", person.photo);
+			intent.putExtra("id", person.id);
+			getContext().startActivity(intent);
+		} else {
+			Intent intent = new Intent(getContext(), PersonActivity_.class);
+			intent.putExtra("name", person.name);
+			intent.putExtra("photo", person.photo);
+			intent.putExtra("id", person.id);
+			getContext().startActivity(intent);
+		}
 	}
 	
 	public PersonEntity getPerson() {

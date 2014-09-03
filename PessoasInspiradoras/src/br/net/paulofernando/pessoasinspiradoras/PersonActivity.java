@@ -62,7 +62,7 @@ public class PersonActivity extends ActionBarActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		loadInspirations();
+		//loadInspirations();
 				
 		if(personName.getText().toString().equals("")) {			
 			btnAdddInspiration.setEnabled(false);
