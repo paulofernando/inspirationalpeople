@@ -12,7 +12,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Environment;
@@ -83,18 +87,10 @@ public class ImageFromSentence {
 			    	    
 			    
 			    //------------------ person's photo ----------------
-			    Paint paintFrame = new Paint();
-			    paintFrame.setColor(context.getResources().getColor(R.color.image_circle_frame));
-			    paintFrame.setStyle(Paint.Style.STROKE);
-			    paintFrame.setFlags(Paint.ANTI_ALIAS_FLAG);
-			    paintFrame.setStrokeWidth(3f);
 			    
-			    
-			    Bitmap cropped = Utils.getCroppedBitmap(photo);
+			    Bitmap cropped = getCroppedBitmap(photo);
 			    float photoX = (imgWidth/2) - (cropped.getWidth()/2);
 			    canvas.drawBitmap(cropped, photoX, margin, paint);
-			    
-			    canvas.drawCircle(imgWidth/2, (cropped.getHeight()/2) + margin, cropped.getWidth()/2, paintFrame);
 			    
 			    paint = new Paint();
 			    paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -176,5 +172,38 @@ public class ImageFromSentence {
 		return lines;
 		
 	}
+	
+	/**
+     * Mask a bitmap with a circle
+     */
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        
+        Paint paintFrame = new Paint();
+	    paintFrame.setColor(context.getResources().getColor(R.color.image_circle_frame));
+	    paintFrame.setStyle(Paint.Style.STROKE);
+	    paintFrame.setFlags(Paint.ANTI_ALIAS_FLAG);
+	    float strokeWidth = 3f;
+	    paintFrame.setStrokeWidth(strokeWidth);
+        canvas.drawCircle((output.getWidth()/2), (output.getHeight()/2), (output.getWidth()/2) - (strokeWidth/2), paintFrame);
+        
+        
+        return output;
+    }
 	
 }

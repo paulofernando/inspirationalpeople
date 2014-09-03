@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
@@ -31,8 +33,6 @@ import com.googlecode.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_person)
 public class PersonActivity extends ActionBarActivity {
-
-	private static final int MENU_DELETE_PERSON = 0;
 	
 	@ViewById(R.id.photo_selected_person)
 	ImageView photo;
@@ -73,13 +73,13 @@ public class PersonActivity extends ActionBarActivity {
 	
 	private void updateMedal(int amountInspirations) {
 		if(amountInspirations >= 9) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus));
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus_white));
 			medal.setVisibility(View.VISIBLE);
 		} else if(amountInspirations >= 6) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus));
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus_white));
 			medal.setVisibility(View.VISIBLE);
 		} else if(amountInspirations >= 3) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus));
+			medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus_white));
 			medal.setVisibility(View.VISIBLE);
 		} else {
 			medal.setVisibility(View.INVISIBLE);
@@ -163,26 +163,29 @@ public class PersonActivity extends ActionBarActivity {
 	private void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
 		PersonEntity person =  helper.getPerson(personId);
-		personName.setText(person.name);
-		photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+		personName.setText(person.name);		
+		photo.setImageBitmap(new ImageFromSentence(this).getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
 		loadInspirations();
 		helper.close();
 	}
-		
+	
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {        
-        menu.add(0, MENU_DELETE_PERSON, Menu.NONE, R.string.menu_delete_person).setIcon(android.R.drawable.ic_menu_delete)
-        	/*.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)*/;        
-        return true;
+    public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_person, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case MENU_DELETE_PERSON:	
-				deletePerson();			
-				return true;
+			case R.id.menu_add_inspiration:	
+				addInspiration();
+				return true;	
+			case R.id.menu_delete_person:	
+					deletePerson();			
+					return true;			
 			case android.R.id.home:
 				this.finish();
 				return true;

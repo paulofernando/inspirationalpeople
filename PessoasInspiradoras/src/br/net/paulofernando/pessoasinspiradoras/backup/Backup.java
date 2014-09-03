@@ -15,9 +15,6 @@ import br.net.paulofernando.pessoasinspiradoras.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.parser.XMLPullParserHandler;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-
 public class Backup {
 
 	private File myDir;
