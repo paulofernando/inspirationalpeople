@@ -10,7 +10,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,15 +20,12 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
 import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity;
-import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity_;
 import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
@@ -50,7 +46,7 @@ public class PagerInspirations extends FragmentActivity implements
 	private ImageView medal, photo;
 	private TabPagerAdapter tabPagerAdapter;
 	
-	private ImageView btEdit, btDelete, btShare;
+	private int lastPosition = 0;
 
 	private List<InspiracaoEntity> listInspirations;
 	long personId;
@@ -99,7 +95,7 @@ public class PagerInspirations extends FragmentActivity implements
 		intent.putExtra("name", getIntent().getStringExtra("name"));
 		intent.putExtra("photo", getIntent().getByteArrayExtra("photo"));
 		intent.putExtra("id", personId);
-		startActivity(intent);	
+		startActivity(intent);
 	}
 	
 	@Override
