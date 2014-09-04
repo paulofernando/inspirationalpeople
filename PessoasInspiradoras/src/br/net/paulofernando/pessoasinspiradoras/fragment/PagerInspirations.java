@@ -10,6 +10,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,10 +18,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,9 +30,7 @@ import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
 import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity;
 import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity_;
-import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
-import br.net.paulofernando.pessoasinspiradoras.PersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
@@ -40,7 +39,6 @@ import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
-import com.googlecode.androidannotations.annotations.Click;
 import com.viewpagerindicator.CirclePageIndicator;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -69,6 +67,62 @@ public class PagerInspirations extends FragmentActivity implements
 		btEdit = (ImageView) findViewById(R.id.bt_edit_inpiration_tab);
 		btDelete = (ImageView) findViewById(R.id.bt_delete_inspiration_tab);
 		btShare = (ImageView) findViewById(R.id.bt_share_inspiration_tab);
+
+		RelativeLayout parentButtons = (RelativeLayout) findViewById(R.id.inside_menu_inspiration_tab);
+		
+		parentButtons.post(new Runnable() {
+            public void run() {
+                // Post in the parent's message queue to make sure the parent
+                // lays out its children before we call getHitRect()
+                
+            	float HSpace = getResources().getDimension(R.dimen.inspiration_buttons_horizontal_space);
+                float VSpace = getResources().getDimension(R.dimen.inspiration_buttons_vertical_space);
+            	
+            	Rect delegateAreaEdit = new Rect();                
+                btEdit.getHitRect(delegateAreaEdit);
+                
+                delegateAreaEdit.top -= VSpace;
+                delegateAreaEdit.bottom += VSpace;
+                delegateAreaEdit.left -= HSpace;
+                delegateAreaEdit.right += HSpace;
+                
+                Rect delegateAreaDelete = new Rect();                
+                btDelete.getHitRect(delegateAreaDelete);
+                
+                delegateAreaDelete.top -= VSpace;
+                delegateAreaDelete.bottom += VSpace;
+                delegateAreaDelete.left -= HSpace;
+                delegateAreaDelete.right += HSpace;
+                
+                Rect delegateAreaShare = new Rect();                
+                btShare.getHitRect(delegateAreaShare);
+                
+                delegateAreaShare.top -= VSpace;
+                delegateAreaShare.bottom += VSpace;
+                delegateAreaShare.left -= HSpace;
+                delegateAreaShare.right += HSpace;
+                
+                TouchDelegate expandedAreaEdit = new TouchDelegate(delegateAreaEdit, btEdit);
+                TouchDelegate expandedAreaDelete = new TouchDelegate(delegateAreaDelete, btDelete);
+                TouchDelegate expandedAreaShare = new TouchDelegate(delegateAreaShare, btShare);
+                
+                // give the delegate to an ancestor of the view we're delegating the area to
+                if (View.class.isInstance(btEdit.getParent())) {
+                    ((View) btEdit.getParent())
+                            .setTouchDelegate(expandedAreaEdit);
+                }
+                
+                if (View.class.isInstance(btDelete.getParent())) {
+                    ((View) btDelete.getParent())
+                            .setTouchDelegate(expandedAreaDelete);
+                }
+                
+                if (View.class.isInstance(btShare.getParent())) {
+                    ((View) btShare.getParent())
+                            .setTouchDelegate(expandedAreaShare);
+                }
+            };
+        });
 		
 		personId = getIntent().getLongExtra("id", -1);
 		personName.setText(getIntent().getStringExtra("name"));
@@ -155,18 +209,6 @@ public class PagerInspirations extends FragmentActivity implements
 		startActivityForResult(intent, EditInspirationActivity.EDIT_INSPIRATION);
 	}
 	
-	private void reconstructAllInspirations() {
-		viewPager.removeAllViews();
-		
-		loadInspirations();
-
-		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
-				listInspirations);
-
-		viewPager = (ViewPager) findViewById(R.id.pager_inspirations);
-		viewPager.setAdapter(tabPagerAdapter);
-	}
-	
 	private void sharedCurrentInspiration() {
 		new ImageFromSentence(this).getImageFromSentence(listInspirations.get(viewPager.getCurrentItem()).id, 640, 640);		
 	}
@@ -175,9 +217,7 @@ public class PagerInspirations extends FragmentActivity implements
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == EditInspirationActivity.EDIT_INSPIRATION) {
 	        // Inspiration edited
-	    	if (data.getBooleanExtra("return", true)) {	    		
-				/*PagerInspirations.this.updateData();
-				viewPager.getAdapter().notifyDataSetChanged();*/
+	    	if((data != null) && data.getBooleanExtra("return", true)) {
 	    		viewPager.removeViewAt(viewPager.getCurrentItem());
 				PagerInspirations.this.updateData();
 	        }
