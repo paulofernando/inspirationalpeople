@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations;
 import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
@@ -198,6 +199,15 @@ public class PersonActivity extends ActionBarActivity {
 	}
 	
 	@Click(R.id.photo_selected_person)
+	void clickPhoto() {
+		editPerson();
+	}
+	
+	@Click(R.id.person_name_detail)
+	void clickName() {
+		editPerson();
+	}
+	
 	void editPerson() {
 		Intent intent = new Intent(this, EditPersonActivity_.class);
 		intent.putExtra("name", getIntent().getStringExtra("name"));

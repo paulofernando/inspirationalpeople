@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
+import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
@@ -34,6 +35,7 @@ import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
+import com.googlecode.androidannotations.annotations.Click;
 import com.viewpagerindicator.CirclePageIndicator;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -56,9 +58,23 @@ public class PagerInspirations extends FragmentActivity implements
 		personName = (TextView) findViewById(R.id.person_name_detail_pager);
 		medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
 		photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
-
+		
 		personId = getIntent().getLongExtra("id", -1);
 		personName.setText(getIntent().getStringExtra("name"));
+		
+		photo.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				editPersonData();
+			}
+		});
+		
+		personName.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				editPersonData();		
+			}
+		});
 
 		loadInspirations();
 
@@ -71,6 +87,14 @@ public class PagerInspirations extends FragmentActivity implements
 		CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(viewPager);
 
+	}
+	
+	private void editPersonData() {
+		Intent intent = new Intent(PagerInspirations.this, EditPersonActivity_.class);
+		intent.putExtra("name", getIntent().getStringExtra("name"));
+		intent.putExtra("photo", getIntent().getByteArrayExtra("photo"));
+		intent.putExtra("id", personId);
+		startActivity(intent);	
 	}
 
 	public void loadInspirations() {

@@ -78,11 +78,13 @@ public class PersonView extends LinearLayout {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
 			Intent intent = new Intent(getContext(), PagerInspirations.class);
 			intent.putExtra("name", person.name);
+			intent.putExtra("photo", person.photo);
 			intent.putExtra("id", person.id);
 			getContext().startActivity(intent);
 		} else {
 			Intent intent = new Intent(getContext(), PersonActivity_.class);
 			intent.putExtra("name", person.name);
+			intent.putExtra("photo", person.photo);
 			intent.putExtra("id", person.id);
 			getContext().startActivity(intent);
 		}
