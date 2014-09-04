@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import br.net.paulofernando.pessoasinspiradoras.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
@@ -23,7 +22,6 @@ import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.PersonView_;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.j256.ormlite.dao.Dao;
@@ -37,9 +35,6 @@ public class Dashboard extends ActionBarActivity {
 	@ViewById(R.id.no_inspiration)
 	LinearLayout noInspiration;
 	
-	@ViewById(R.id.btn_add_person)
-	Button btnAddPerson;
-
 	private DtoFactory dtoFactory;
 	
 	@AfterViews
@@ -61,8 +56,7 @@ public class Dashboard extends ActionBarActivity {
 		}
 	}
 
-	@Click(R.id.btn_add_person)
-	void addClick() {
+	void addPerson() {
 		Intent intent = new Intent(this, AddPersonActivity_.class);
 		startActivity(intent);
 	}
@@ -147,7 +141,10 @@ public class Dashboard extends ActionBarActivity {
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Backup backup;
-		switch (item.getItemId()) {			
+		switch (item.getItemId()) {
+			case R.id.menu_add_person:
+				addPerson();
+				return true;
 			case R.id.menu_settings:
 				Intent i = new Intent(this, SettingsActivity_.class);			 
 				startActivity(i);

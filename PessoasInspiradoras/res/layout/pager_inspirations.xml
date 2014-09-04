@@ -43,7 +43,7 @@
 	        android:textColor="@color/text_name_person_screen"
 	        android:textSize="22sp"/>
     
-	    <RelativeLayout
+	    <!-- <RelativeLayout
 	        android:id="@+id/inside_menu_inspiration_tab"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
@@ -51,40 +51,7 @@
 	        android:gravity="center"
 	        android:background="#eee"
 	        android:visibility="gone">
-	        
-	        <ImageView
-	            android:id="@+id/bt_edit_inpiration_tab"
-	            android:src="@drawable/content_edit"
-	            android:layout_width="30dp"
-	        	android:layout_height="30dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
-	            />
-	        <ImageView
-	            android:id="@+id/bt_delete_inspiration_tab"
-	            android:src="@drawable/content_discard"
-	            android:layout_width="30dp"
-	        	android:layout_height="30dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_toRightOf="@id/bt_edit_inpiration_tab"
-	            />
-	        <ImageView
-	            android:id="@+id/bt_share_inspiration_tab"
-	            android:src="@drawable/content_share"
-	            android:layout_width="30dp"
-	        	android:layout_height="30dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_toRightOf="@id/bt_delete_inspiration_tab"
-	            />
-    	</RelativeLayout>
+    	</RelativeLayout> -->
 	    
     </RelativeLayout> 
 
