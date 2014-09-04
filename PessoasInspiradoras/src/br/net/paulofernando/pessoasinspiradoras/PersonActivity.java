@@ -56,12 +56,8 @@ public class PersonActivity extends ActionBarActivity {
 	@AfterViews
 	void init() {
 		personId = getIntent().getLongExtra("id", -1);
+		personName.setText(getIntent().getStringExtra("name"));
 		
-		try {
-			personName.setText(getIntent().getStringExtra("name"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		//loadInspirations();
 				
 		if(personName.getText().toString().equals("")) {			

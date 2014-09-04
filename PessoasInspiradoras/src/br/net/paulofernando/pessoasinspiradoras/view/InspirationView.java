@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,6 +60,11 @@ public class InspirationView extends LinearLayout {
 		this.context = context;
 		this.inspirationEntity = inspirationEntity;
 	}
+	
+	public InspirationView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+    }
 
 	@AfterViews
 	void init() {
@@ -128,6 +134,10 @@ public class InspirationView extends LinearLayout {
 						helper.close();
 					}
 				});
+	}
+	
+	public void setText(String text) {
+		inspiration.setText(text);
 	}
 
 }

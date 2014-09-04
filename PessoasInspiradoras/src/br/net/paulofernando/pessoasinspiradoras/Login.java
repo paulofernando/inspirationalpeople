@@ -29,6 +29,7 @@ public class Login extends Activity {
 		if(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, "").equals("")) {
 			Intent intent = new Intent(Login.this, Dashboard_.class);
 			startActivity(intent);
+			return;
 		}
 		
 		edChave.addTextChangedListener(new TextWatcher() {

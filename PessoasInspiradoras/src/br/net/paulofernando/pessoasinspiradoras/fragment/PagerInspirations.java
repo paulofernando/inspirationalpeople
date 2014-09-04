@@ -5,114 +5,217 @@ import java.util.List;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
-import br.net.paulofernando.pessoasinspiradoras.view.InspirationView_;
+import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class PagerInspirations extends FragmentActivity implements
-        ActionBar.TabListener {
+		ActionBar.TabListener {
 
-    private ViewPager viewPager;
-    private TextView personName;
-    private ImageView medal, photo;
-    private TabPagerAdapter tabPagerAdapter;
+	private ViewPager viewPager;
+	private TextView personName;
+	private ImageView medal, photo;
+	private TabPagerAdapter tabPagerAdapter;
 
-    long personId;
-    
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pager_inspirations);
-              
-        tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
+	private List<InspiracaoEntity> listInspirations;
+	long personId;
 
-        viewPager = (ViewPager) findViewById(R.id.pager_inspirations);
-        viewPager.setAdapter(tabPagerAdapter);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        personName = (TextView) findViewById(R.id.person_name_detail_pager);
-        medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
-        photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
-        
-        CirclePageIndicator mIndicator = (CirclePageIndicator)findViewById(R.id.indicator);
-        mIndicator.setViewPager(viewPager);
+		setContentView(R.layout.pager_inspirations);
+		personName = (TextView) findViewById(R.id.person_name_detail_pager);
+		medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
+		photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
 
-        personId = getIntent().getLongExtra("id", -1);
-		
-		try {
-			personName.setText(getIntent().getStringExtra("name"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//loadInspirations();
-		updateData();
-    }
+		personId = getIntent().getLongExtra("id", -1);
+		personName.setText(getIntent().getStringExtra("name"));
 
-    public void loadInspirations() {
-		//layoutInspirations.removeAllViews();
-    	DatabaseHelper helper = new DatabaseHelper(this);    	
-    	
-    	List<InspiracaoEntity> list = helper.getInspirationData(personId);
-    	/*for(InspiracaoEntity inspiration: list) {
-    		layoutInspirations.addView(InspirationView_.build(inspiration, this));
-    	}*/
-    	
-    	updateMedal(list.size());    	
-    	helper.close();
+		loadInspirations();
+
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
+				listInspirations);
+
+		viewPager = (ViewPager) findViewById(R.id.pager_inspirations);
+		viewPager.setAdapter(tabPagerAdapter);
+
+		CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
+		mIndicator.setViewPager(viewPager);
+
 	}
-    
-    private void updateMedal(int amountInspirations) {
-		if(amountInspirations >= 9) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus_white));
+
+	public void loadInspirations() {
+		DatabaseHelper helper = new DatabaseHelper(this);
+		listInspirations = helper.getInspirationData(personId);
+		helper.close();
+	}
+
+	private void updateMedal(int amountInspirations) {
+		if (amountInspirations >= 9) {
+			medal.setImageDrawable(getResources().getDrawable(
+					R.drawable.nine_plus_white));
 			medal.setVisibility(View.VISIBLE);
-		} else if(amountInspirations >= 6) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus_white));
+		} else if (amountInspirations >= 6) {
+			medal.setImageDrawable(getResources().getDrawable(
+					R.drawable.six_plus_white));
 			medal.setVisibility(View.VISIBLE);
-		} else if(amountInspirations >= 3) {
-			medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus_white));
+		} else if (amountInspirations >= 3) {
+			medal.setImageDrawable(getResources().getDrawable(
+					R.drawable.three_plus_white));
 			medal.setVisibility(View.VISIBLE);
 		} else {
 			medal.setVisibility(View.INVISIBLE);
 		}
 	}
-    
-    private void updateData() {
+
+	private void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
-		PersonEntity person =  helper.getPerson(personId);
-		personName.setText(person.name);		
-		photo.setImageBitmap(new ImageFromSentence(this).getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
+		PersonEntity person = helper.getPerson(personId);
+		personName.setText(person.name);
+		photo.setImageBitmap(new ImageFromSentence(this)
+				.getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
+		
 		loadInspirations();
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
+				listInspirations);		
+		viewPager.setAdapter(tabPagerAdapter);
+		updateMedal(listInspirations.size());
 		helper.close();
 	}
-    
-    @Override
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_person, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_add_inspiration:
+			addInspiration();
+			return true;
+		case R.id.menu_delete_person:
+			deletePerson();
+			return true;
+		case android.R.id.home:
+			this.finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	void deletePerson() {
+		Utils.showConfirmDialog(this, getString(R.string.delete_contact_title),
+				getString(R.string.delete_contact_question),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if ((PreferenceManager.getDefaultSharedPreferences(
+								PagerInspirations.this).getString(
+								SettingsActivity.PREF_KEY, "").equals(""))) {
+							deletePersonData();
+							finish();
+						} else {
+							final EditText input = new EditText(PagerInspirations.this);
+							input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+							input.setTransformationMethod(PasswordTransformationMethod
+									.getInstance());
+							input.setId(android.R.id.edit);
+							input.setLines(1);
+							new AlertDialog.Builder(PagerInspirations.this)
+									.setTitle(getString(R.string.enter_password))
+									.setView(input)
+									.setIcon(android.R.drawable.ic_dialog_alert)
+									.setNeutralButton(
+											android.R.string.ok,
+											new DialogInterface.OnClickListener() {
+												public void onClick(
+														DialogInterface dialog,
+														int whichButton) {
+													try {
+														if (input.getText().toString().equals(PreferenceManager
+																		.getDefaultSharedPreferences(PagerInspirations.this)
+																		.getString(SettingsActivity.PREF_KEY,null))) {
+															deletePersonData();
+															finish();
+														} else {
+															Utils.showErrorDialog(PagerInspirations.this,
+																	getResources().getString(R.string.error),
+																	getResources().getString(R.string.wrong_password));
+														}
+
+													} catch (Exception e) {
+														e.printStackTrace();
+													}
+												}
+											}).show();
+						}
+					}
+				});
+
+	}
+
+	private void deletePersonData() {
+		DatabaseHelper helper = new DatabaseHelper(PagerInspirations.this);
+		helper.deletePersonById(personId);
+		helper.deleteAllInspirationsByUserId(personId);
+		helper.close();
+	}
+
+	void addInspiration() {
+		Intent i = new Intent(this, AddInspirationActivity_.class);
+		i.putExtra("id", personId);
+		startActivity(i);
+	}
+
+	@Override
 	protected void onResume() {
 		updateData();
 		super.onResume();
 	}
-    
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) { }
 
-    @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	}
 
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {}
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		viewPager.setCurrentItem(tab.getPosition());
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	}
 }

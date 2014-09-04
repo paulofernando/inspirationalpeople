@@ -1,35 +1,41 @@
 package br.net.paulofernando.pessoasinspiradoras.fragment;
 
-import android.graphics.Color;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
-    public TabPagerAdapter(FragmentManager fm) {
+	private ArrayList<InspiracaoEntity> inspirations;
+	
+	/** 
+	 * @param tabHeight height of the area where the inspiration text appears
+	 */
+	public TabPagerAdapter(FragmentManager fm, List<InspiracaoEntity> inspirations) {
         super(fm);
+        this.inspirations = new ArrayList<InspiracaoEntity>(inspirations);
     }
 
     @Override
     public Fragment getItem(int index) {
         Bundle bundle = new Bundle();
-        String tab = String.valueOf(index);
         
-        //bundle.putString("tab",tab);
+        bundle.putString("inspiration", inspirations.get(index).inspiration);
+        bundle.putLong("id", inspirations.get(index).id);
+        bundle.putLong("idUser", inspirations.get(index).idUser);        
+        
         SwipeTabFragment swipeTabFragment = new SwipeTabFragment();
         swipeTabFragment.setArguments(bundle);
         return swipeTabFragment;
     }
-    
-    @Override
-    public CharSequence getPageTitle (int position) {
-        return "Your static title";
-    }
 
     @Override
     public int getCount() {
-        return 3;
+        return inspirations.size();
     }
 }
