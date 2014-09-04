@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,7 +27,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
+import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity;
+import br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity_;
+import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
+import br.net.paulofernando.pessoasinspiradoras.PersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
@@ -41,11 +46,13 @@ import com.viewpagerindicator.CirclePageIndicator;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class PagerInspirations extends FragmentActivity implements
 		ActionBar.TabListener {
-
+	
 	private ViewPager viewPager;
 	private TextView personName;
 	private ImageView medal, photo;
 	private TabPagerAdapter tabPagerAdapter;
+	
+	private ImageView btEdit, btDelete, btShare;
 
 	private List<InspiracaoEntity> listInspirations;
 	long personId;
@@ -58,6 +65,10 @@ public class PagerInspirations extends FragmentActivity implements
 		personName = (TextView) findViewById(R.id.person_name_detail_pager);
 		medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
 		photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
+		
+		btEdit = (ImageView) findViewById(R.id.bt_edit_inpiration_tab);
+		btDelete = (ImageView) findViewById(R.id.bt_delete_inspiration_tab);
+		btShare = (ImageView) findViewById(R.id.bt_share_inspiration_tab);
 		
 		personId = getIntent().getLongExtra("id", -1);
 		personName.setText(getIntent().getStringExtra("name"));
@@ -72,7 +83,29 @@ public class PagerInspirations extends FragmentActivity implements
 		personName.setOnClickListener(new View.OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				editPersonData();		
+				editPersonData();
+			}
+		});
+		
+		btDelete.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				deleteCurrentInspiration();				
+			}
+		});
+		
+		btEdit.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				editCurrentInspiration();
+				updateData();				
+			}
+		});
+		
+		btShare.setOnClickListener(new View.OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				sharedCurrentInspiration();		
 			}
 		});
 
@@ -88,15 +121,69 @@ public class PagerInspirations extends FragmentActivity implements
 		mIndicator.setViewPager(viewPager);
 
 	}
-	
+
 	private void editPersonData() {
-		Intent intent = new Intent(PagerInspirations.this, EditPersonActivity_.class);
+		Intent intent = new Intent(this, EditPersonActivity_.class);
 		intent.putExtra("name", getIntent().getStringExtra("name"));
 		intent.putExtra("photo", getIntent().getByteArrayExtra("photo"));
 		intent.putExtra("id", personId);
 		startActivity(intent);	
 	}
+	
+	private void deleteCurrentInspiration() {
+		Utils.showConfirmDialog(this, this.getString(R.string.delete_inspiration_title),
+				getString(R.string.delete_inspiration_question),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						DatabaseHelper helper = new DatabaseHelper(PagerInspirations.this);
+						helper.deleteInspirationById(listInspirations.get(viewPager.getCurrentItem()).id);
 
+						viewPager.removeViewAt(viewPager.getCurrentItem());
+						PagerInspirations.this.updateData();
+						
+						helper.close();
+					}
+				});
+	}
+	
+	private void editCurrentInspiration() {
+		Intent intent = new Intent(this, EditInspirationActivity_.class);
+		intent.putExtra("idInspiration", listInspirations.get(viewPager.getCurrentItem()).id);
+		intent.putExtra("idUser", listInspirations.get(viewPager.getCurrentItem()).idUser);
+		intent.putExtra("inspiration", listInspirations.get(viewPager.getCurrentItem()).inspiration);
+		startActivityForResult(intent, EditInspirationActivity.EDIT_INSPIRATION);
+	}
+	
+	private void reconstructAllInspirations() {
+		viewPager.removeAllViews();
+		
+		loadInspirations();
+
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
+				listInspirations);
+
+		viewPager = (ViewPager) findViewById(R.id.pager_inspirations);
+		viewPager.setAdapter(tabPagerAdapter);
+	}
+	
+	private void sharedCurrentInspiration() {
+		new ImageFromSentence(this).getImageFromSentence(listInspirations.get(viewPager.getCurrentItem()).id, 640, 640);		
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    if (requestCode == EditInspirationActivity.EDIT_INSPIRATION) {
+	        // Inspiration edited
+	    	if (data.getBooleanExtra("return", true)) {	    		
+				/*PagerInspirations.this.updateData();
+				viewPager.getAdapter().notifyDataSetChanged();*/
+	    		viewPager.removeViewAt(viewPager.getCurrentItem());
+				PagerInspirations.this.updateData();
+	        }
+	    }
+	}
+	
 	public void loadInspirations() {
 		DatabaseHelper helper = new DatabaseHelper(this);
 		listInspirations = helper.getInspirationData(personId);
@@ -129,10 +216,10 @@ public class PagerInspirations extends FragmentActivity implements
 				.getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
 		
 		loadInspirations();
-		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
-				listInspirations);		
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), listInspirations);		
 		viewPager.setAdapter(tabPagerAdapter);
 		updateMedal(listInspirations.size());
+		
 		helper.close();
 	}
 

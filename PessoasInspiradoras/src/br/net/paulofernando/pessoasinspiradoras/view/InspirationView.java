@@ -107,9 +107,7 @@ public class InspirationView extends LinearLayout {
 	
 	@Click(R.id.bt_share_inspiration)
 	void btShareClicked() {
-		//Utils.showSharePopup(context, inspiration.getText().toString());		
-		new ImageFromSentence(context).getImageFromSentence(inspirationEntity.id, 640, 640);
-		
+		new ImageFromSentence(context).getImageFromSentence(inspirationEntity.id, 640, 640);		
 		btBackInspiration();
 	}
 	
@@ -123,7 +121,7 @@ public class InspirationView extends LinearLayout {
 	}
 
 	private void deleteInspiration() {
-		Utils.showConfirmDialog(getContext(), context.getString(R.string.delete_inspiration_title),
+		Utils.showConfirmDialog(context, context.getString(R.string.delete_inspiration_title),
 				context.getString(R.string.delete_inspiration_question),
 				new DialogInterface.OnClickListener() {
 					@Override

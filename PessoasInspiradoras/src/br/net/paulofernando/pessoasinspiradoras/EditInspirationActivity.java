@@ -2,6 +2,7 @@ package br.net.paulofernando.pessoasinspiradoras;
 
 import java.sql.SQLException;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ import com.j256.ormlite.dao.Dao;
 
 @EActivity(R.layout.activity_edit_inspiration)
 public class EditInspirationActivity extends ActionBarActivity {
+	
+	public static final int EDIT_INSPIRATION = 0;
 	
 	@ViewById(R.id.et_add_inspiration)
 	EditText etInpiration;
@@ -37,7 +40,7 @@ public class EditInspirationActivity extends ActionBarActivity {
 	
 	@Click(R.id.bt_add_inpiration_cancel)
 	void cancelSettings() {
-		this.finish();
+		this.returnScreen(false);
 	}	
 	
 	@Click(R.id.bt_add_inspiration_save)
@@ -50,7 +53,7 @@ public class EditInspirationActivity extends ActionBarActivity {
 			updateInspiration(etInpiration.getText().toString());
 		}
 		
-		this.finish();
+		this.returnScreen(true);
 	}
 		
 	private void updateInspiration(String inspiration) {
@@ -80,11 +83,18 @@ public class EditInspirationActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:				
-				finish();
+				returnScreen(false);
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}		
+	
+	private void returnScreen(boolean success) {
+		Intent returnIntent = new Intent();
+		returnIntent.putExtra("return", success);		
+		setResult(EDIT_INSPIRATION, returnIntent);
+		finish();		
+	}
 	
 }
