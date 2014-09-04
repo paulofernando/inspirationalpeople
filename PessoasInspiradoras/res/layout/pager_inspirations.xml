@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/activity_vertical_margin"        
-        android:background="@drawable/person_info_background">
+        android:background="@drawable/person_info_background"
+        android:paddingBottom="10dp">
             
 	    <ImageView
 	        android:id="@+id/medal_selected_person_pager"
@@ -38,7 +39,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/photo_selected_person_pager"
 	        android:gravity="center_horizontal"
-	        android:layout_marginBottom="10dp"
+	        android:layout_marginBottom="10dp"	        
 	        android:textColor="@color/text_name_person_screen"
 	        android:textSize="22sp"/>
     
@@ -48,7 +49,8 @@
 	        android:layout_height="wrap_content"
 	        android:layout_below="@id/person_name_detail_pager"
 	        android:gravity="center"
-	        android:background="#eee">
+	        android:background="#eee"
+	        android:visibility="gone">
 	        
 	        <ImageView
 	            android:id="@+id/bt_edit_inpiration_tab"

@@ -4,7 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     
-    <TextView
+    <RelativeLayout
+	        android:id="@+id/inside_menu_inspiration_intern"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@id/person_name_detail_pager"
+	        android:gravity="center"
+	        android:layout_alignParentBottom="true"
+	        android:layout_margin="10dp"
+	        android:alpha="0.7">
+	        
+	        <ImageView
+	            android:id="@+id/bt_edit_inpiration_intern"
+	            android:src="@drawable/content_edit"
+	            android:layout_width="20dp"
+	        	android:layout_height="20dp"
+	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
+	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	            />
+	        <ImageView
+	            android:id="@+id/bt_delete_inspiration_intern"
+	            android:src="@drawable/content_discard"
+	            android:layout_width="20dp"
+	        	android:layout_height="20dp"
+	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
+	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	        	android:layout_toRightOf="@id/bt_edit_inpiration_intern"
+	            />
+	        <ImageView
+	            android:id="@+id/bt_share_inspiration_intern"
+	            android:src="@drawable/content_share"
+	            android:layout_width="20dp"
+	        	android:layout_height="20dp"
+	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
+	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
+	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	        	android:layout_toRightOf="@id/bt_delete_inspiration_intern"
+	            />
+    	</RelativeLayout>
+    	
+    	<TextView
     		android:id="@+id/tab_inspirations"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
@@ -13,6 +57,7 @@
 	        android:textColor="@color/text_inspiration"
 	        android:gravity="center"
         	android:layout_marginLeft="10dp"
-        	android:layout_marginRight="10dp"/>
+        	android:layout_marginRight="10dp"
+        	android:layout_above="@id/inside_menu_inspiration_intern"/>
     
 </RelativeLayout>

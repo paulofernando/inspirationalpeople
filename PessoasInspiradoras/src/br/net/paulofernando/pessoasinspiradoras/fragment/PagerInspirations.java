@@ -64,66 +64,6 @@ public class PagerInspirations extends FragmentActivity implements
 		medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
 		photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
 		
-		btEdit = (ImageView) findViewById(R.id.bt_edit_inpiration_tab);
-		btDelete = (ImageView) findViewById(R.id.bt_delete_inspiration_tab);
-		btShare = (ImageView) findViewById(R.id.bt_share_inspiration_tab);
-
-		RelativeLayout parentButtons = (RelativeLayout) findViewById(R.id.inside_menu_inspiration_tab);
-		
-		parentButtons.post(new Runnable() {
-            public void run() {
-                // Post in the parent's message queue to make sure the parent
-                // lays out its children before we call getHitRect()
-                
-            	float HSpace = getResources().getDimension(R.dimen.inspiration_buttons_horizontal_space);
-                float VSpace = getResources().getDimension(R.dimen.inspiration_buttons_vertical_space);
-            	
-            	Rect delegateAreaEdit = new Rect();                
-                btEdit.getHitRect(delegateAreaEdit);
-                
-                delegateAreaEdit.top -= VSpace;
-                delegateAreaEdit.bottom += VSpace;
-                delegateAreaEdit.left -= HSpace;
-                delegateAreaEdit.right += HSpace;
-                
-                Rect delegateAreaDelete = new Rect();                
-                btDelete.getHitRect(delegateAreaDelete);
-                
-                delegateAreaDelete.top -= VSpace;
-                delegateAreaDelete.bottom += VSpace;
-                delegateAreaDelete.left -= HSpace;
-                delegateAreaDelete.right += HSpace;
-                
-                Rect delegateAreaShare = new Rect();                
-                btShare.getHitRect(delegateAreaShare);
-                
-                delegateAreaShare.top -= VSpace;
-                delegateAreaShare.bottom += VSpace;
-                delegateAreaShare.left -= HSpace;
-                delegateAreaShare.right += HSpace;
-                
-                TouchDelegate expandedAreaEdit = new TouchDelegate(delegateAreaEdit, btEdit);
-                TouchDelegate expandedAreaDelete = new TouchDelegate(delegateAreaDelete, btDelete);
-                TouchDelegate expandedAreaShare = new TouchDelegate(delegateAreaShare, btShare);
-                
-                // give the delegate to an ancestor of the view we're delegating the area to
-                if (View.class.isInstance(btEdit.getParent())) {
-                    ((View) btEdit.getParent())
-                            .setTouchDelegate(expandedAreaEdit);
-                }
-                
-                if (View.class.isInstance(btDelete.getParent())) {
-                    ((View) btDelete.getParent())
-                            .setTouchDelegate(expandedAreaDelete);
-                }
-                
-                if (View.class.isInstance(btShare.getParent())) {
-                    ((View) btShare.getParent())
-                            .setTouchDelegate(expandedAreaShare);
-                }
-            };
-        });
-		
 		personId = getIntent().getLongExtra("id", -1);
 		personName.setText(getIntent().getStringExtra("name"));
 		
@@ -140,29 +80,7 @@ public class PagerInspirations extends FragmentActivity implements
 				editPersonData();
 			}
 		});
-		
-		btDelete.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				deleteCurrentInspiration();				
-			}
-		});
-		
-		btEdit.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				editCurrentInspiration();
-				updateData();				
-			}
-		});
-		
-		btShare.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				sharedCurrentInspiration();		
-			}
-		});
-
+				
 		loadInspirations();
 
 		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
@@ -184,41 +102,11 @@ public class PagerInspirations extends FragmentActivity implements
 		startActivity(intent);	
 	}
 	
-	private void deleteCurrentInspiration() {
-		Utils.showConfirmDialog(this, this.getString(R.string.delete_inspiration_title),
-				getString(R.string.delete_inspiration_question),
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						DatabaseHelper helper = new DatabaseHelper(PagerInspirations.this);
-						helper.deleteInspirationById(listInspirations.get(viewPager.getCurrentItem()).id);
-
-						viewPager.removeViewAt(viewPager.getCurrentItem());
-						PagerInspirations.this.updateData();
-						
-						helper.close();
-					}
-				});
-	}
-	
-	private void editCurrentInspiration() {
-		Intent intent = new Intent(this, EditInspirationActivity_.class);
-		intent.putExtra("idInspiration", listInspirations.get(viewPager.getCurrentItem()).id);
-		intent.putExtra("idUser", listInspirations.get(viewPager.getCurrentItem()).idUser);
-		intent.putExtra("inspiration", listInspirations.get(viewPager.getCurrentItem()).inspiration);
-		startActivityForResult(intent, EditInspirationActivity.EDIT_INSPIRATION);
-	}
-	
-	private void sharedCurrentInspiration() {
-		new ImageFromSentence(this).getImageFromSentence(listInspirations.get(viewPager.getCurrentItem()).id, 640, 640);		
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == EditInspirationActivity.EDIT_INSPIRATION) {
 	        // Inspiration edited
-	    	if((data != null) && data.getBooleanExtra("return", true)) {
-	    		viewPager.removeViewAt(viewPager.getCurrentItem());
+	    	if((data != null) && data.getBooleanExtra("return", true)) {	    		
 				PagerInspirations.this.updateData();
 	        }
 	    }
@@ -248,7 +136,7 @@ public class PagerInspirations extends FragmentActivity implements
 		}
 	}
 
-	private void updateData() {
+	public void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
 		PersonEntity person = helper.getPerson(personId);
 		personName.setText(person.name);
