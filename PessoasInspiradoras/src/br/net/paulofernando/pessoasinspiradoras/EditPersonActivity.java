@@ -70,7 +70,27 @@ public class EditPersonActivity extends ActionBarActivity {
 	
 	@Click(R.id.bt_edit_cancel)
 	void cancelSettings() {
-		this.finish();
+		if(changed) {
+			Utils.showConfirmDialog(
+					this,
+					getString(R.string.data_not_saved_title),
+					getString(R.string.data_not_saved_question),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							 save();
+							 EditPersonActivity.this.finish();
+						}
+					},
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							 EditPersonActivity.this.finish();
+						}
+					});
+		} else {
+			finish();
+		}
 	}
 	
 	@Click(R.id.bt_edit_save)
@@ -131,27 +151,7 @@ public class EditPersonActivity extends ActionBarActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				if(changed) {
-					Utils.showConfirmDialog(
-							this,
-							getString(R.string.data_not_saved_title),
-							getString(R.string.data_not_saved_question),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									 save();
-									 EditPersonActivity.this.finish();
-								}
-							},
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog, int which) {
-									 EditPersonActivity.this.finish();
-								}
-							});
-				} else {
-					finish();
-				}
+				cancelSettings();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

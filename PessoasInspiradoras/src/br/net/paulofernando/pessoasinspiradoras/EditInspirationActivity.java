@@ -2,8 +2,12 @@ package br.net.paulofernando.pessoasinspiradoras;
 
 import java.sql.SQLException;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.rtp.RtpStream;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.EditText;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
@@ -28,19 +32,54 @@ public class EditInspirationActivity extends ActionBarActivity {
 	private long inspirationId, userId;
 	private DtoFactory dtoFactory;
 	
+	private boolean changed;
+	
 	@AfterViews
 	void init() {
 		inspirationId = getIntent().getLongExtra("idInspiration", -1);
 		userId = getIntent().getLongExtra("idInspiration", -1);
 		etInpiration.setText(getIntent().getStringExtra("inspiration"));
 		
+		etInpiration.addTextChangedListener(new TextWatcher() {			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				changed = true;				
+			}
+		});
+		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		dtoFactory = (DtoFactory) getApplication();
 	}
 	
 	@Click(R.id.bt_add_inpiration_cancel)
-	void cancelSettings() {
-		this.returnScreen(false);
+	void cancel() {
+		if(changed) {
+			Utils.showConfirmDialog(
+					this,
+					getString(R.string.data_not_saved_title),
+					getString(R.string.data_not_saved_question),
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							 save();
+							 returnScreen(true);
+						}
+					},
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							returnScreen(false);
+						}
+					});
+		} else {
+			returnScreen(false);
+		}
 	}	
 	
 	@Click(R.id.bt_add_inspiration_save)
@@ -52,7 +91,7 @@ public class EditInspirationActivity extends ActionBarActivity {
 		} else {
 			updateInspiration(etInpiration.getText().toString());
 		}
-		
+		changed = false;
 		this.returnScreen(true);
 	}
 		
@@ -82,8 +121,8 @@ public class EditInspirationActivity extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:				
-				returnScreen(false);
+			case android.R.id.home:
+				cancel();				
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
