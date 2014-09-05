@@ -5,8 +5,8 @@
     <item
         android:id="@+id/menu_add_person"
         android:title="@string/add_person"
-        android:icon="@drawable/add_person"
-        inspirationalpeople:showAsAction="always"
+        android:icon="@drawable/add_person_small"
+        inspirationalpeople:showAsAction="ifRoom"
    	/>
     
     <item

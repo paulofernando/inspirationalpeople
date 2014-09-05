@@ -5,9 +5,9 @@
     <item
         android:id="@+id/menu_add_inspiration"
         android:title="@string/add_inspiration"
-        android:icon="@drawable/add_inspiration"        
+        android:icon="@drawable/add_inspiration_small"        
         inspirationalpeople:showAsAction="always"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
     />
     
     <item

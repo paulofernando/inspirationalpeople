@@ -5,33 +5,6 @@
     android:paddingTop="10dp"
     android:id="@+id/componentImportView">
     
-    <TextView 
-        android:id="@+id/person_name_import"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:textSize="18sp"
-        android:textColor="@color/text_name_person_view"/>
-    
-    <TextView 
-        android:id="@+id/person_amount_inspirations_import"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/person_name_import"
-        android:layout_marginLeft="12dp"
-        android:textSize="14sp"
-        android:textColor="@color/text_inspirations_count"/>
-    
-    <!-- <TextView 
-        android:id="@+id/merge_inspirations_import"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/person_name_import"
-        android:layout_marginLeft="12dp"
-        android:textStyle="italic"
-        android:textSize="12sp"
-        android:textColor="@color/text_inspirations_merge"/>
-     -->
     <CheckBox
         android:id="@+id/check_import"
         android:layout_width="wrap_content"
@@ -49,6 +22,27 @@
         android:layout_margin="10dp"    
         android:layout_toLeftOf="@id/check_import"
         />
+    
+    <TextView 
+        android:id="@+id/person_name_import"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_toLeftOf="@id/merge_icon"
+        android:textSize="18sp"
+        android:ellipsize="end" 
+		android:maxLines="1"
+        android:textColor="@color/text_name_person_view"/>
+    
+    <TextView 
+        android:id="@+id/person_amount_inspirations_import"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_name_import"
+        android:layout_marginLeft="12dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_inspirations_count"/>
+    
     
     <View
         android:id="@+id/line1"
