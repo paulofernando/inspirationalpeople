@@ -3,6 +3,7 @@ package br.net.paulofernando.pessoasinspiradoras.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -64,9 +65,10 @@ public class PersonView extends LinearLayout {
 	}
 	
 	private void loadMedal() {
-		if (person.getMedal() != -1 ) {
+		if (person.getMedal() != -1) {
 			medalha.setImageDrawable(getResources().getDrawable(person.getMedal()));
-		}		
+			medalha.setVisibility(View.VISIBLE);
+		}
 	}
 
 	void loadPhoto() {

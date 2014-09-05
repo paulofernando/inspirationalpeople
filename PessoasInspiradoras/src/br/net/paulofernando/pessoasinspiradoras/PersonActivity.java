@@ -47,6 +47,8 @@ public class PersonActivity extends ActionBarActivity {
 	@ViewById(R.id.person_name_detail)
 	TextView personName;
 	
+	private PersonEntity person;
+	
 	long personId;
 	
 	@ViewById(R.id.layout_inspirations)
@@ -56,7 +58,7 @@ public class PersonActivity extends ActionBarActivity {
 
 	@AfterViews
 	void init() {
-		personId = getIntent().getLongExtra("id", -1);
+		personId = getIntent().getLongExtra("id", -1);		
 		personName.setText(getIntent().getStringExtra("name"));
 		
 		//loadInspirations();
@@ -159,7 +161,7 @@ public class PersonActivity extends ActionBarActivity {
 	
 	private void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
-		PersonEntity person =  helper.getPerson(personId);
+		person =  helper.getPerson(personId);
 		personName.setText(person.name);		
 		photo.setImageBitmap(new ImageFromSentence(this).getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
 		loadInspirations();
@@ -210,8 +212,8 @@ public class PersonActivity extends ActionBarActivity {
 	
 	void editPerson() {
 		Intent intent = new Intent(this, EditPersonActivity_.class);
-		intent.putExtra("name", getIntent().getStringExtra("name"));
-		intent.putExtra("photo", getIntent().getByteArrayExtra("photo"));
+		intent.putExtra("name", personName.getText());
+		intent.putExtra("photo", person.photo);
 		intent.putExtra("id", personId);
 		startActivity(intent);
 	}

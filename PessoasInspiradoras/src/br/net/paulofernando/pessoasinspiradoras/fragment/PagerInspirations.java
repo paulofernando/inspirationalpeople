@@ -45,7 +45,7 @@ public class PagerInspirations extends FragmentActivity implements
 	private TextView personName;
 	private ImageView medal, photo;
 	private TabPagerAdapter tabPagerAdapter;
-	
+	private PersonEntity person;
 	private List<InspiracaoEntity> listInspirations;
 	long personId;
 
@@ -90,8 +90,8 @@ public class PagerInspirations extends FragmentActivity implements
 
 	private void editPersonData() {
 		Intent intent = new Intent(this, EditPersonActivity_.class);
-		intent.putExtra("name", getIntent().getStringExtra("name"));
-		intent.putExtra("photo", getIntent().getByteArrayExtra("photo"));
+		intent.putExtra("name", personName.getText());
+		intent.putExtra("photo", person.photo);
 		intent.putExtra("id", personId);
 		startActivity(intent);
 	}
@@ -122,7 +122,9 @@ public class PagerInspirations extends FragmentActivity implements
 
 	public void updateData() {
 		DatabaseHelper helper = new DatabaseHelper(this);
-		PersonEntity person = helper.getPerson(personId);
+		
+		person = helper.getPerson(personId);
+		
 		personName.setText(person.name);
 		photo.setImageBitmap(new ImageFromSentence(this)
 				.getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
