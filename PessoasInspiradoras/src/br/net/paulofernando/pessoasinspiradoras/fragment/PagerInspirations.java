@@ -46,8 +46,6 @@ public class PagerInspirations extends FragmentActivity implements
 	private ImageView medal, photo;
 	private TabPagerAdapter tabPagerAdapter;
 	
-	private int lastPosition = 0;
-
 	private List<InspiracaoEntity> listInspirations;
 	long personId;
 
@@ -97,17 +95,7 @@ public class PagerInspirations extends FragmentActivity implements
 		intent.putExtra("id", personId);
 		startActivity(intent);
 	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    if (requestCode == EditInspirationActivity.EDIT_INSPIRATION) {
-	        // Inspiration edited
-	    	if((data != null) && data.getBooleanExtra("return", true)) {	    		
-				PagerInspirations.this.updateData();
-	        }
-	    }
-	}
-	
+		
 	public void loadInspirations() {
 		DatabaseHelper helper = new DatabaseHelper(this);
 		listInspirations = helper.getInspirationData(personId);
@@ -139,9 +127,25 @@ public class PagerInspirations extends FragmentActivity implements
 		photo.setImageBitmap(new ImageFromSentence(this)
 				.getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
 		
+		int currentPage = viewPager.getCurrentItem();
+		int sizeBeforeUpdate = listInspirations.size(); //listInspiration is updated in the loadInspirations
 		loadInspirations();
+				
 		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), listInspirations);		
 		viewPager.setAdapter(tabPagerAdapter);
+		
+		if(sizeBeforeUpdate == listInspirations.size()) { //edited
+			viewPager.setCurrentItem(currentPage);
+		} else if(sizeBeforeUpdate > listInspirations.size()) { //deleted
+			if(currentPage > 0) {
+				viewPager.setCurrentItem(currentPage - 1);
+			}
+		} else { //added
+			if(listInspirations.size() > 0) {
+				viewPager.setCurrentItem(listInspirations.size() - 1);
+			}
+		}
+		
 		updateMedal(listInspirations.size());
 		
 		helper.close();
@@ -237,8 +241,12 @@ public class PagerInspirations extends FragmentActivity implements
 
 	@Override
 	protected void onResume() {
-		updateData();
+		updateData();		
 		super.onResume();
+	}
+	
+	public ViewPager getViewPager() {
+		return viewPager;
 	}
 
 	@Override

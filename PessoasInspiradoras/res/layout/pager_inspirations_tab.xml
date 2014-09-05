@@ -11,39 +11,28 @@
 	        android:layout_below="@id/person_name_detail_pager"
 	        android:gravity="center"
 	        android:layout_alignParentBottom="true"
-	        android:layout_margin="10dp"
+	        android:layout_marginBottom="10dp"
+	        
 	        android:alpha="0.7">
 	        
 	        <ImageView
 	            android:id="@+id/bt_edit_inpiration_intern"
-	            android:src="@drawable/content_edit"
-	            android:layout_width="24dp"
-	        	android:layout_height="24dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	            android:src="@drawable/content_edit_spaced"
+	            android:layout_width="62dp"
+	        	android:layout_height="62dp"
 	            />
 	        <ImageView
 	            android:id="@+id/bt_delete_inspiration_intern"
-	            android:src="@drawable/content_discard"
-	            android:layout_width="24dp"
-	        	android:layout_height="24dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	            android:src="@drawable/content_discard_spaced"
+	            android:layout_width="62dp"
+	        	android:layout_height="62dp"
 	        	android:layout_toRightOf="@id/bt_edit_inpiration_intern"
 	            />
 	        <ImageView
 	            android:id="@+id/bt_share_inspiration_intern"
-	            android:src="@drawable/content_share"
-	            android:layout_width="24dp"
-	        	android:layout_height="24dp"
-	        	android:layout_marginTop="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginBottom="@dimen/inspiration_buttons_vertical_space"
-	        	android:layout_marginLeft="@dimen/inspiration_buttons_horizontal_space"
-	        	android:layout_marginRight="@dimen/inspiration_buttons_horizontal_space"
+	            android:src="@drawable/content_share_spaced"
+	            android:layout_width="62dp"
+	        	android:layout_height="62dp"
 	        	android:layout_toRightOf="@id/bt_delete_inspiration_intern"
 	            />
     	</RelativeLayout>

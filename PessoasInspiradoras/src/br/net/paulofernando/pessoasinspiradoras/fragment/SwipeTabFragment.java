@@ -48,62 +48,6 @@ public class SwipeTabFragment extends Fragment {
         btEdit = (ImageView) view.findViewById(R.id.bt_edit_inpiration_intern);
 		btDelete = (ImageView) view.findViewById(R.id.bt_delete_inspiration_intern);
 		btShare = (ImageView) view.findViewById(R.id.bt_share_inspiration_intern);
-
-		RelativeLayout parentButtons = (RelativeLayout) view.findViewById(R.id.inside_menu_inspiration_intern);
-		
-		parentButtons.post(new Runnable() {
-            public void run() {
-                // Post in the parent's message queue to make sure the parent
-                // lays out its children before we call getHitRect()
-                
-            	float HSpace = getResources().getDimension(R.dimen.inspiration_buttons_horizontal_space);
-                float VSpace = getResources().getDimension(R.dimen.inspiration_buttons_vertical_space);
-            	
-            	Rect delegateAreaEdit = new Rect();                
-                btEdit.getHitRect(delegateAreaEdit);
-                
-                delegateAreaEdit.top -= VSpace;
-                delegateAreaEdit.bottom += VSpace;
-                delegateAreaEdit.left -= HSpace;
-                delegateAreaEdit.right += HSpace;
-                
-                Rect delegateAreaDelete = new Rect();                
-                btDelete.getHitRect(delegateAreaDelete);
-                
-                delegateAreaDelete.top -= VSpace;
-                delegateAreaDelete.bottom += VSpace;
-                delegateAreaDelete.left -= HSpace;
-                delegateAreaDelete.right += HSpace;
-                
-                Rect delegateAreaShare = new Rect();                
-                btShare.getHitRect(delegateAreaShare);
-                
-                delegateAreaShare.top -= VSpace;
-                delegateAreaShare.bottom += VSpace;
-                delegateAreaShare.left -= HSpace;
-                delegateAreaShare.right += HSpace;
-                
-                TouchDelegate expandedAreaEdit = new TouchDelegate(delegateAreaEdit, btEdit);
-                TouchDelegate expandedAreaDelete = new TouchDelegate(delegateAreaDelete, btDelete);
-                TouchDelegate expandedAreaShare = new TouchDelegate(delegateAreaShare, btShare);
-                
-                // give the delegate to an ancestor of the view we're delegating the area to
-                if (View.class.isInstance(btEdit.getParent())) {
-                    ((View) btEdit.getParent())
-                            .setTouchDelegate(expandedAreaEdit);
-                }
-                
-                if (View.class.isInstance(btDelete.getParent())) {
-                    ((View) btDelete.getParent())
-                            .setTouchDelegate(expandedAreaDelete);
-                }
-                
-                if (View.class.isInstance(btShare.getParent())) {
-                    ((View) btShare.getParent())
-                            .setTouchDelegate(expandedAreaShare);
-                }
-            };
-        });
 				
 		btDelete.setOnClickListener(new View.OnClickListener() {			
 			@Override
@@ -162,8 +106,7 @@ public class SwipeTabFragment extends Fragment {
 	    if (requestCode == EditInspirationActivity.EDIT_INSPIRATION) {
 	        // Inspiration edited
 	    	if((data != null) && data.getBooleanExtra("return", true)) {
-//	    		viewPager.removeViewAt(viewPager.getCurrentItem());
-//				PagerInspirations.this.updateData();
+//	    		((PagerInspirations)getActivity()).getViewPager().setCurrentItem(2);
 	        }
 	    }
 	}

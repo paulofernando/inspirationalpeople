@@ -33,6 +33,7 @@
     
     <!-- Separator -->
     <color name="separator">#dddddd</color>
+    <color name="separator_person_info">#aaaaaa</color>
     
     
 </resources>

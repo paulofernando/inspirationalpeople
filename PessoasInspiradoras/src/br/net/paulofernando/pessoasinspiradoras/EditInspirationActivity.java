@@ -21,7 +21,7 @@ import com.j256.ormlite.dao.Dao;
 public class EditInspirationActivity extends ActionBarActivity {
 	
 	public static final int EDIT_INSPIRATION = 0;
-	
+		
 	@ViewById(R.id.et_add_inspiration)
 	EditText etInpiration;
 	
