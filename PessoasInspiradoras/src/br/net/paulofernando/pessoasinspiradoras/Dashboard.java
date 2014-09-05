@@ -133,8 +133,11 @@ public class Dashboard extends ActionBarActivity {
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
+		MenuInflater inflater = getMenuInflater();		
         inflater.inflate(R.menu.menu_dashboard, menu);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.add_person));
+		}
         return super.onCreateOptionsMenu(menu);
     }
 	

@@ -172,6 +172,9 @@ public class PersonActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_person, menu);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.add_inspiration));
+		}
         return super.onCreateOptionsMenu(menu);
     }
 

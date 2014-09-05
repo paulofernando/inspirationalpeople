@@ -4,8 +4,7 @@
     
     <item
         android:id="@+id/menu_add_inspiration"
-        android:title="@string/add_inspiration"
-        android:icon="@drawable/add_inspiration_small"        
+        android:title="@string/add_inspiration"        
         inspirationalpeople:showAsAction="always"
         android:showAsAction="ifRoom"
     />
