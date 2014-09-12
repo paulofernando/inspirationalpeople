@@ -26,19 +26,13 @@ public class Backup {
 		this.context = context;
 		String root = Environment.getExternalStorageDirectory().toString();
 		myDir = new File(root + "/"
-				+ (context.getResources().getString(R.string.app_name))
+				+ "Inspirational People"
 				+ "/backup");
 		filename = "backup.xml";	
 	}
 	
-	public boolean hasLocalBackup() {
-		File myDir = new File(Environment.getExternalStorageDirectory()
-				.toString()
-				+ "/"
-				+ (context.getResources().getString(R.string.app_name))
-				+ "/backup");
-		String fname = "backup.xml";
-		File myFile = new File(myDir + "/" + fname);
+	public boolean hasLocalBackup() {		
+		File myFile = new File(myDir + "/" + filename);
 
 		return myFile.exists();
 	}
@@ -81,14 +75,8 @@ public class Backup {
 	}
 
 	public void saveLocalBackupInFile(final Context context, final String text) {
-		String root = Environment.getExternalStorageDirectory().toString();
-		File myDir = new File(root + "/"
-				+ (context.getResources().getString(R.string.app_name))
-				+ "/backup");
-		String fname = "backup.xml";
-
 		myDir.mkdirs();
-		final File file = new File(myDir, fname);
+		final File file = new File(myDir, filename);
 
 		if (file.exists()) {
 			Utils.showConfirmDialog(context,

@@ -168,6 +168,11 @@ public class Dashboard extends ActionBarActivity {
 							this.getResources().getString(R.string.backup_not_found));
 				}
 				return true;
+			case R.id.menu_about:
+				Intent i3 = new Intent(this, About.class);			 
+				startActivity(i3);
+				return true;
+			
 		}
 		return false;
 	}

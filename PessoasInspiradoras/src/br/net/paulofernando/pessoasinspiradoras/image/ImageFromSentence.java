@@ -118,7 +118,7 @@ public class ImageFromSentence {
 			    
 			    try {
 			    	String root = Environment.getExternalStorageDirectory().toString();
-			    	File myDir = new File(root + "/" + (context.getResources().getString(R.string.app_name)) + "/inspirations");
+			    	File myDir = new File(root + "/" + "Inspirational People" + "/inspirations");
 			    	myDir.mkdirs();	    	
 			    	file = new File (myDir, "inspiration-" + inspiration.id + ".jpg");
 			    	
