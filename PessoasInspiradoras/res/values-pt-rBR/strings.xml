@@ -1,21 +1,21 @@
 <resources>
 
 	<string name="app_name">Pessoas Inspiradoras</string>
-	<string name="app_id">807027489317655</string>
-	
 	
 	<string name="title_settings">Configurações</string>
-	<string name="title_edit_person">Editar Pessoa</string>	
-	<string name="title_import">Importar Inspirações</string>
-	<string name="title_add_person">Adicionar Pessoa</string>
-	<string name="title_add_inspiration">Adicionar Inspiração</string>
-	<string name="title_edit_inspiration">Editar Inspiração</string>
-	<string name="title_crop_image">Cortar Imagem</string>
+	<string name="title_edit_person">Editar pessoa</string>	
+	<string name="title_import">Importar inspirações</string>
+	<string name="title_add_person">Adicionar pessoa</string>
+	<string name="title_add_inspiration">Adicionar inspiração</string>
+	<string name="title_edit_inspiration">Editar inspiração</string>
+	<string name="title_crop_image">Cortar imagem</string>
 	
 	<string name="menu_settings">Configurações</string>
-	<string name="menu_backup">Exportar Inspirações</string>
-	<string name="menu_restore">Importar Inspirações</string>
+	<string name="menu_backup">Exportar inspirações</string>
+	<string name="menu_restore">Importar inspirações</string>
 	<string name="menu_delete_person">Deletar</string>
+	<string name="menu_about">Sobre</string>
+	
 	<string name="add_person">Adicionar pessoa</string>
 	<string name="import_inspirations">Importar</string>
 	<string name="delete_person">Deletar contato</string>
@@ -50,7 +50,7 @@
 	<string name="inspirations">inspirações</string>
 	<string name="data_not_saved_title">Dados não salvos</string>
 	<string name="data_not_saved_question">Salvar os dados antes de sair?</string>
-	<string name="save_data_question">Salvar os dados?"</string>
+	<string name="save_data_question">Salvar os dados?</string>
 	<string name="wrong_password">Senha incorreta!</string>
 	<string name="delete_contact_title">Deletar contato</string>
 	<string name="delete_contact_question">Deletar este contato? Todos os dados sobre ele serão perdidos!</string>
@@ -79,6 +79,8 @@
     <string name="info">Info</string>
     <string name="success">Sucesso</string>
     
-    <string name="version">Versão beta</string>
+    <string name="version_beta">Versão beta</string>
+    <string name="version">Versão</string>
+    <string name="translation">Traduzido por</string>
 	
 </resources>

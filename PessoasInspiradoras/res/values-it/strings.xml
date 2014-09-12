@@ -1,0 +1,86 @@
+<resources>
+
+	<string name="app_name">Persone che Ispirano</string>
+	
+	<string name="title_settings">Configurzioni</string>
+	<string name="title_edit_person">Editar persone</string>	
+	<string name="title_import">Importare ispirazioni</string>
+	<string name="title_add_person">Aggiungere persone</string>
+	<string name="title_add_inspiration">Aggiungere ispirazioni</string>
+	<string name="title_edit_inspiration">Editar ispirazioni</string>
+	<string name="title_crop_image">Tagliare l\’immagine</string>
+	
+	<string name="menu_settings">Configurazioni</string>
+	<string name="menu_backup">Esportare ispirazioni</string>
+	<string name="menu_restore">Importare ispirazioni</string>
+	<string name="menu_delete_person">Cancellare</string>
+	<string name="menu_about">Circa</string>
+	
+	<string name="add_person">Aggiungere la persona</string>
+	<string name="import_inspirations">Importare</string>
+	<string name="delete_person">Cancellare il contatto</string>
+	<string name="add_inspiration">Aggiungere ispirazione</string>
+	<string name="enter_password">Inserire la password</string>
+	<string name="bt_backup">Backup</string>
+	<string name="bt_restore">Ripristinare</string>
+	<string name="bt_cancel">Cancellare</string>
+	<string name="bt_save">Salvare</string>
+	<string name="entrar">Entrare</string>
+	<string name="change_password">Cambiare password</string>
+	<string name="current_password">Password attuale</string>
+	<string name="new_password">Nuova password</string>
+	<string name="confirm_new_password">Confermare la nuova password</string>
+	<string name="data_manager">Data manager</string>
+	<string name="person_name">Nome</string>
+	<string name="person_photo">Foto</string>
+	<string name="person_photo_description">Foto della persona</string>
+
+	<string name="crop__saving">Salvataggio foto…</string>
+    <string name="crop__wait">Attendere, per favore…</string>
+    <string name="crop__pick_error">Nessuna immagine disponibile</string>
+
+    <string name="crop__done">FATTO</string>
+    <string name="crop__cancel">CANCELLARE</string>
+    <string name="no_inspiration">Nessuna ispirazione</string>
+    
+	<string name="edit_inspiration">Modificare l\’ispirazione</string>
+	<string name="delete_inspiration_title">Cancellare l\’ispirazione</string>
+	<string name="delete_inspiration_question">Desideri cancellare questa ispirazione?</string>
+	<string name="inspiration">ispirazione</string>
+	<string name="inspirations">ispirazioni</string>
+	<string name="data_not_saved_title">Dati non salvati</string>
+	<string name="data_not_saved_question">Intende salvare i dati prima di uscire?</string>
+	<string name="save_data_question">Salvare i dati?</string>
+	<string name="wrong_password">Password sbagliata!</string>
+	<string name="delete_contact_title">Cancellare il contatto</string>
+	<string name="delete_contact_question">Cancellare questo contatto? Tutti i dati verranno persi!</string>
+    <string name="new_inspiration_question">Quel è la nuova ispirazione?</string>
+    <string name="enter_the_inspiration">Precisare la nuova ispirazione</string>
+    <string name="password_changed">Password modificata!</string>
+    <string name="password_different">Le password inserite non coincidono!</string>
+    <string name="password_incorrect">Password incorretta!</string>
+    <string name="send_backup">Avviare il backup</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="empty_field_name">Scrivere il nome della persona</string>
+    <string name="empty_field_inspiration">L\’ispirazione non è stata inserita</string>
+    <string name="image_not_created">Errore: l\’immagine non è stata inserita</string>
+    <string name="backup_completed">I dati sono stati esportati con successo!</string>
+    <string name="file_not_found">L\’archivio non è stato trovato</string>
+    <string name="backup_not_found">L\’archivio del backup non è stato trovato!</string>
+    <string name="no_data_backup">Nessun dato da esportare!</string>
+    <string name="no_data_to_import">Nessun dato nuovo da importare!</string>
+    <string name="name_registered">Questo nome è già registrato!</string>
+    <string name="date_backup">Ultimo backup:</string>
+	<string name="overwrite_backup_file_question">l\’ultimo backup sarà sostituito. Desideri continuare?</string>
+    
+    <string name="error">Errore</string>
+    <string name="warning">Avviso</string>
+    <string name="info">Informazione</string>
+    <string name="success">Successo</string>
+    
+    <string name="version_beta">Versione beta</string>
+    <string name="version">Versione</string>
+    <string name="translation">Tradotto da</string>
+	
+</resources>

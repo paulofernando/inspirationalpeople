@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -24,8 +25,7 @@ public class Login extends Activity {
 	private float downXValue, downYValue;
 	
 	@AfterViews
-	void init() {
-		
+	void init() {		
 		if(PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, "").equals("")) {
 			Intent intent = new Intent(Login.this, Dashboard_.class);
 			startActivity(intent);
