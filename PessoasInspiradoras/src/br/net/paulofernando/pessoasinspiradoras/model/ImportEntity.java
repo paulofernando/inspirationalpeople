@@ -10,6 +10,7 @@ public class ImportEntity implements Serializable {
 	private int amountInpirations = 0;
 	private boolean merged = false;
 	private long personId;
+	private byte[] photo;
 	
 	public ImportEntity(String name, long personId) {	
     	this.name = name;
@@ -48,6 +49,14 @@ public class ImportEntity implements Serializable {
 
 	public void setPersonId(long personId) {
 		this.personId = personId;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 	
 	

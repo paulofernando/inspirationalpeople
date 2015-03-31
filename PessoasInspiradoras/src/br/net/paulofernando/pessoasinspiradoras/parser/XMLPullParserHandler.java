@@ -9,6 +9,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.util.Base64;
+
 public class XMLPullParserHandler {
 	
 	List<PersonParser> people;
@@ -56,7 +58,10 @@ public class XMLPullParserHandler {
                     	person.setPersonId(text);
                     } else if (tagname.equalsIgnoreCase("name")) {
                     	person.setName(text);
+                    } else if (tagname.equalsIgnoreCase("photo")) {
+                    	person.setPhoto(Base64.decode(text.getBytes(), Base64.DEFAULT));
                     }
+                    
                     break;
  
                 default:

@@ -31,7 +31,7 @@ public class ImageFromSentence {
 	 * Margin in pixels
 	 */
 	private int margin = 25;
-	
+	private static final int MAX_LINES = 6;
 	private Context context;
 	
 	public ImageFromSentence(Context context) {
@@ -70,16 +70,21 @@ public class ImageFromSentence {
 			    paintText.setColor(context.getResources().getColor(R.color.image_text_inspiration));
 			    paintText.setStyle(Style.FILL);
 			    paintText.setFlags(Paint.ANTI_ALIAS_FLAG);
-			    	    
+			    
 			    float lineHeight = paintText.getFontMetrics().descent - paintText.getFontMetrics().ascent + paintText.getFontMetrics().leading + (margin/2);
 			    
 			    ArrayList<String> lines = adjustText(sentence, imgWidth, paintText);
-			    float yText = (imgHeight/2) - ((lines.size() * lineHeight)/2);
+			    float yText = (imgHeight/2) - (((lines.size() > MAX_LINES ? MAX_LINES : lines.size()) * lineHeight)/2);
 			    
 			    
 			    int count = 1;
 			    for(String line: lines) {
-			    	canvas.drawText(line, (imgWidth/2) - (paintText.measureText(line)/2), yText + (lineHeight * count), paintText);
+			    	if(count == MAX_LINES) {
+			    		canvas.drawText(line + "...", (imgWidth/2) - (paintText.measureText(line)/2), yText + (lineHeight * count), paintText);
+			    		break;
+			    	} else {
+			    		canvas.drawText(line, (imgWidth/2) - (paintText.measureText(line)/2), yText + (lineHeight * count), paintText);
+			    	}
 			    	count++;
 			    }
 			    //--------------------------------------------------

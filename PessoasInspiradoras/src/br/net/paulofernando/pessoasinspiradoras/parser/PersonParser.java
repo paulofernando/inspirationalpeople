@@ -12,6 +12,8 @@ public class PersonParser {
     /** Person's inspirations */
     public List<String> inspirations = new ArrayList<String>();
     
+    public byte[] photo;
+    
     public PersonParser() {}
     
     public void addInspitation(String inspiration) {
@@ -40,6 +42,14 @@ public class PersonParser {
 
 	public void setInspirations(List<String> inspirations) {
 		this.inspirations = inspirations;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 	
 }

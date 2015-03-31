@@ -12,6 +12,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Xml;
 import br.net.paulofernando.pessoasinspiradoras.R;
@@ -293,6 +294,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 					xmlSerializer.startTag("", "name");
 					xmlSerializer.text(String.valueOf(person.name));
 					xmlSerializer.endTag("", "name");
+					
+					xmlSerializer.startTag("", "photo");
+					xmlSerializer.text(new String(Base64.encode(person.photo, Base64.DEFAULT)));
+					xmlSerializer.endTag("", "photo");
 				List<InspiracaoEntity> inspirations = getInspirationData(person.id);
 				if(inspirations.size() > 0) {
 					for(InspiracaoEntity inspiration: inspirations) {

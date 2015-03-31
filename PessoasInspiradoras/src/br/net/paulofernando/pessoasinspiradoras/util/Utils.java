@@ -139,5 +139,11 @@ public class Utils {
         return null;
     }
         
+    public static Bitmap bitmapToMinimunSize(Bitmap bmp, int size) {    	        		
+		if(bmp.getWidth() > size) {
+			bmp = Bitmap.createScaledBitmap(bmp, size, size, true);        			
+		}
+		return bmp;
+    }
 	
 }

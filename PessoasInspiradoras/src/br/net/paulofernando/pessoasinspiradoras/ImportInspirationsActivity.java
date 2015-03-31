@@ -92,6 +92,7 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 			ImportEntity importEntity = new ImportEntity();
 			importEntity.setName(person.getName());
 			importEntity.setPersonId(person.getPersonId());
+			importEntity.setPhoto(person.getPhoto());
 						
 			PersonEntity personEntity = helper.getPerson(person.name);
 			
@@ -198,6 +199,11 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 	 * @param importEntity Imported data
 	 * @return the id of the person or -1 if a error occurred
 	 */
+	/**
+	 * Creates and save a new person data int the database
+	 * @param importEntity Imported data
+	 * @return the id of the person or -1 if a error occurred
+	 */
 	private long createPerson(ImportEntity importEntity) {
 		Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();		    		
 		PersonEntity person;
@@ -205,11 +211,20 @@ public class ImportInspirationsActivity extends ActionBarActivity {
 		try {			
 			person = new PersonEntity(importEntity.getName(), personId, "");
 			
-			Bitmap bmp = BitmapFactory.decodeResource(this.getResources(), R.drawable.person);
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-			byte[] byteArray = stream.toByteArray();
-			person.setPhoto(byteArray);			
+			if(importEntity.getPhoto() != null) {
+				//Set image to size 256x256
+				Bitmap bmp = Utils.bitmapToMinimunSize(BitmapFactory.decodeByteArray(importEntity.getPhoto(), 0, importEntity.getPhoto().length), 256);
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				byte[] byteArray = stream.toByteArray();
+				person.setPhoto(byteArray);
+			} else {
+				Bitmap bmp = BitmapFactory.decodeResource(this.getResources(), R.drawable.person);
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+				bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				byte[] byteArray = stream.toByteArray();
+				person.setPhoto(byteArray);			
+			}
 			
 			try {
 				pDao.create(person);
