@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:id="@+id/componentImportView">
+    
+    <CheckBox
+        android:id="@+id/check_import"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:checked="true"/>
+    
+    <ImageView
+        android:id="@+id/merge_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/merge"
+        android:visibility="gone"
+        android:layout_margin="10dp"    
+        android:layout_toLeftOf="@id/check_import"
+        />
+    
+    <TextView 
+        android:id="@+id/person_name_import"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_toLeftOf="@id/merge_icon"
+        android:textSize="18sp"
+        android:ellipsize="end" 
+		android:maxLines="1"
+        android:textColor="@color/text_name_person_view"/>
+    
+    <TextView 
+        android:id="@+id/person_amount_inspirations_import"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_name_import"
+        android:layout_marginLeft="12dp"
+        android:textSize="14sp"
+        android:textColor="@color/text_inspirations_count"/>
+    
+    
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"        
+        android:background="#ddd"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/person_amount_inspirations_import"/>    
+    
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<resources>
+
+	<string name="app_name">Personas Inspiradoras</string>
+		
+	<string name="title_settings">Configuraciones</string>
+	<string name="title_edit_person">Editar Persona</string>	
+	<string name="title_import">Importar Inspiraciones</string>
+	<string name="title_add_person">Agregar Persona</string>
+	<string name="title_add_inspiration">Agregar Inspiración</string>
+	<string name="title_edit_inspiration">Editar Inspiración</string>
+	<string name="title_crop_image">Cortar Imagen</string>
+	
+	<string name="menu_settings">Configuraciones</string>
+	<string name="menu_backup">Exportar Inspiraciones</string>
+	<string name="menu_restore">Importar Inspiraciones</string>
+	<string name="menu_delete_person">Borrar</string>
+	<string name="menu_about">Sobre</string>
+	
+	<string name="add_person">Agregar Persona</string>
+	<string name="import_inspirations">Importar</string>
+	<string name="delete_person">Borrar contacto</string>
+	<string name="add_inspiration">Agregar inspiración</string>
+	<string name="enter_password">Introduzca la contraseña</string>
+	<string name="bt_backup">Copia de Seguridad</string>
+	<string name="bt_restore">Restaurar</string>
+	<string name="bt_cancel">Cancelar</string>
+	<string name="bt_save">Guardar</string>
+	<string name="entrar">Entrar</string>
+	<string name="change_password">Cambiar Contraseña</string>
+	<string name="current_password">Contraseña actual</string>
+	<string name="new_password">Nueva Contraseña</string>
+	<string name="confirm_new_password">Confirmar nueva contraseña</string>
+	<string name="data_manager">Administrador de datos</string>
+	<string name="person_name">Nombre</string>
+	<string name="person_photo">Foto</string>
+	<string name="person_photo_description">Foto de la persona</string>
+
+	<string name="crop__saving">Guardando foto…</string>
+    <string name="crop__wait">Espere, por favor…</string>
+    <string name="crop__pick_error">Ninguna Imagen disponible</string>
+
+    <string name="crop__done">HECHO</string>
+    <string name="crop__cancel">CANELAR</string>
+    <string name="no_inspiration">Ninguna inspiración</string>
+    
+	<string name="edit_inspiration">Editar inspiración</string>
+	<string name="delete_inspiration_title">Borrar inspiración</string>
+	<string name="delete_inspiration_question">¿Borrar esta inspiración?</string>
+	<string name="inspiration">inspiración</string>
+	<string name="inspirations">inspiraciones</string>
+	<string name="data_not_saved_title">Datos no Guardados</string>
+	<string name="data_not_saved_question">¿Guardar los datos antes de salir?</string>
+	<string name="save_data_question">¿Guardar los datos?</string>
+	<string name="wrong_password">¡Contraseña incorrecta!</string>
+	<string name="delete_contact_title">Borrar contacto</string>
+	<string name="delete_contact_question">¿Borrar este contacto? ¡Todos los datos sobre él se perderán!</string>
+    <string name="new_inspiration_question">¿Cuál es la nueva inspiración?</string>
+    <string name="enter_the_inspiration">La inspiración necesita ser ingresada</string>
+    <string name="password_changed">¡Contraseña cambiada!</string>
+    <string name="password_different">¡Las contraseñas ingresadas son diferentes!</string>
+    <string name="password_incorrect">Contraseña incorrecta!</string>
+    <string name="send_backup">Enviar copia de seguridad</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="empty_field_name">Necesita ingresar el nombre de la persona</string>
+    <string name="empty_field_inspiration">La Inspiración no fue indicada</string>
+    <string name="image_not_created">Error: la imagen no fue creada</string>
+    <string name="backup_completed">¡Datos exportados con éxito!</string>
+    <string name="file_not_found">Archivo no encontrado</string>
+    <string name="backup_not_found">¡No se encontró el archivo de la copia de seguridad!</string>
+    <string name="no_data_backup">¡Ningún dato para exportar!</string>
+    <string name="no_data_to_import">¡Ningún nuevo dato para importar!</string>
+    <string name="name_registered">¡Este nombre ya está cadastrado!</string>
+    <string name="date_backup">Última copia de seguridad en:</string>
+	<string name="overwrite_backup_file_question">La última copia de seguridad será sustituída. ¿Deseas continuar?</string>
+    
+    <string name="error">Error</string>
+    <string name="warning">Aviso</string>
+    <string name="info">Información</string>
+    <string name="success">Éxito</string>
+    
+    <string name="version_beta">Versión beta</string>
+    <string name="version">Versión</string>
+    <string name="translation">Traducido por</string>
+	
+</resources>

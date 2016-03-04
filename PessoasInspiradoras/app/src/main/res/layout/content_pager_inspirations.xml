@@ -1,0 +1,81 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="br.net.paulofernando.pessoasinspiradoras.MainNewActivity"
+    tools:showIn="@layout/pager_inspirations">
+
+    <RelativeLayout
+        android:id="@+id/person_info_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/person_info_padding"
+        android:background="@drawable/person_info_background">
+
+        <ImageView
+            android:id="@+id/medal_selected_person_pager"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/photo_selected_person_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="128dp"
+            android:maxHeight="128dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/person_name_detail_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo_selected_person_pager"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/text_name_person_screen"
+            android:textSize="22sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/separator_person_info"
+            android:layout_below="@id/person_name_detail_pager"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_inspirations"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:padding="5dip"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:background="@color/colorPrimary"
+            />
+    </LinearLayout>
+
+</LinearLayout>

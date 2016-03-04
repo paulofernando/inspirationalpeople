@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">12dp</dimen>
+    <dimen name="activity_vertical_margin">6dp</dimen>
+    <dimen name="person_info_padding">20dp</dimen>
+	<dimen name="fab_margin">16dp</dimen>
+    <dimen name="default_space">16dp</dimen>
+    <dimen name="crop__bar_height">56dp</dimen>
+    <dimen name="inspiration_buttons_horizontal_space">25dp</dimen>
+    <dimen name="inspiration_buttons_vertical_space">40dp</dimen>
+
+</resources>
