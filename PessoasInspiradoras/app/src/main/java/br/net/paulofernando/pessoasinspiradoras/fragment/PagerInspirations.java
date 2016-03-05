@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.InputType;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -84,6 +86,13 @@ public class PagerInspirations extends FragmentActivity implements
 
         CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(viewPager);
+
+        FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addInspiration();
+            }
+        });
 
     }
 

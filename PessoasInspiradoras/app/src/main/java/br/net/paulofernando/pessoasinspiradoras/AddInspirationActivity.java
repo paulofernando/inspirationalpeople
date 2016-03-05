@@ -1,6 +1,7 @@
 package br.net.paulofernando.pessoasinspiradoras;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
 
@@ -26,10 +27,13 @@ public class AddInspirationActivity extends AppCompatActivity {
     private long personId;
     private DtoFactory dtoFactory;
 
+    private Toolbar toolbar;
+
     @AfterViews
     void init() {
         personId = getIntent().getLongExtra("id", -1);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
         dtoFactory = (DtoFactory) getApplication();
     }
 

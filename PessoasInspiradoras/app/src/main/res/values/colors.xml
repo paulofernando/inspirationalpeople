@@ -2,7 +2,8 @@
 
 	<color name="colorPrimary">#19a5f6</color>
     <color name="colorPrimaryDark">#0085d2</color>
-    <color name="colorAccent">#FFEB3B</color>
+    <color name="colorAccent">#EF6C00</color>
+    <color name="colorAccent2">#FFEB3B</color>
 
     <!-- Crop Screen -->
     <color name="crop__button_bar">#f3f3f3</color>
