@@ -3,6 +3,7 @@ package br.net.paulofernando.pessoasinspiradoras;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -35,6 +36,8 @@ public class EditInspirationActivity extends AppCompatActivity {
 
     private boolean changed;
 
+    private Toolbar toolbar;
+
     @AfterViews
     void init() {
         inspirationId = getIntent().getLongExtra("idInspiration", -1);
@@ -56,7 +59,8 @@ public class EditInspirationActivity extends AppCompatActivity {
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
         dtoFactory = (DtoFactory) getApplication();
     }
 
