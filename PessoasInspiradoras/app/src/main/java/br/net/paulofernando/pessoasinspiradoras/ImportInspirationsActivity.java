@@ -71,6 +71,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    @Click(R.id.btn_cancel_import_inspirations)
+    void cancelSettings() {
+        this.finish();
+    }
+
     private void loadImports() {
         containerImports.removeAllViews();
         DatabaseHelper helper = new DatabaseHelper(this);

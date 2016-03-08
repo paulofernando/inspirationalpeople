@@ -9,47 +9,14 @@
 		layout="@layout/tool_bar"
 		></include>
 
-    <LinearLayout
-        android:id="@+id/buttons_add_inspiration"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:gravity="center_horizontal"
-		android:weightSum="1"
-		android:layout_alignParentBottom="true"
-		>     
-	     <Button
-	          android:id="@+id/bt_add_inpiration_cancel" 
-	          android:layout_width="match_parent"
-	          android:layout_height="wrap_content"       
-	          android:background="@drawable/button_background"
-	          android:text="@string/bt_cancel"
-	          android:textColor="#222"
-	          android:textSize="14sp"
-	          android:layout_margin="12dp"	          
-	          android:padding="15dp"
-	          android:layout_weight="0.5"/>
-	    <Button
-	          android:id="@+id/bt_add_inspiration_save" 
-	          android:layout_width="match_parent"
-	          android:layout_height="wrap_content"            
-	          android:background="@drawable/button_background"
-	          android:text="@string/bt_save"
-	          android:textColor="#222"
-	          android:textSize="14sp"
-	          android:padding="15dp"
-	          android:layout_margin="12dp"
-	          android:layout_weight="0.5"/>			    
-	 </LinearLayout>
     
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/buttons_add_inspiration"
 		android:layout_below="@id/tool_bar"
 		android:paddingLeft="@dimen/activity_horizontal_margin"
 		android:paddingRight="@dimen/activity_horizontal_margin"
-		android:layout_marginTop="@dimen/activity_vertical_margin">
+		android:layout_marginTop="@dimen/default_space">
 
         <LinearLayout
             android:id="@+id/layout_add_person"
@@ -65,6 +32,39 @@
 		        android:gravity="top"
 		        android:textColor="#333"
 		        />
+
+			<LinearLayout
+				android:id="@+id/buttons_add_inspiration"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:gravity="center_horizontal"
+				android:weightSum="1"
+				>
+
+				<Button
+					android:id="@+id/bt_add_inpiration_cancel"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/bt_cancel"
+					android:textColor="#fff"
+					android:textSize="14sp"
+					android:layout_margin="12dp"
+					android:padding="15dp"
+					android:layout_weight="0.5"
+					android:theme="@style/MyButton"/>
+				<Button
+					android:id="@+id/bt_add_inspiration_save"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/bt_save"
+					android:textColor="#fff"
+					android:textSize="14sp"
+					android:padding="15dp"
+					android:layout_margin="12dp"
+					android:layout_weight="0.5"
+					android:theme="@style/MyButton"/>
+			</LinearLayout>
 		  
         </LinearLayout>
     </ScrollView>    

@@ -62,10 +62,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="15dp"
-            android:background="@drawable/button_background"
             android:text="@string/add_inspiration"
-            android:textColor="#222"
-            android:textSize="14sp"/>
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:theme="@style/MyButton"/>
     </LinearLayout>
 
     <ScrollView

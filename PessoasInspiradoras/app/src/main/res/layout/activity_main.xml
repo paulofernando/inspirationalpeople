@@ -11,53 +11,59 @@
         ></include>
 
 
-    <LinearLayout
-        android:id="@+id/btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:visibility="gone">
-        <Button
-            android:id="@+id/btn_add_person"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:background="@drawable/button_background"
-            android:text="@string/add_person"
-            android:textColor="#222"
-            android:textSize="14sp"/>
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_layout"
         android:layout_below="@+id/tool_bar"
         android:fillViewport="false">
 
         <LinearLayout
-            android:id="@+id/layout_dashboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/activity_vertical_margin">
+            android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
-                android:src="@drawable/add_inspiration"
-                app:fabSize="normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:id="@+id/layout_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:src="@drawable/add_inspiration"
+                    app:fabSize="normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <Button
+                    android:id="@+id/btn_add_person"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="15dp"
+                    android:text="@string/add_person"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    android:theme="@style/MyButton"/>
+            </LinearLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/no_inspiration"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btn_layout"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
