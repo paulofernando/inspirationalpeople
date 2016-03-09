@@ -24,9 +24,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     public final static String PREF_KEY = "pref_key";
 
-    @ViewById(R.id.tv_password)
-    TextView tvPassword;
-
     @ViewById(R.id.et_password)
     EditText etPassword;
 
@@ -49,10 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
     void init() {
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY, "").
                 equals("")) {
-            tvPassword.setVisibility(View.GONE);
             etPassword.setVisibility(View.GONE);
         } else {
-            tvPassword.setVisibility(View.VISIBLE);
             etPassword.setVisibility(View.VISIBLE);
         }
 
