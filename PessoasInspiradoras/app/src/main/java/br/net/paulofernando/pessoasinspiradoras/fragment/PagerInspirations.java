@@ -42,6 +42,7 @@ import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 public class PagerInspirations extends FragmentActivity implements
         ActionBar.TabListener {
 
+    
     long personId;
     private ViewPager viewPager;
     private TextView personName;
