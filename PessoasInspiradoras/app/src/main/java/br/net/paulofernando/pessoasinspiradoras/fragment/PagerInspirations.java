@@ -135,8 +135,7 @@ public class PagerInspirations extends FragmentActivity implements
         person = helper.getPerson(personId);
 
         personName.setText(person.name);
-        photo.setImageBitmap(new ImageFromSentence(this)
-                .getCroppedBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length)));
+        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
 
         int currentPage = viewPager.getCurrentItem();
         int sizeBeforeUpdate = listInspirations.size(); //listInspiration is updated in the loadInspirations
