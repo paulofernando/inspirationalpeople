@@ -8,12 +8,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.PersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations;
@@ -31,7 +33,7 @@ public class PersonView extends LinearLayout {
     @ViewById(R.id.medalha)
     ImageView medalha;
 
-    @ViewById
+    @ViewById(R.id.photo)
     ImageView photo;
 
     @ViewById
@@ -91,6 +93,15 @@ public class PersonView extends LinearLayout {
             intent.putExtra("id", person.id);
             getContext().startActivity(intent);
         }*/
+    }
+
+    @Click(R.id.photo)
+    void clickPhoto() {
+        Intent intent = new Intent(getContext(), EditPersonActivity_.class);
+        intent.putExtra("name", person.name);
+        intent.putExtra("photo", person.photo);
+        intent.putExtra("id", person.id);
+        getContext().startActivity(intent);
     }
 
     public PersonEntity getPerson() {

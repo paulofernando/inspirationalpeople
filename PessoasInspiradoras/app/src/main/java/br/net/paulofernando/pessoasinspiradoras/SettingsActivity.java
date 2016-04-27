@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (etNewPassword.getText().toString().equals(etConfirmNewPassword.getText().toString())) {
                 PreferenceManager.getDefaultSharedPreferences(this).edit().
                         putString(PREF_KEY, etNewPassword.getText().toString()).commit();
-                Toast.makeText(this, getString(R.string.password_changed), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getString(R.string.password_changed), Toast.LENGTH_SHORT).show();
                 etPassword.setText("");
                 etNewPassword.setText("");
                 etConfirmNewPassword.setText("");
