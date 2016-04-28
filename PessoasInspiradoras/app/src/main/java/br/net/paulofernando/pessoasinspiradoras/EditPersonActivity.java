@@ -34,10 +34,13 @@ public class EditPersonActivity extends AppCompatActivity {
 
     public static final int RESULT_LOAD_IMAGE = 1;
     public static final int RESULT_CROP = 2;
+
     @ViewById(R.id.person_photo)
     ImageView photo;
+
     @ViewById(R.id.et_person_name)
     EditText etPersonName;
+
     private long personId;
     private boolean changed;
 
@@ -50,8 +53,10 @@ public class EditPersonActivity extends AppCompatActivity {
     void init() {
         personId = getIntent().getLongExtra("id", -1);
         byte[] photoRaw = getIntent().getByteArrayExtra("photo");
+
         photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
                 photoRaw.length));
+
         etPersonName.setText((getIntent().getStringExtra("name")));
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
@@ -113,7 +118,7 @@ public class EditPersonActivity extends AppCompatActivity {
         this.finish();
     }
 
-    @Click(R.id.person_photo)
+    @Click(R.id.bt_edit_photo)
     void changePhoto() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);

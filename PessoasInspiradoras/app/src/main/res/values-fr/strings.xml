@@ -3,7 +3,7 @@
 	<string name="app_name">Personne Inspirée</string>
 	
 	<string name="title_settings">Configuration</string>
-	<string name="title_edit_person">Éditer personne</string>	
+	<string name="title_edit_person">Personne</string>
 	<string name="title_import">Importer inspiration</string>
 	<string name="title_add_person">Ajouter personne</string>
 	<string name="title_add_inspiration">Ajouter inspiration</string>

@@ -3,7 +3,7 @@
 	<string name="app_name">Pessoas Inspiradoras</string>
 	
 	<string name="title_settings">Configurações</string>
-	<string name="title_edit_person">Editar pessoa</string>	
+	<string name="title_edit_person">Pessoa</string>
 	<string name="title_import">Importar inspirações</string>
 	<string name="title_add_person">Adicionar pessoa</string>
 	<string name="title_add_inspiration">Adicionar inspiração</string>

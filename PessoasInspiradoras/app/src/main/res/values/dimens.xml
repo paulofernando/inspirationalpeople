@@ -6,6 +6,8 @@
     <dimen name="person_info_padding">20dp</dimen>
 	<dimen name="fab_margin">16dp</dimen>
     <dimen name="default_space">16dp</dimen>
+    <dimen name="half_default_space">8dp</dimen>
+    <dimen name="default_space_doubled">32dp</dimen>
     <dimen name="crop__bar_height">56dp</dimen>
     <dimen name="inspiration_buttons_horizontal_space">25dp</dimen>
     <dimen name="inspiration_buttons_vertical_space">40dp</dimen>
