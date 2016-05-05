@@ -1,114 +1,106 @@
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+	android:background="#f1f1f1">
 
 	<include
-		android:id="@+id/tool_bar"
+		android:id="@+id/tool_bar_settings"
 		layout="@layout/tool_bar"
 		></include>
 
-    <ScrollView
-        android:id="@+id/settings_fields"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tool_bar"
-        android:layout_marginTop="@dimen/default_space"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_below="@+id/tool_bar_settings"
+		android:layout_marginTop="@dimen/default_space"
+		android:paddingLeft="@dimen/activity_horizontal_margin"
+		android:paddingRight="@dimen/activity_horizontal_margin">
 
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical">
-
-					<android.support.design.widget.TextInputLayout
-						android:id="@+id/input_layout_current_password"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
-
-						<EditText
-							android:id="@+id/et_password"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:hint="@string/current_password"
-                            android:inputType="textPassword"/>
-
-					</android.support.design.widget.TextInputLayout>
-
-					<android.support.design.widget.TextInputLayout
-						android:id="@+id/input_layout_new_password"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
-
-						<EditText
-							android:id="@+id/et_new_password"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:hint="@string/new_password"
-                            android:inputType="textPassword"/>
-
-					</android.support.design.widget.TextInputLayout>
-
-					<android.support.design.widget.TextInputLayout
-						android:id="@+id/input_layout_confirm_password"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
-
-						<EditText
-							android:id="@+id/et_confirm_new_password"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content"
-							android:hint="@string/confirm_new_password"
-                            android:inputType="textPassword"/>
-
-					</android.support.design.widget.TextInputLayout>
-
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/settings_buttons"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:gravity="center_horizontal"
-				android:weightSum="1"
-				android:layout_alignParentBottom="true"
-				>
-				<Button
-					android:id="@+id/bt_cancel"
+				<android.support.design.widget.TextInputLayout
+					android:id="@+id/input_layout_current_password"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:text="@string/bt_cancel"
-					android:textColor="#fff"
-					android:textSize="14sp"
-					android:layout_margin="12dp"
-					android:layout_weight="0.5"
-					android:theme="@style/MyButton"/>
-				<Button
-					android:id="@+id/bt_save"
+					android:layout_height="wrap_content">
+
+					<EditText
+						android:id="@+id/et_password"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/current_password"
+						android:inputType="textPassword"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+				<android.support.design.widget.TextInputLayout
+					android:id="@+id/input_layout_new_password"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:text="@string/bt_save"
-					android:textColor="#fff"
-					android:textSize="14sp"
-					android:padding="15dp"
-					android:layout_margin="12dp"
-					android:layout_weight="0.5"
-					android:theme="@style/MyButton"/>
-			</LinearLayout>
+					android:layout_height="wrap_content">
+
+					<EditText
+						android:id="@+id/et_new_password"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/new_password"
+						android:inputType="textPassword"/>
+
+				</android.support.design.widget.TextInputLayout>
+
+				<android.support.design.widget.TextInputLayout
+					android:id="@+id/input_layout_confirm_password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<EditText
+						android:id="@+id/et_confirm_new_password"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/confirm_new_password"
+						android:inputType="textPassword"/>
+
+				</android.support.design.widget.TextInputLayout>
+
 
 		</LinearLayout>
 
-    </ScrollView>
-         
-     	       
-</android.support.design.widget.CoordinatorLayout>
+		<LinearLayout
+			android:id="@+id/settings_buttons"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_horizontal"
+			android:weightSum="1"
+			android:layout_alignParentBottom="true"
+			>
+			<Button
+				android:id="@+id/bt_cancel"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:text="@string/bt_cancel"
+				android:textColor="#fff"
+				android:textSize="14sp"
+				android:layout_margin="12dp"
+				android:layout_weight="0.5"
+				android:theme="@style/MyButton"/>
+			<Button
+				android:id="@+id/bt_save"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:text="@string/bt_save"
+				android:textColor="#fff"
+				android:textSize="14sp"
+				android:padding="15dp"
+				android:layout_margin="12dp"
+				android:layout_weight="0.5"
+				android:theme="@style/MyButton"/>
+		</LinearLayout>
+
+	</LinearLayout>
+
+</RelativeLayout>

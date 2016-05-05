@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
             etPassword.setVisibility(View.VISIBLE);
         }
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        toolbar = (Toolbar) findViewById(R.id.tool_bar_settings); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
         TextWatcher textWatcher = new TextWatcher() {
