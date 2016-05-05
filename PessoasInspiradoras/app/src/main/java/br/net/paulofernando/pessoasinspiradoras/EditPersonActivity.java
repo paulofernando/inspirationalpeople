@@ -46,13 +46,14 @@ public class EditPersonActivity extends AppCompatActivity {
 
     private Bitmap bmp;
     private Uri outputUri;
+    private byte[] photoRaw;
 
     private Toolbar toolbar;
 
     @AfterViews
     void init() {
         personId = getIntent().getLongExtra("id", -1);
-        byte[] photoRaw = getIntent().getByteArrayExtra("photo");
+        photoRaw = getIntent().getByteArrayExtra("photo");
 
         photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
                 photoRaw.length));
@@ -122,7 +123,13 @@ public class EditPersonActivity extends AppCompatActivity {
     void changePhoto() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
-        changed = true;
+    }
+
+    @Click(R.id.person_photo)
+    void viewPhoto() {
+        Intent intent = new Intent(new Intent(this, PopupImage.class));
+        intent.putExtra("photo", photoRaw);
+        startActivity(intent);
     }
 
     @Override
@@ -132,7 +139,7 @@ public class EditPersonActivity extends AppCompatActivity {
             Uri selectedImage = result.getData();
             outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
             Crop.of(selectedImage, outputUri).asSquare().start(this);
-
+            changed = true;
         } else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, result);
         }
@@ -142,11 +149,12 @@ public class EditPersonActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             try {
                 bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);
-                if (bmp.getWidth() > 256) {
-                    bmp = Bitmap.createScaledBitmap(bmp, 256, 256, false);
+                if (bmp.getWidth() > 512) {
+                    bmp = Bitmap.createScaledBitmap(bmp, 512, 512, false);
                 }
 
                 photo.setImageBitmap(bmp);
+                changed = true;
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
