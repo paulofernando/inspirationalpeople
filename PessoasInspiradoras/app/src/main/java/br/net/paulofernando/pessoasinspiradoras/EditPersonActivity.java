@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.faradaj.blurbehind.BlurBehind;
+import com.faradaj.blurbehind.OnBlurCompleteListener;
 import com.soundcloud.android.crop.Crop;
 
 import org.androidannotations.annotations.AfterViews;
@@ -127,9 +129,16 @@ public class EditPersonActivity extends AppCompatActivity {
 
     @Click(R.id.person_photo)
     void viewPhoto() {
-        Intent intent = new Intent(new Intent(this, PopupImage.class));
-        intent.putExtra("photo", photoRaw);
-        startActivity(intent);
+        BlurBehind.getInstance().execute(this, new OnBlurCompleteListener() {
+            @Override
+            public void onBlurComplete() {
+                Intent intent = new Intent(new Intent(EditPersonActivity.this, PopupImage.class));
+                intent.putExtra("photo", photoRaw);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -149,8 +158,9 @@ public class EditPersonActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             try {
                 bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), outputUri);
-                if (bmp.getWidth() > 512) {
-                    bmp = Bitmap.createScaledBitmap(bmp, 512, 512, false);
+                int maxImageMeasure = (int) getResources().getDimension(R.dimen.max_image_measure);
+                if (bmp.getWidth() > maxImageMeasure) {
+                    bmp = Bitmap.createScaledBitmap(bmp, maxImageMeasure, maxImageMeasure, false);
                 }
 
                 photo.setImageBitmap(bmp);

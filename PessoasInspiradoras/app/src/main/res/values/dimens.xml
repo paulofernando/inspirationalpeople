@@ -12,4 +12,6 @@
     <dimen name="inspiration_buttons_horizontal_space">25dp</dimen>
     <dimen name="inspiration_buttons_vertical_space">40dp</dimen>
 
+    <dimen name="max_image_measure">512px</dimen>
+
 </resources>
