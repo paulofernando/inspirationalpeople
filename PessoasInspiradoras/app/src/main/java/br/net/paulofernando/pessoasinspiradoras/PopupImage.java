@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
@@ -23,8 +24,8 @@ public class PopupImage extends Activity {
         setContentView(R.layout.activity_popup_image);
 
         BlurBehind.getInstance()
-                .withAlpha(80)
-                .withFilterColor(Color.parseColor("#eeeeee"))
+                .withAlpha(100)
+                .withFilterColor(ContextCompat.getColor(this.getApplicationContext(), R.color.colorPrimaryDark))
                 .setBackground(this);
 
         ImageView personPhotoFull = (ImageView) findViewById(R.id.person_photo_full);
