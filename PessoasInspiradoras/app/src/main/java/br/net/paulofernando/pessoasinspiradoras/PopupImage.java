@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.faradaj.blurbehind.BlurBehind;
@@ -34,7 +36,13 @@ public class PopupImage extends Activity {
         Bitmap bmp = BitmapFactory.decodeByteArray(photoRaw, 0, photoRaw.length);
         personPhotoFull.setImageBitmap(bmp);
 
-        /*int maxImageMeasure = (int) getResources().getDimension(R.dimen.max_image_measure);
-        getWindow().setLayout(bmp.getWidth(), bmp.getHeight() + ((int) getResources().getDimension(R.dimen.popup_bar_height)));*/
+        ((ImageView) findViewById(R.id.closePopup)).setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        PopupImage.this.onBackPressed();
+                    }
+                }
+        );
+
     }
 }
