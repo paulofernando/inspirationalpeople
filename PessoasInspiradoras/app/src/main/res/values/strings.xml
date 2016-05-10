@@ -44,7 +44,8 @@
 
     <string name="crop__done">DONE</string>
     <string name="crop__cancel">CANCEL</string>
-    <string name="no_inspiration">No inspiration</string>
+    <string name="no_inspiration">No inspiration.</string>
+	<string name="add_new_person">Add a new person before.</string>
 	
 	<string name="edit_inspiration">Edit the inspiration</string>
 	<string name="delete_inspiration_title">Delete inspiration</string>

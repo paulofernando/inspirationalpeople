@@ -58,6 +58,21 @@ public class Backup {
         return null;
     }
 
+    public List<PersonParser> importPeopleFromLocalXML(String path) {
+        try {
+            File myFile = new File(path);
+            InputStream is = new FileInputStream(myFile);
+
+            XMLPullParserHandler parser = new XMLPullParserHandler();
+            return parser.parse(is);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     private void writeLocalBackup(File file, String text) {
         try {
             FileOutputStream out = new FileOutputStream(file);
