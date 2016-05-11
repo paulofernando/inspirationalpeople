@@ -43,7 +43,7 @@ public class Dashboard extends AppCompatActivity {
     private Toolbar toolbar;
     @AfterViews
     protected void init() {
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
         dtoFactory = (DtoFactory) getApplication();

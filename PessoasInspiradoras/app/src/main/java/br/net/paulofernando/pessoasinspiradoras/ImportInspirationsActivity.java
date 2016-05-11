@@ -67,7 +67,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
         lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " +
                 formattedDate);
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
     }
 

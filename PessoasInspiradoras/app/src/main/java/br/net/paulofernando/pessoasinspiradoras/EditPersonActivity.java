@@ -62,9 +62,6 @@ public class EditPersonActivity extends AppCompatActivity {
 
         etPersonName.setText((getIntent().getStringExtra("name")));
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);
-
         etPersonName.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -79,6 +76,10 @@ public class EditPersonActivity extends AppCompatActivity {
                 changed = true;
             }
         });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

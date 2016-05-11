@@ -27,13 +27,13 @@ public class AddInspirationActivity extends AppCompatActivity {
     private long personId;
     private DtoFactory dtoFactory;
 
-    private Toolbar toolbar;
-
     @AfterViews
     void init() {
         personId = getIntent().getLongExtra("id", -1);
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dtoFactory = (DtoFactory) getApplication();
     }
 

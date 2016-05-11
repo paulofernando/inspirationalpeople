@@ -4,17 +4,23 @@
     android:layout_height="match_parent"
     android:background="@color/screen_background">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/tool_bar"
-        ></include>
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:elevation="6dp">
+
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/container_last_modified"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/image_gradient_start"
-        android:layout_below="@+id/tool_bar">
+        android:layout_below="@+id/toolbar">
 	    <TextView
 	        android:id="@+id/date_backup"
 	        android:layout_width="match_parent"
