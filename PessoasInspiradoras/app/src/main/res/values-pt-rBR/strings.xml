@@ -83,5 +83,7 @@
     <string name="version_beta">Versão beta</string>
     <string name="version">Versão</string>
     <string name="translation">Traduzido por</string>
+
+	<string name="send_backup_email">Você pode enviá-lo pro email também...</string>
 	
 </resources>

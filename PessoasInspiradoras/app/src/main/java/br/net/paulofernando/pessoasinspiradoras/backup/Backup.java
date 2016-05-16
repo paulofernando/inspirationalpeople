@@ -1,7 +1,10 @@
 package br.net.paulofernando.pessoasinspiradoras.backup;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
@@ -73,21 +76,37 @@ public class Backup {
         return null;
     }
 
-    private void writeLocalBackup(File file, String text) {
+    /**
+     * @return success or failure
+     */
+    private boolean writeLocalBackup(final File file, String text) {
         try {
             FileOutputStream out = new FileOutputStream(file);
             out.write(text.getBytes());
             out.flush();
             out.close();
 
-            Utils.showInfoDialog(context,
-                    context.getResources().getString(R.string.success), context
-                            .getResources()
-                            .getString(R.string.backup_completed));
+            AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+            dialog.setTitle(context.getResources().getString(R.string.success));
+            dialog.setMessage(context.getResources().getString(R.string.backup_completed) +
+                            "\n\n" + file.getAbsolutePath()).setIcon(android.R.drawable.ic_dialog_info);
+            dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","", null));
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "[" + context.getResources().getString(R.string.app_name) + "] Backup");
+                    Uri myUri = Uri.parse("file://" + file.getAbsolutePath());
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, myUri);
+                    context.startActivity(Intent.createChooser(emailIntent, context.getResources().getString(R.string.send_backup_email)));
+                }
+            });
+            dialog.show();
+
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void saveLocalBackupInFile(final Context context, final String text) {
