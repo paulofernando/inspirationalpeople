@@ -44,6 +44,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/loading_import_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/loading"/>
+
             <LinearLayout
                 android:id="@+id/layout_import"
                 android:layout_width="match_parent"
@@ -59,6 +65,7 @@
                 android:gravity="center_horizontal"
                 android:weightSum="1"
                 android:layout_alignParentBottom="true"
+                android:visibility="gone"
                 >
                 <Button
                     android:id="@+id/btn_cancel_import_inspirations"

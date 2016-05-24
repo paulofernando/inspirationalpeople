@@ -85,5 +85,6 @@
     <string name="translation">Traduzido por</string>
 
 	<string name="send_backup_email">Você pode enviá-lo pro email também...</string>
+	<string name="loading">Carregando...</string>
 	
 </resources>

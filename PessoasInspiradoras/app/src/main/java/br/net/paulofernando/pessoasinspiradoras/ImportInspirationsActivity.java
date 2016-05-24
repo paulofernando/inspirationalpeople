@@ -1,11 +1,13 @@
 package br.net.paulofernando.pessoasinspiradoras;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +47,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     @ViewById(R.id.btn_import_inspirations)
     Button btnImport;
 
+    @ViewById(R.id.loading_import_text)
+    TextView tvLoading;
+    @ViewById(R.id.buttons_add_inspiration)
+    LinearLayout buttons;
+
     @ViewById(R.id.date_backup)
     TextView lastModifiedView;
     List<PersonParser> importedPeople;
@@ -53,22 +60,24 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     private Backup backup;
 
     private Toolbar toolbar;
+    private ProgressDialog progressDialog;
 
     @AfterViews
     protected void init() {
+
         dtoFactory = (DtoFactory) getApplication();
         backup = new Backup(this);
-
-        loadImports();
 
         Date lastModified = new Date(backup.getLocalBackupLastModified());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         String formattedDate = sdf.format(lastModified);
-        lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " +
-                formattedDate);
+        lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " + formattedDate);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        loadImports();
     }
 
     @Click(R.id.btn_cancel_import_inspirations)
@@ -77,19 +86,34 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     }
 
     private void loadImports() {
-        containerImports.removeAllViews();
-        DatabaseHelper helper = new DatabaseHelper(this);
+        new Thread() {
+            public void run () {
+                try {
+                    sleep(500);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            containerImports.removeAllViews();
+                            DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
+                            importedPeople = backup.importPeopleFromLocalXML();
+                            createFields(importedPeople);
+                            helper.close();
 
-        importedPeople = backup.importPeopleFromLocalXML();
+                            if (containerImports.getChildCount() == 0) {
+                                Utils.showAlertDialog(ImportInspirationsActivity.this, ImportInspirationsActivity.this.getResources().getString(R.string.warning),
+                                        ImportInspirationsActivity.this.getResources().getString(R.string.no_data_to_import));
+                                btnImport.setEnabled(false);
+                            } else {
+                                buttons.setVisibility(View.VISIBLE);
+                            }
 
-        createFields(importedPeople);
-        helper.close();
-
-        if (containerImports.getChildCount() == 0) {
-            Utils.showAlertDialog(this, this.getResources().getString(R.string.warning),
-                    this.getResources().getString(R.string.no_data_to_import));
-            btnImport.setEnabled(false);
-        }
+                            tvLoading.setVisibility(View.GONE);
+                        }
+                    });
+                } catch (InterruptedException e) {
+                    Log.e("ERROR", "Erro on loading inspirtaion to import");
+                }
+            }
+        }.start();
 
     }
 
