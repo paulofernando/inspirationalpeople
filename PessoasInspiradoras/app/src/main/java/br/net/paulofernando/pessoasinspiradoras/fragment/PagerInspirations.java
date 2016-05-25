@@ -156,7 +156,7 @@ public class PagerInspirations extends FragmentActivity implements
             }
         }
 
-        updateMedal(listInspirations.size());
+        //updateMedal(listInspirations.size());
 
         helper.close();
     }

@@ -41,6 +41,7 @@ public class Dashboard extends AppCompatActivity {
     private DtoFactory dtoFactory;
 
     private Toolbar toolbar;
+
     @AfterViews
     protected void init() {
         toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object

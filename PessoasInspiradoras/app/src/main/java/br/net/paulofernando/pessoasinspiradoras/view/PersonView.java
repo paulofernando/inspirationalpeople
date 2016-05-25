@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -16,7 +15,6 @@ import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
 import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
-import br.net.paulofernando.pessoasinspiradoras.PersonActivity_;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;

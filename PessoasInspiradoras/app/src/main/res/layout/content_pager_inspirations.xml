@@ -18,14 +18,34 @@
         android:background="@drawable/person_info_background">
 
         <ImageView
-            android:id="@+id/medal_selected_person_pager"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:id="@+id/menu_person_pager"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:alpha="0.8"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:visibility="invisible"/>
+            android:src="@drawable/menu"/>
 
+        <ImageView
+            android:id="@+id/back_person_pager"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:alpha="0.75"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/back"/>
+
+        <ImageView
+            android:id="@+id/medal_selected_person_pager"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:visibility="invisible"
+            android:layout_toLeftOf="@+id/menu_person_pager"
+            android:layout_toStartOf="@+id/menu_person_pager"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
