@@ -58,35 +58,35 @@ public class Utils {
     }
 
     public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmacao) {
-        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.warning)
                 .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), null).show();
     }
 
     public static void showConfirmDialog(Context context, String title, String message,
                                          DialogInterface.OnClickListener listenerConfirmacao, DialogInterface.OnClickListener listenerNegacao) {
-        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.warning)
                 .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), listenerNegacao).show();
     }
 
     public static void showAlertDialog(Context context, String title, String message) {
-        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_alert)
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.alert)
                 .setNeutralButton(android.R.string.ok, null).show();
     }
 
     public static void showInfoDialog(Context context, String title, String message) {
-        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_info)
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.info)
                 .setNeutralButton(android.R.string.ok, null).show();
     }
 
     public static void showErrorDialog(Context context, String title, String message) {
-        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(android.R.drawable.ic_dialog_info)
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.info)
                 .setNeutralButton(android.R.string.ok, null).show();
     }
 
     public static void showTextDialog(Context context, String title, DialogInterface.OnClickListener listenerConfirmacao) {
         final EditText input = new EditText(context);
         input.setId(android.R.id.edit);
-        new AlertDialog.Builder(context).setTitle(title).setView(input).setIcon(android.R.drawable.ic_dialog_alert)
+        new AlertDialog.Builder(context).setTitle(title).setView(input).setIcon(R.drawable.alert)
                 .setNeutralButton(android.R.string.ok, listenerConfirmacao).show();
     }
 

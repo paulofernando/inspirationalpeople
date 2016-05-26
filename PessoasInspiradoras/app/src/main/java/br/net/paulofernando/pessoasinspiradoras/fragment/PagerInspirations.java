@@ -46,7 +46,7 @@ public class PagerInspirations extends FragmentActivity implements
     long personId;
     private ViewPager viewPager;
     private TextView personName;
-    private ImageView medal, photo;
+    private ImageView medal, photo, btnBack, btnDeletePerson;
     private TabPagerAdapter tabPagerAdapter;
     private PersonEntity person;
     private List<InspiracaoEntity> listInspirations;
@@ -59,6 +59,8 @@ public class PagerInspirations extends FragmentActivity implements
         personName = (TextView) findViewById(R.id.person_name_detail_pager);
         medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
         photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
+        btnBack = (ImageView) findViewById(R.id.back_person_pager);
+        btnDeletePerson = (ImageView) findViewById(R.id.delete_person_pager);
 
         personId = getIntent().getLongExtra("id", -1);
         personName.setText(getIntent().getStringExtra("name"));
@@ -67,6 +69,20 @@ public class PagerInspirations extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 editPersonData();
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PagerInspirations.this.finish();
+            }
+        });
+
+        btnDeletePerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deletePerson();
             }
         });
 

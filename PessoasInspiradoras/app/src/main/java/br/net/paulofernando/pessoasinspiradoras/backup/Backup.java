@@ -89,7 +89,7 @@ public class Backup {
             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
             dialog.setTitle(context.getResources().getString(R.string.success));
             dialog.setMessage(context.getResources().getString(R.string.backup_completed) +
-                            "\n\n" + file.getAbsolutePath()).setIcon(android.R.drawable.ic_dialog_info);
+                            "\n\n" + file.getAbsolutePath()).setIcon(R.drawable.info);
             dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","", null));
