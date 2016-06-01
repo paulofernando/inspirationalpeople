@@ -183,4 +183,9 @@ public class Dashboard extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+    }
+
 }

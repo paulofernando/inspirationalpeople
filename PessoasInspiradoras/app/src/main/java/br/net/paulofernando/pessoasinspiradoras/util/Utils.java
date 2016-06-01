@@ -57,15 +57,26 @@ public class Utils {
         return stream.toByteArray();
     }
 
-    public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmacao) {
+    public static void showConfirmDialog(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmation) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.warning)
-                .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), null).show();
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmation).setNegativeButton(context.getString(R.string.no), null).show();
+    }
+
+    public static void showConfirmDialogDangerous(Context context, String title, String message, DialogInterface.OnClickListener listenerConfirmation) {
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.alert)
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmation).setNegativeButton(context.getString(R.string.no), null).show();
     }
 
     public static void showConfirmDialog(Context context, String title, String message,
-                                         DialogInterface.OnClickListener listenerConfirmacao, DialogInterface.OnClickListener listenerNegacao) {
+                                         DialogInterface.OnClickListener listenerConfirmation, DialogInterface.OnClickListener listenerDenial) {
         new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.warning)
-                .setPositiveButton(context.getString(R.string.yes), listenerConfirmacao).setNegativeButton(context.getString(R.string.no), listenerNegacao).show();
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmation).setNegativeButton(context.getString(R.string.no), listenerDenial).show();
+    }
+
+    public static void showConfirmDialogDangerous(Context context, String title, String message,
+                                         DialogInterface.OnClickListener listenerConfirmation, DialogInterface.OnClickListener listenerDenial) {
+        new AlertDialog.Builder(context).setTitle(title).setMessage(message).setIcon(R.drawable.alert)
+                .setPositiveButton(context.getString(R.string.yes), listenerConfirmation).setNegativeButton(context.getString(R.string.no), listenerDenial).show();
     }
 
     public static void showAlertDialog(Context context, String title, String message) {
