@@ -1,7 +1,9 @@
 <resources>
 
 	<string name="app_name">Persone che Ispirano</string>
-	
+	<string name="app_id">1505051489734608</string>
+
+	<string name="action_settings">Configurzioni</string>
 	<string name="title_settings">Configurzioni</string>
 	<string name="title_edit_person">Persone</string>
 	<string name="title_import">Importare ispirazioni</string>
@@ -42,6 +44,7 @@
     <string name="crop__done">FATTO</string>
     <string name="crop__cancel">CANCELLARE</string>
     <string name="no_inspiration">Nessuna ispirazione</string>
+	<string name="add_new_person"></string>
     
 	<string name="edit_inspiration">Modificare l\’ispirazione</string>
 	<string name="delete_inspiration_title">Cancellare l\’ispirazione</string>
@@ -82,5 +85,8 @@
     <string name="version_beta">Versione beta</string>
     <string name="version">Versione</string>
     <string name="translation">Tradotto da</string>
-	
+
+	<string name="send_backup_email">You can send it to email as well...</string>
+	<string name="loading">Caricamento in corso...</string>
+
 </resources>

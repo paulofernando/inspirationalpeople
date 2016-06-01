@@ -1,6 +1,5 @@
 package br.net.paulofernando.pessoasinspiradoras.fragment;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
@@ -8,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -23,18 +21,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.faradaj.blurbehind.BlurBehind;
+import com.faradaj.blurbehind.OnBlurCompleteListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
 import br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_;
+import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_;
+import br.net.paulofernando.pessoasinspiradoras.PopupImage;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.SettingsActivity;
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.image.ImageFromSentence;
 import br.net.paulofernando.pessoasinspiradoras.model.InspiracaoEntity;
 import br.net.paulofernando.pessoasinspiradoras.model.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
@@ -46,7 +46,7 @@ public class PagerInspirations extends FragmentActivity implements
     long personId;
     private ViewPager viewPager;
     private TextView personName;
-    private ImageView medal, photo, btnBack, btnDeletePerson;
+    private ImageView medal, photo, btnBack, btnEditPerson;
     private TabPagerAdapter tabPagerAdapter;
     private PersonEntity person;
     private List<InspiracaoEntity> listInspirations;
@@ -60,7 +60,7 @@ public class PagerInspirations extends FragmentActivity implements
         medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
         photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
         btnBack = (ImageView) findViewById(R.id.back_person_pager);
-        btnDeletePerson = (ImageView) findViewById(R.id.delete_person_pager);
+        btnEditPerson = (ImageView) findViewById(R.id.edit_person_pager);
 
         personId = getIntent().getLongExtra("id", -1);
         personName.setText(getIntent().getStringExtra("name"));
@@ -68,7 +68,15 @@ public class PagerInspirations extends FragmentActivity implements
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editPersonData();
+                BlurBehind.getInstance().execute(PagerInspirations.this, new OnBlurCompleteListener() {
+                    @Override
+                    public void onBlurComplete() {
+                        Intent intent = new Intent(new Intent(PagerInspirations.this, PopupImage.class));
+                        intent.putExtra("photo", person.photo);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
@@ -79,10 +87,10 @@ public class PagerInspirations extends FragmentActivity implements
             }
         });
 
-        btnDeletePerson.setOnClickListener(new View.OnClickListener() {
+        btnEditPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deletePerson();
+                editPersonData();
             }
         });
 
@@ -178,22 +186,8 @@ public class PagerInspirations extends FragmentActivity implements
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_person, menu);
-        menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.add_inspiration));
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_add_inspiration:
-                addInspiration();
-                return true;
-            case R.id.menu_delete_person:
-                deletePerson();
-                return true;
             case android.R.id.home:
                 this.finish();
                 return true;
@@ -202,63 +196,7 @@ public class PagerInspirations extends FragmentActivity implements
         }
     }
 
-    void deletePerson() {
-        Utils.showConfirmDialog(this, getString(R.string.delete_contact_title),
-                getString(R.string.delete_contact_question),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if ((PreferenceManager.getDefaultSharedPreferences(
-                                PagerInspirations.this).getString(
-                                SettingsActivity.PREF_KEY, "").equals(""))) {
-                            deletePersonData();
-                            finish();
-                        } else {
-                            final EditText input = new EditText(PagerInspirations.this);
-                            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            input.setTransformationMethod(PasswordTransformationMethod
-                                    .getInstance());
-                            input.setId(android.R.id.edit);
-                            input.setLines(1);
-                            new AlertDialog.Builder(PagerInspirations.this)
-                                    .setTitle(getString(R.string.enter_password))
-                                    .setView(input)
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .setNeutralButton(
-                                            android.R.string.ok,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(
-                                                        DialogInterface dialog,
-                                                        int whichButton) {
-                                                    try {
-                                                        if (input.getText().toString().equals(PreferenceManager
-                                                                .getDefaultSharedPreferences(PagerInspirations.this)
-                                                                .getString(SettingsActivity.PREF_KEY, null))) {
-                                                            deletePersonData();
-                                                            finish();
-                                                        } else {
-                                                            Utils.showErrorDialog(PagerInspirations.this,
-                                                                    getResources().getString(R.string.error),
-                                                                    getResources().getString(R.string.wrong_password));
-                                                        }
 
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                }
-                                            }).show();
-                        }
-                    }
-                });
-
-    }
-
-    private void deletePersonData() {
-        DatabaseHelper helper = new DatabaseHelper(PagerInspirations.this);
-        helper.deletePersonById(personId);
-        helper.deleteAllInspirationsByUserId(personId);
-        helper.close();
-    }
 
     void addInspiration() {
         Intent i = new Intent(this, AddInspirationActivity_.class);

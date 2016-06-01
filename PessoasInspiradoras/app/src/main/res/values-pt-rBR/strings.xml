@@ -1,7 +1,9 @@
 <resources>
 
 	<string name="app_name">Pessoas Inspiradoras</string>
-	
+	<string name="app_id">1505051489734608</string>
+
+	<string name="action_settings">Configurações</string>
 	<string name="title_settings">Configurações</string>
 	<string name="title_edit_person">Pessoa</string>
 	<string name="title_import">Importar inspirações</string>

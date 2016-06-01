@@ -18,7 +18,7 @@
         android:background="@drawable/person_info_background">
 
         <ImageView
-            android:id="@+id/delete_person_pager"
+            android:id="@+id/edit_person_pager"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:alpha="0.8"
@@ -27,7 +27,7 @@
             android:padding="7dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/content_discard_white"/>
+            android:src="@drawable/content_edit_white"/>
 
         <ImageView
             android:id="@+id/back_person_pager"
@@ -46,8 +46,8 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:visibility="invisible"
-            android:layout_toLeftOf="@+id/menu_person_pager"
-            android:layout_toStartOf="@+id/menu_person_pager"/>
+            android:layout_toLeftOf="@+id/edit_person_pager"
+            android:layout_toStartOf="@+id/edit_person_pager"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"

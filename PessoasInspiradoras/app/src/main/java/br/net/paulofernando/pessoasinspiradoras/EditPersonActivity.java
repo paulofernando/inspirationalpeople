@@ -1,15 +1,21 @@
 package br.net.paulofernando.pessoasinspiradoras;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import br.net.paulofernando.pessoasinspiradoras.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 @EActivity(R.layout.activity_edit_person)
@@ -139,7 +146,6 @@ public class EditPersonActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -177,11 +183,86 @@ public class EditPersonActivity extends AppCompatActivity {
         }
     }
 
+    void deletePerson() {
+        Utils.showConfirmDialog(this, getString(R.string.delete_contact_title),
+                getString(R.string.delete_contact_question),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ((PreferenceManager.getDefaultSharedPreferences(
+                                EditPersonActivity.this).getString(
+                                SettingsActivity.PREF_KEY, "").equals(""))) {
+                            deletePersonData();
+
+                            Intent i = new Intent(EditPersonActivity.this, Dashboard_.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(i);
+                        } else {
+                            final EditText input = new EditText(EditPersonActivity.this);
+                            input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            input.setTransformationMethod(PasswordTransformationMethod
+                                    .getInstance());
+                            input.setId(android.R.id.edit);
+                            input.setLines(1);
+                            new AlertDialog.Builder(EditPersonActivity.this)
+                                    .setTitle(getString(R.string.enter_password))
+                                    .setView(input)
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setNeutralButton(
+                                            android.R.string.ok,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(
+                                                        DialogInterface dialog,
+                                                        int whichButton) {
+                                                    try {
+                                                        if (input.getText().toString().equals(PreferenceManager
+                                                                .getDefaultSharedPreferences(EditPersonActivity.this)
+                                                                .getString(SettingsActivity.PREF_KEY, null))) {
+                                                            deletePersonData();
+
+                                                            Intent i = new Intent(EditPersonActivity.this, Dashboard_.class);
+                                                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                            startActivity(i);
+                                                        } else {
+                                                            Utils.showErrorDialog(EditPersonActivity.this,
+                                                                    getResources().getString(R.string.error),
+                                                                    getResources().getString(R.string.wrong_password));
+                                                        }
+
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }).show();
+                        }
+                    }
+                });
+
+    }
+
+    private void deletePersonData() {
+        DatabaseHelper helper = new DatabaseHelper(EditPersonActivity.this);
+        helper.deletePersonById(personId);
+        helper.deleteAllInspirationsByUserId(personId);
+        helper.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edit_person, menu);
+        menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.content_discard_white));
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 cancelSettings();
+                return true;
+            case R.id.delete_person:
+                deletePerson();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
