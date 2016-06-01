@@ -197,7 +197,6 @@ public class EditPersonActivity extends AppCompatActivity {
                             Intent i = new Intent(EditPersonActivity.this, Dashboard_.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(i);
-                            finish();
                         } else {
                             final EditText input = new EditText(EditPersonActivity.this);
                             input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -224,7 +223,6 @@ public class EditPersonActivity extends AppCompatActivity {
                                                             Intent i = new Intent(EditPersonActivity.this, Dashboard_.class);
                                                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                             startActivity(i);
-                                                            finish();
                                                         } else {
                                                             Utils.showErrorDialog(EditPersonActivity.this,
                                                                     getResources().getString(R.string.error),
