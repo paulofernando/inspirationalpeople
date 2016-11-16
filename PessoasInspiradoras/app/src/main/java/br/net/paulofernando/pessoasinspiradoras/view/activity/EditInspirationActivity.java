@@ -32,16 +32,14 @@ public class EditInspirationActivity extends AppCompatActivity {
 
     private long inspirationId, userId;
     private DtoFactory dtoFactory;
-
     private boolean changed;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_inspiration);
         ButterKnife.bind(this);
+
         inspirationId = getIntent().getLongExtra("idInspiration", -1);
         userId = getIntent().getLongExtra("idInspiration", -1);
         etInpiration.setText(getIntent().getStringExtra("inspiration"));

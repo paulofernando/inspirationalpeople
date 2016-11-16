@@ -1,21 +1,32 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+// query git for the SHA, Tag and commit count. Use these to automate versioning.
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitTag = 'git describe --tags'.execute([], project.rootDir).text.trim()
+def gitCommitCount = 100 +
+        Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
+
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         applicationId "br.net.paulofernando.pessoasinspiradoras"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
+        versionCode gitCommitCount
         versionName "2.0.0"
+        archivesBaseName = "inspirationalpeople-${versionName}"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            versionNameSuffix '-DEBUG'
         }
     }
 }
@@ -23,8 +34,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'com.j256.ormlite:ormlite-core:4.45'
     compile 'com.j256.ormlite:ormlite-android:4.45'
