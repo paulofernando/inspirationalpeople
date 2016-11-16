@@ -33,7 +33,7 @@
     </LinearLayout>
     
     <EditText 
-        android:id="@+id/ed_chave"
+        android:id="@+id/ed_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
@@ -42,12 +42,12 @@
         android:layout_margin="10dp"/>
     
     <TextView
-        android:id="@+id/tv_chave" 
+        android:id="@+id/tv_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/enter_password"
         android:layout_centerVertical="true"
-        android:layout_above="@id/ed_chave"
+        android:layout_above="@id/ed_key"
         android:textSize="16sp"
         android:textColor="@color/text_login"
         android:layout_centerHorizontal="true"/>    

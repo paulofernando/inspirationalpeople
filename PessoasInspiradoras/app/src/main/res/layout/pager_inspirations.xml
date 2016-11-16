@@ -5,7 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	tools:context="br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations">
+	tools:context="br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment">
 
 	<!-- <android.support.design.widget.AppBarLayout
 		android:layout_width="match_parent"

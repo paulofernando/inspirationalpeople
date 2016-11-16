@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:id="@+id/componentImportView">
+    android:paddingTop="10dp">
     
     <CheckBox
         android:id="@+id/check_import"

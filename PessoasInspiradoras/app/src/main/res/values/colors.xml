@@ -20,7 +20,7 @@
     <color name="text_login">#ffffff</color>
     <color name="text_edit_login">#333333</color>
         
-    <!-- Dashboard -->
+    <!-- DashboardActivity -->
     <color name="text_name_person_view">#444444</color>
     <color name="text_inspirations_count">#888888</color>
     

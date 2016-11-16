@@ -12,12 +12,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name="br.net.paulofernando.pessoasinspiradoras.dao.DtoFactory"
+        android:name="br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory"
         android:allowBackup="false"
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="Login_"
+            android:name=".view.activity.LoginActivity"
             android:windowSoftInputMode="adjustResize"
             android:noHistory="true"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
@@ -29,33 +29,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.PersonActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.DashboardActivity"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.Dashboard_"
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-            />
-        <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.MainNewActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.MainNewActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             android:configChanges="orientation"
             android:screenOrientation="portrait"
         </activity>
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.SettingsActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.SettingsActivity"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.EditPersonActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity"
             android:label="@string/title_edit_person"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -64,7 +58,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.ImportInspirationsActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.ImportInspirationsActivity"
             android:label="@string/title_import"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -72,7 +66,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.AddPersonActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AddPersonActivity"
             android:label="@string/title_add_person"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -81,7 +75,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.AddInspirationActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity"
             android:label="@string/title_add_inspiration"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -89,7 +83,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.EditInspirationActivity_"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.EditInspirationActivity"
             android:label="@string/title_edit_inspiration"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -97,7 +91,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.fragment.PagerInspirations"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:configChanges="orientation"
@@ -105,7 +99,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.About"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AboutActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
@@ -113,7 +107,7 @@
             />
 
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.PopupImage"
+            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.PopupImage"
             />
