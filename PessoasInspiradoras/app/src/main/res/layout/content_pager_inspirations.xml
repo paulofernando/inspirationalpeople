@@ -96,7 +96,7 @@
             android:padding="5dip"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-            android:background="@color/colorPrimary"
+            android:background="@color/primary"
             />
     </LinearLayout>
 

@@ -41,13 +41,6 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.MainNewActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme">
-            android:configChanges="orientation"
-            android:screenOrientation="portrait"
-        </activity>
-        <activity
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.SettingsActivity"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme"

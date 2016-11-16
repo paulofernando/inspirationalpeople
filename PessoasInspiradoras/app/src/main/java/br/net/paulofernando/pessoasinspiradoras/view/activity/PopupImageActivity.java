@@ -22,7 +22,7 @@ public class PopupImageActivity extends Activity {
 
         BlurBehind.getInstance()
                 .withAlpha(100)
-                .withFilterColor(ContextCompat.getColor(this.getApplicationContext(), R.color.colorPrimaryDark))
+                .withFilterColor(ContextCompat.getColor(this.getApplicationContext(), R.color.primary_dark))
                 .setBackground(this);
 
         ImageView personPhotoFull = (ImageView) findViewById(R.id.person_photo_full);
