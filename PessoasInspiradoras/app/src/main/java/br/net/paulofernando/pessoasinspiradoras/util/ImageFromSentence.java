@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 
 public class ImageFromSentence {
 
@@ -49,7 +49,7 @@ public class ImageFromSentence {
 
                 DatabaseHelper helper = new DatabaseHelper(context);
 
-                InspiracaoEntity inspiration = helper.getInspiration(inspirationId);
+                Inspiracao inspiration = helper.getInspiration(inspirationId);
                 String sentence = inspiration.inspiration;
                 Bitmap photo = helper.getPhotoByUserId(inspiration.idUser);
 

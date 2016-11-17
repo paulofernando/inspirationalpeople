@@ -20,13 +20,13 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.TabPagerAdapter;
 
 public class PagerInspirationsFragment extends FragmentActivity implements
@@ -38,8 +38,8 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     private TextView personName;
     private ImageView medal, photo, btnBack, btnEditPerson;
     private TabPagerAdapter tabPagerAdapter;
-    private PersonEntity person;
-    private List<InspiracaoEntity> listInspirations;
+    private Person person;
+    private List<Inspiracao> listInspirations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

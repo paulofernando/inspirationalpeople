@@ -28,8 +28,8 @@ import br.net.paulofernando.pessoasinspiradoras.data.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.ImportEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.ImportInspirationsView;
@@ -119,7 +119,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
             importEntity.setPersonId(person.getPersonId());
             importEntity.setPhoto(person.getPhoto());
 
-            PersonEntity personEntity = helper.getPerson(person.name);
+            Person personEntity = helper.getPerson(person.name);
 
             if (personEntity != null) {
                 importEntity.setMerged(true);
@@ -149,15 +149,15 @@ public class ImportInspirationsActivity extends AppCompatActivity {
      * @param personEntity Person saved
      * @return if there are new inspiration
      */
-    private boolean hasNewInspirations(PersonParser personParser, PersonEntity personEntity) {
+    private boolean hasNewInspirations(PersonParser personParser, Person personEntity) {
         DatabaseHelper helper = new DatabaseHelper(this);
 
-        List<InspiracaoEntity> userInspirations = helper.getInspirationData(personEntity.id);
+        List<Inspiracao> userInspirations = helper.getInspirationData(personEntity.id);
 
         boolean newInspiration = false;
         int countFound = 0;
         for (String importedInspiration : personParser.getInspirations()) {
-            for (InspiracaoEntity inspirationEntity : userInspirations) {
+            for (Inspiracao inspirationEntity : userInspirations) {
                 if (importedInspiration.equals(inspirationEntity.inspiration)) {
                     /* Put the inspiration in a List to delete later */
                     duplicatedInspirationsToDelete.add(importedInspiration);
@@ -200,11 +200,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                     PersonParser personToImport = getPersonToImportByName(importEntity.getName());
                     //---------------- Adding inspirations ---------------------
                     for (String inspiration : personToImport.inspirations) {
-                        InspiracaoEntity inspirationEntity = new InspiracaoEntity();
+                        Inspiracao inspirationEntity = new Inspiracao();
                         inspirationEntity.inspiration = inspiration;
                         inspirationEntity.idUser = personId;
 
-                        Dao<InspiracaoEntity, Integer> iDao = dtoFactory.getInspirationDao();
+                        Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
                         try {
                             iDao.create(inspirationEntity);
                         } catch (SQLException e) {
@@ -231,11 +231,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
      * @return the id of the person or -1 if a error occurred
      */
     private long createPerson(ImportEntity importEntity) {
-        Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
-        PersonEntity person;
+        Dao<Person, Integer> pDao = dtoFactory.getPersonDao();
+        Person person;
         long personId = Calendar.getInstance().getTimeInMillis();
         try {
-            person = new PersonEntity(importEntity.getName(), personId, "");
+            person = new Person(importEntity.getName(), personId, "");
 
             if (importEntity.getPhoto() != null) {
                 //Set image to size 256x256

@@ -23,7 +23,7 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.PersonView;
 import butterknife.BindView;
@@ -102,11 +102,11 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void addPerson(String name, long id, String phoneNumber,
                           String photoId) {
-        Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
+        Dao<Person, Integer> pDao = dtoFactory.getPersonDao();
 
-        PersonEntity person;
+        Person person;
         try {
-            person = new PersonEntity(name, id, phoneNumber);
+            person = new Person(name, id, phoneNumber);
             person.setPhoto(Utils.getPhotoByResource(R.drawable.person, this));
             try {
                 pDao.create(person);
@@ -121,9 +121,9 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void addPersons(List<PersonEntity> list) {
+    public void addPersons(List<Person> list) {
         DatabaseHelper helper = new DatabaseHelper(this);
-        for (PersonEntity person : list) {
+        for (Person person : list) {
             person.setAmountInpirations(helper.getInspirationData(person.id)
                     .size());
             dashboard.addView(new PersonView(person, this));

@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -36,11 +36,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     private Context contex;
 
-    private Dao<PersonEntity, String> simplePersonDao = null;
-    private Dao<InspiracaoEntity, String> simpleInspirationDao = null;
+    private Dao<Person, String> simplePersonDao = null;
+    private Dao<Inspiracao, String> simpleInspirationDao = null;
 
-    private RuntimeExceptionDao<PersonEntity, String> simpleRuntimePersonDao = null;
-    private RuntimeExceptionDao<InspiracaoEntity, String> simpleRuntimeInspirationDao = null;
+    private RuntimeExceptionDao<Person, String> simpleRuntimePersonDao = null;
+    private RuntimeExceptionDao<Inspiracao, String> simpleRuntimeInspirationDao = null;
 
 
     public DatabaseHelper(Context context) {
@@ -53,9 +53,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
             try {
-                TableUtils.createTable(connectionSource, PersonEntity.class);
+                TableUtils.createTable(connectionSource, Person.class);
                 TableUtils
-                        .createTable(connectionSource, InspiracaoEntity.class);
+                        .createTable(connectionSource, Inspiracao.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 Log.e("DataseHelper", "Erro on onCreate");
@@ -73,8 +73,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(DatabaseHelper.class.getName(), "onUpgrade");
             try {
                 TableUtils
-                        .dropTable(connectionSource, PersonEntity.class, true);
-                TableUtils.dropTable(connectionSource, InspiracaoEntity.class,
+                        .dropTable(connectionSource, Person.class, true);
+                TableUtils.dropTable(connectionSource, Inspiracao.class,
                         true);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
@@ -87,26 +87,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public List<PersonEntity> getPersonsData() {
+    public List<Person> getPersonsData() {
         DatabaseHelper helper = new DatabaseHelper(contex);
-        RuntimeExceptionDao<PersonEntity, String> simpleDao = helper.getPersonSimpleDataDao();
-        List<PersonEntity> list = simpleDao.queryForAll();
+        RuntimeExceptionDao<Person, String> simpleDao = helper.getPersonSimpleDataDao();
+        List<Person> list = simpleDao.queryForAll();
         return list;
     }
 
-    public List<InspiracaoEntity> getInspirationData() {
+    public List<Inspiracao> getInspirationData() {
         DatabaseHelper helper = new DatabaseHelper(contex);
-        RuntimeExceptionDao<InspiracaoEntity, String> simpleDao = helper.getInspirationSimpleDataDao();
-        List<InspiracaoEntity> list = simpleDao.queryForAll();
+        RuntimeExceptionDao<Inspiracao, String> simpleDao = helper.getInspirationSimpleDataDao();
+        List<Inspiracao> list = simpleDao.queryForAll();
         return list;
     }
 
-    public List<InspiracaoEntity> getInspirationData(long idUser) {
+    public List<Inspiracao> getInspirationData(long idUser) {
         DatabaseHelper helper = new DatabaseHelper(contex);
-        RuntimeExceptionDao<InspiracaoEntity, String> simpleDao = helper.getInspirationSimpleDataDao();
-        List<InspiracaoEntity> list = simpleDao.queryForAll();
-        List<InspiracaoEntity> userInspiration = new ArrayList<InspiracaoEntity>();
-        for (InspiracaoEntity inspiracao : list) {
+        RuntimeExceptionDao<Inspiracao, String> simpleDao = helper.getInspirationSimpleDataDao();
+        List<Inspiracao> list = simpleDao.queryForAll();
+        List<Inspiracao> userInspiration = new ArrayList<Inspiracao>();
+        for (Inspiracao inspiracao : list) {
             if (inspiracao.idUser == idUser) {
                 userInspiration.add(inspiracao);
             }
@@ -115,19 +115,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public Bitmap getPhotoByUserId(long idUser) {
-        PersonEntity person = getPerson(idUser);
+        Person person = getPerson(idUser);
         return BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length);
     }
 
-    public PersonEntity getPerson(long id) {
+    public Person getPerson(long id) {
         DatabaseHelper helper = new DatabaseHelper(contex);
-        RuntimeExceptionDao<PersonEntity, String> simpleDao = helper.getPersonSimpleDataDao();
+        RuntimeExceptionDao<Person, String> simpleDao = helper.getPersonSimpleDataDao();
         return simpleDao.queryForId(String.valueOf(id));
     }
 
-    public PersonEntity getPerson(String name) {
-        List<PersonEntity> people = getPersonsData();
-        for (PersonEntity person : people) {
+    public Person getPerson(String name) {
+        List<Person> people = getPersonsData();
+        for (Person person : people) {
             if (person.name.equals(name)) {
                 return person;
             }
@@ -135,16 +135,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return null;
     }
 
-    public InspiracaoEntity getInspiration(long id) {
+    public Inspiracao getInspiration(long id) {
         DatabaseHelper helper = new DatabaseHelper(contex);
-        RuntimeExceptionDao<InspiracaoEntity, String> simpleDao = helper.getInspirationSimpleDataDao();
+        RuntimeExceptionDao<Inspiracao, String> simpleDao = helper.getInspirationSimpleDataDao();
         return simpleDao.queryForId(String.valueOf(id));
     }
 
-    public Dao<PersonEntity, String> getPersonDao() throws SQLException {
+    public Dao<Person, String> getPersonDao() throws SQLException {
         if (simplePersonDao == null) {
             try {
-                simplePersonDao = getDao(PersonEntity.class);
+                simplePersonDao = getDao(Person.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
@@ -152,10 +152,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return simplePersonDao;
     }
 
-    public Dao<InspiracaoEntity, String> getInspirationDao() throws SQLException {
+    public Dao<Inspiracao, String> getInspirationDao() throws SQLException {
         if (simpleInspirationDao == null) {
             try {
-                simpleInspirationDao = getDao(InspiracaoEntity.class);
+                simpleInspirationDao = getDao(Inspiracao.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
@@ -163,23 +163,23 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return simpleInspirationDao;
     }
 
-    public RuntimeExceptionDao<PersonEntity, String> getPersonSimpleDataDao() {
+    public RuntimeExceptionDao<Person, String> getPersonSimpleDataDao() {
         if (simpleRuntimePersonDao == null) {
-            simpleRuntimePersonDao = getRuntimeExceptionDao(PersonEntity.class);
+            simpleRuntimePersonDao = getRuntimeExceptionDao(Person.class);
         }
         return simpleRuntimePersonDao;
     }
 
-    public RuntimeExceptionDao<InspiracaoEntity, String> getInspirationSimpleDataDao() {
+    public RuntimeExceptionDao<Inspiracao, String> getInspirationSimpleDataDao() {
         if (simpleRuntimeInspirationDao == null) {
-            simpleRuntimeInspirationDao = getRuntimeExceptionDao(InspiracaoEntity.class);
+            simpleRuntimeInspirationDao = getRuntimeExceptionDao(Inspiracao.class);
         }
         return simpleRuntimeInspirationDao;
     }
 
     public boolean deletePersonById(long id) {
-        Dao<PersonEntity, String> simpleDao = getPersonDao();
-        DeleteBuilder<PersonEntity, String> deleteBuilder = simpleDao.deleteBuilder();
+        Dao<Person, String> simpleDao = getPersonDao();
+        DeleteBuilder<Person, String> deleteBuilder = simpleDao.deleteBuilder();
         try {
             deleteBuilder.where().eq("id", id);
             deleteBuilder.delete();
@@ -192,8 +192,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public boolean deleteInspirationById(long id) {
-        Dao<InspiracaoEntity, String> simpleInspirationDao = getInspirationDao();
-        DeleteBuilder<InspiracaoEntity, String> deleteBuilder = simpleInspirationDao.deleteBuilder();
+        Dao<Inspiracao, String> simpleInspirationDao = getInspirationDao();
+        DeleteBuilder<Inspiracao, String> deleteBuilder = simpleInspirationDao.deleteBuilder();
         try {
             deleteBuilder.where().eq("id", id);
             deleteBuilder.delete();
@@ -206,8 +206,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public boolean deleteAllInspirationsByUserId(long id) {
-        Dao<InspiracaoEntity, String> simpleInspirationDao = getInspirationDao();
-        DeleteBuilder<InspiracaoEntity, String> deleteBuilder = simpleInspirationDao.deleteBuilder();
+        Dao<Inspiracao, String> simpleInspirationDao = getInspirationDao();
+        DeleteBuilder<Inspiracao, String> deleteBuilder = simpleInspirationDao.deleteBuilder();
         try {
             deleteBuilder.where().eq("idUser", id);
             deleteBuilder.delete();
@@ -220,8 +220,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public boolean updatePersonById(long id, String name, byte[] photo) {
-        Dao<PersonEntity, String> simpleDao = getPersonDao();
-        UpdateBuilder<PersonEntity, String> updateBuilder = simpleDao.updateBuilder();
+        Dao<Person, String> simpleDao = getPersonDao();
+        UpdateBuilder<Person, String> updateBuilder = simpleDao.updateBuilder();
         try {
             updateBuilder.where().eq("id", id);
             updateBuilder.updateColumnValue("name", name);
@@ -237,8 +237,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public boolean updatePersonById(long id, String name) {
-        Dao<PersonEntity, String> simpleDao = getPersonDao();
-        UpdateBuilder<PersonEntity, String> updateBuilder = simpleDao.updateBuilder();
+        Dao<Person, String> simpleDao = getPersonDao();
+        UpdateBuilder<Person, String> updateBuilder = simpleDao.updateBuilder();
         try {
             updateBuilder.where().eq("id", id);
             updateBuilder.updateColumnValue("name", name);
@@ -252,8 +252,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public boolean updateInspirationById(long id, String newInspiration) {
-        Dao<InspiracaoEntity, String> simpleDao = getInspirationDao();
-        UpdateBuilder<InspiracaoEntity, String> updateBuilder = simpleDao.updateBuilder();
+        Dao<Inspiracao, String> simpleDao = getInspirationDao();
+        UpdateBuilder<Inspiracao, String> updateBuilder = simpleDao.updateBuilder();
         try {
             updateBuilder.where().eq("id", id);
             updateBuilder.updateColumnValue("inspiration", newInspiration);
@@ -268,7 +268,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public String backup() {
         //--------------- loading data -------------------
-        List<PersonEntity> people = getPersonsData();
+        List<Person> people = getPersonsData();
         //------------------------------------------------
 
         if (people.size() == 0) {
@@ -286,7 +286,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 
             xmlSerializer.startTag("", "backup");
-            for (PersonEntity person : people) {
+            for (Person person : people) {
                 xmlSerializer.startTag("", "person");
                 xmlSerializer.startTag("", "id");
                 xmlSerializer.text(String.valueOf(person.id));
@@ -299,9 +299,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 xmlSerializer.startTag("", "photo");
                 xmlSerializer.text(new String(Base64.encode(person.photo, Base64.DEFAULT)));
                 xmlSerializer.endTag("", "photo");
-                List<InspiracaoEntity> inspirations = getInspirationData(person.id);
+                List<Inspiracao> inspirations = getInspirationData(person.id);
                 if (inspirations.size() > 0) {
-                    for (InspiracaoEntity inspiration : inspirations) {
+                    for (Inspiracao inspiration : inspirations) {
                         xmlSerializer.startTag("", "inspiration");
                         xmlSerializer.attribute("", "id", String.valueOf(inspiration.id));
                         xmlSerializer.text(inspiration.inspiration);

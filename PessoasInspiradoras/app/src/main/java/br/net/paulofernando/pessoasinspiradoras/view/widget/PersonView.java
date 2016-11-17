@@ -3,7 +3,6 @@ package br.net.paulofernando.pessoasinspiradoras.view.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +32,10 @@ public class PersonView extends LinearLayout {
     @BindView(R.id.photo)
     ImageView photo;
 
-    @BindView(R.id.componentPersonView)
+    @BindView(R.id.person_container)
     RelativeLayout componentPersonView;
 
-    PersonEntity person;
+    Person person;
 
     private Context context;
 
@@ -46,7 +45,7 @@ public class PersonView extends LinearLayout {
         init();
     }
 
-    public PersonView(PersonEntity person, Context context) {
+    public PersonView(Person person, Context context) {
         super(context);
         this.person = person;
         this.context = context;
@@ -54,7 +53,7 @@ public class PersonView extends LinearLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.view_person, this); // your layout with <merge> as the root tag
+        inflate(getContext(), R.layout.item_person, this); // your layout with <merge> as the root tag
         ButterKnife.bind(this);
 
         try {
@@ -80,7 +79,7 @@ public class PersonView extends LinearLayout {
         photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
     }
 
-    @OnClick(R.id.componentPersonView)
+    @OnClick(R.id.person_container)
     void click() {
         Intent intent = new Intent(getContext(), PagerInspirationsFragment.class);
         intent.putExtra("name", person.name);
@@ -98,7 +97,7 @@ public class PersonView extends LinearLayout {
         getContext().startActivity(intent);
     }
 
-    public PersonEntity getPerson() {
+    public Person getPerson() {
         return person;
     }
 

@@ -28,7 +28,7 @@ import java.util.Calendar;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,13 +103,13 @@ public class AddPersonActivity extends AppCompatActivity {
             return false;
         }
 
-        Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
+        Dao<Person, Integer> pDao = dtoFactory.getPersonDao();
 
-        PersonEntity person;
+        Person person;
         try {
-            // person = new PersonEntity(SimpleCrypto.encrypt(Utils.key, name),
+            // person = new Person(SimpleCrypto.encrypt(Utils.key, name),
             // id, SimpleCrypto.encrypt(Utils.key, phoneNumber));
-            person = new PersonEntity(etPersonName.getText().toString(), Calendar.getInstance().getTimeInMillis(), "");
+            person = new Person(etPersonName.getText().toString(), Calendar.getInstance().getTimeInMillis(), "");
 
             if (bmp != null) {
                 person.setPhoto(Utils.getByteArrayFromBitmap(bmp));

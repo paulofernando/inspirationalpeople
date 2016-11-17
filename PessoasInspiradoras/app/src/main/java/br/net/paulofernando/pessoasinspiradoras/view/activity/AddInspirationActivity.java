@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,11 +59,11 @@ public class AddInspirationActivity extends AppCompatActivity {
 
     private void saveInspiration(String inspiration) {
         if (inspiration.length() > 0) {
-            InspiracaoEntity inspirationEntity = new InspiracaoEntity();
+            Inspiracao inspirationEntity = new Inspiracao();
             inspirationEntity.inspiration = inspiration;
             inspirationEntity.idUser = personId;
 
-            Dao<InspiracaoEntity, Integer> iDao = dtoFactory.getInspirationDao();
+            Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
             try {
                 iDao.create(inspirationEntity);
             } catch (SQLException e) {
