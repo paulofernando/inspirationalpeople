@@ -26,12 +26,12 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.BindingHol
 
     @Override
     public BindingHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemPersonBinding movieBinding = DataBindingUtil.inflate(
+        ItemPersonBinding personBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.getContext()),
                 R.layout.item_person,
                 parent,
                 false);
-        return new BindingHolder(movieBinding);
+        return new BindingHolder(personBinding);
     }
 
     @Override

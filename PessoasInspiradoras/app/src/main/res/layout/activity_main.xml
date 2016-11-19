@@ -20,7 +20,7 @@
         android:id="@+id/person_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"/>
+        android:layout_below="@id/toolbar"/>
 
     <LinearLayout
         android:id="@+id/no_inspiration"

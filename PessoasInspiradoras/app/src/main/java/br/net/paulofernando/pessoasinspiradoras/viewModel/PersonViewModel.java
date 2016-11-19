@@ -15,18 +15,22 @@ public class PersonViewModel extends BaseObservable {
     private Person person;
     private ItemPersonBinding binding;
 
-    public ObservableField<Drawable> coverImage;
+    public ObservableField<Drawable> personPhoto;
 
     public PersonViewModel(Context context, Person person, ItemPersonBinding binding) {
         this.context = context;
         this.person = person;
         this.binding = binding;
 
-        coverImage = new ObservableField<>();
+        personPhoto = new ObservableField<>();
     }
 
-    public String getPersonNameTitle() {
+    public String getPersonName() {
         return person.name;
+    }
+
+    public void setPersonName(String personName) {
+        person.name = personName;
     }
 
     public View.OnClickListener onClickPerson() {

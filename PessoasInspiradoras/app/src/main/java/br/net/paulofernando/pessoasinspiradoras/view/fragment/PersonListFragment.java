@@ -79,12 +79,11 @@ public class PersonListFragment extends Fragment {
 
 
     public void loadMoreData(int page) {
-        Log.i(TAG, "Loading page " + (page + 1) + "...");
+        //Log.i(TAG, "Loading page " + (page + 1) + "...");
         //loadingTextView.setVisibility(View.VISIBLE);
-        fillPeopleList(page + 1);
+        //fillPeopleList(page + 1);
     }
 
-    /** Retrieves the data from themoviedb */
     protected void getData() {
         fillPeopleList(1);
     }
@@ -93,7 +92,7 @@ public class PersonListFragment extends Fragment {
         DatabaseHelper helper = new DatabaseHelper(this.getContext());
 
         final List<Person> result = helper.getPersonsData();
-        if ((result != null) && (PersonListFragment.this.getActivity() != null)) {//there are movies to list
+        if ((result != null) && (PersonListFragment.this.getActivity() != null)) {
             PersonListFragment.this.getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
