@@ -1,6 +1,7 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,10 +33,14 @@ import java.io.IOException;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static br.net.paulofernando.pessoasinspiradoras.R.drawable.person;
 
 public class EditPersonActivity extends AppCompatActivity {
 
@@ -46,14 +51,12 @@ public class EditPersonActivity extends AppCompatActivity {
     @BindView(R.id.et_person_name) EditText etPersonName;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    private long personId;
     private boolean changed;
 
     private Bitmap bmp;
     private Uri outputUri;
     private byte[] photoRaw;
-
-
+    private Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +64,12 @@ public class EditPersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_person);
         ButterKnife.bind(this);
 
-        personId = getIntent().getLongExtra("id", -1);
-        photoRaw = getIntent().getByteArrayExtra("photo");
+        person = (Person) getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        bmp = getIntent().getExtras().getParcelable(getResources().getString(R.string.person_photo));
 
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
-                photoRaw.length));
+        photoRaw = getIntent().getByteArrayExtra("photo"); //TODO remove photoRaw
+
+        photo.setImageBitmap(bmp);
 
         etPersonName.setText((getIntent().getStringExtra("name")));
 
@@ -87,6 +91,20 @@ public class EditPersonActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    public static Intent getStartIntent(Context context, Person person, ImageView imageView) {
+        Intent intent = new Intent(context, EditPersonActivity.class);
+
+        imageView.buildDrawingCache();
+        Bitmap image = imageView.getDrawingCache();
+
+        Bundle extras = new Bundle();
+        extras.putParcelable(context.getResources().getString(R.string.person_photo), image);
+        extras.putParcelable(context.getResources().getString(R.string.person_details), person);
+        intent.putExtras(extras);
+
+        return intent;
     }
 
     @OnClick(R.id.bt_edit_cancel)
@@ -118,10 +136,10 @@ public class EditPersonActivity extends AppCompatActivity {
     void save() {
         DatabaseHelper helper = new DatabaseHelper(this);
         if (bmp != null) {
-            helper.updatePersonById(personId, etPersonName.getText().toString(),
+            helper.updatePersonById(person.id, etPersonName.getText().toString(),
                     Utils.getByteArrayFromBitmap(bmp));
         } else {
-            helper.updatePersonById(personId, etPersonName.getText().toString());
+            helper.updatePersonById(person.id, etPersonName.getText().toString());
         }
         changed = false;
         helper.close();
@@ -241,8 +259,8 @@ public class EditPersonActivity extends AppCompatActivity {
 
     private void deletePersonData() {
         DatabaseHelper helper = new DatabaseHelper(EditPersonActivity.this);
-        helper.deletePersonById(personId);
-        helper.deleteAllInspirationsByUserId(personId);
+        helper.deletePersonById(person.id);
+        helper.deleteAllInspirationsByUserId(person.id);
         helper.close();
     }
 

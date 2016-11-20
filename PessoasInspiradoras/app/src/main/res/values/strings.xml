@@ -89,5 +89,7 @@
 
 	<string name="send_backup_email">You can send it to email as well...</string>
 	<string name="loading">Loading...</string>
+
+	<string name="person_details" translatable="false">person_details</string>
 	
 </resources>

@@ -85,15 +85,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void addPersons(List<Person> list) {
-        DatabaseHelper helper = new DatabaseHelper(this);
-        for (Person person : list) {
-            person.setAmountInpirations(helper.getInspirationData(person.id)
-                    .size());
-            //dashboard.addView(new PersonView(person, this));
-        }
-        helper.close();
-    }
+
 
     @Override
     protected void onResume() {

@@ -3,8 +3,11 @@ package br.net.paulofernando.pessoasinspiradoras.view.fragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -52,8 +55,9 @@ public class PagerInspirationsFragment extends FragmentActivity implements
         btnBack = (ImageView) findViewById(R.id.back_person_pager);
         btnEditPerson = (ImageView) findViewById(R.id.edit_person_pager);
 
-        personId = getIntent().getLongExtra("id", -1);
-        personName.setText(getIntent().getStringExtra("name"));
+        person = (Person) getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        personName.setText(person.name);
+        personId = person.id;
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +113,20 @@ public class PagerInspirationsFragment extends FragmentActivity implements
             }
         });
 
+    }
+
+    public static Intent getStartIntent(Context context, Person person, ImageView imageView) {
+        Intent intent = new Intent(context, PagerInspirationsFragment.class);
+
+        imageView.buildDrawingCache();
+        Bitmap image = imageView.getDrawingCache();
+
+        Bundle extras = new Bundle();
+        extras.putParcelable(context.getResources().getString(R.string.person_photo), image);
+        extras.putParcelable(context.getResources().getString(R.string.person_details), person);
+        intent.putExtras(extras);
+
+        return intent;
     }
 
     private void editPersonData() {

@@ -34,7 +34,6 @@ public class PersonListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //getData();
     }
 
     @Override
@@ -43,7 +42,8 @@ public class PersonListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, rootView);
 
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
+        mRecyclerView.setItemViewCacheSize(30);
+        mRecyclerView.setDrawingCacheEnabled(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         setRecyclerViewLayoutManager();
 
