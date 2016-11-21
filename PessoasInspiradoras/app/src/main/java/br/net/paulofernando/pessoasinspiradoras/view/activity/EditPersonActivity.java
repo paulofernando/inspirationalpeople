@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -35,12 +34,9 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static br.net.paulofernando.pessoasinspiradoras.R.drawable.person;
 
 public class EditPersonActivity extends AppCompatActivity {
 
@@ -66,8 +62,6 @@ public class EditPersonActivity extends AppCompatActivity {
 
         person = (Person) getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
         bmp = getIntent().getExtras().getParcelable(getResources().getString(R.string.person_photo));
-
-        photoRaw = getIntent().getByteArrayExtra("photo"); //TODO remove photoRaw
 
         photo.setImageBitmap(bmp);
 
@@ -157,8 +151,7 @@ public class EditPersonActivity extends AppCompatActivity {
         BlurBehind.getInstance().execute(this, new OnBlurCompleteListener() {
             @Override
             public void onBlurComplete() {
-                Intent intent = new Intent(new Intent(EditPersonActivity.this, PopupImageActivity.class));
-                intent.putExtra("photo", photoRaw);
+                Intent intent = PopupImageActivity.getStartIntent(EditPersonActivity.this, person);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }

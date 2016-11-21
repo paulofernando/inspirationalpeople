@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -23,14 +22,16 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
+import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity;
-import br.net.paulofernando.pessoasinspiradoras.R;
-import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.TabPagerAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PagerInspirationsFragment extends FragmentActivity implements
         ActionBar.TabListener {
@@ -38,8 +39,12 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     
     long personId;
     private ViewPager viewPager;
-    private TextView personName;
-    private ImageView medal, photo, btnBack, btnEditPerson;
+    @BindView(R.id.person_name_detail_pager) TextView personName;
+    @BindView(R.id.medal_selected_person_pager) ImageView medal;
+    @BindView(R.id.photo_selected_person_pager) ImageView photo;
+    @BindView(R.id.back_person_pager) ImageView btnBack;
+    @BindView(R.id.edit_person_pager) ImageView btnEditPerson;
+
     private TabPagerAdapter tabPagerAdapter;
     private Person person;
     private List<Inspiracao> listInspirations;
@@ -47,15 +52,10 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.pager_inspirations);
-        personName = (TextView) findViewById(R.id.person_name_detail_pager);
-        medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
-        photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
-        btnBack = (ImageView) findViewById(R.id.back_person_pager);
-        btnEditPerson = (ImageView) findViewById(R.id.edit_person_pager);
+        ButterKnife.bind(this);
 
-        person = (Person) getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
         personName.setText(person.name);
         personId = person.id;
 
@@ -65,8 +65,7 @@ public class PagerInspirationsFragment extends FragmentActivity implements
                 BlurBehind.getInstance().execute(PagerInspirationsFragment.this, new OnBlurCompleteListener() {
                     @Override
                     public void onBlurComplete() {
-                        Intent intent = new Intent(new Intent(PagerInspirationsFragment.this, PopupImageActivity.class));
-                        intent.putExtra("photo", person.photo);
+                        Intent intent = PopupImageActivity.getStartIntent(PagerInspirationsFragment.this, person);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                     }
