@@ -100,8 +100,7 @@ public class PersonViewModel extends BaseObservable {
     }
 
     private void launchPhotoActivity() {
-        Intent intent = EditPersonActivity.getStartIntent(context, person, binding.photo);
-
+        Intent intent = EditPersonActivity.getStartIntent(context, person);
         /*String transitionName = context.getString(R.string.cover_name);
         ActivityOptions transitionActivityOptions = ActivityOptions.
                 makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);

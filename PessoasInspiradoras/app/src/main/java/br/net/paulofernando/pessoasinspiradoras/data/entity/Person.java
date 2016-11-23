@@ -26,7 +26,7 @@ public class Person implements Parcelable, Serializable {
     public String phone;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     public byte[] photo;
-    int amountInpirations = 0;
+    private int amountInpirations = 0;
 
     public Person(String name, long personId, String phone) {
         this.name = name;
@@ -34,8 +34,7 @@ public class Person implements Parcelable, Serializable {
         this.phone = phone;
     }
 
-    public Person() {
-    }
+    public Person() {}
 
     protected Person(Parcel in) {
         id = in.readLong();

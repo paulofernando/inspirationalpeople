@@ -91,11 +91,7 @@
                     android:theme="@style/MyButton"/>
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-
 
     </ScrollView>
 

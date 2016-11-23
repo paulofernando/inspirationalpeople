@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -34,6 +35,7 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,12 +62,9 @@ public class EditPersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_person);
         ButterKnife.bind(this);
 
-        person = (Person) getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
-        bmp = getIntent().getExtras().getParcelable(getResources().getString(R.string.person_photo));
-
-        photo.setImageBitmap(bmp);
-
-        etPersonName.setText((getIntent().getStringExtra("name")));
+        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+        etPersonName.setText(person.name);
 
         etPersonName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,17 +86,11 @@ public class EditPersonActivity extends AppCompatActivity {
 
     }
 
-    public static Intent getStartIntent(Context context, Person person, ImageView imageView) {
+    public static Intent getStartIntent(Context context, Person person) {
         Intent intent = new Intent(context, EditPersonActivity.class);
-
-        imageView.buildDrawingCache();
-        Bitmap image = imageView.getDrawingCache();
-
         Bundle extras = new Bundle();
-        extras.putParcelable(context.getResources().getString(R.string.person_photo), image);
         extras.putParcelable(context.getResources().getString(R.string.person_details), person);
         intent.putExtras(extras);
-
         return intent;
     }
 

@@ -129,10 +129,12 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     }
 
     private void editPersonData() {
-        Intent intent = new Intent(this, EditPersonActivity.class);
-        intent.putExtra("name", personName.getText());
-        intent.putExtra("photo", person.photo);
-        intent.putExtra("id", personId);
+        Intent intent = EditPersonActivity.getStartIntent(this, person);
+        /*String transitionName = context.getString(R.string.cover_name);
+        ActivityOptions transitionActivityOptions = ActivityOptions.
+                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
+
+        context.startActivity(intent, transitionActivityOptions.toBundle());*/
         startActivity(intent);
     }
 

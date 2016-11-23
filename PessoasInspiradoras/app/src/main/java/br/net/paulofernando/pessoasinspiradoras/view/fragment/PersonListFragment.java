@@ -2,11 +2,8 @@ package br.net.paulofernando.pessoasinspiradoras.view.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,9 +76,9 @@ public class PersonListFragment extends Fragment {
 
 
     public void loadMoreData(int page) {
-        //Log.i(TAG, "Loading page " + (page + 1) + "...");
-        //loadingTextView.setVisibility(View.VISIBLE);
-        //fillPeopleList(page + 1);
+        /*Log.i(TAG, "Loading page " + (page + 1) + "...");
+        loadingTextView.setVisibility(View.VISIBLE);
+        fillPeopleList(page + 1);*/
     }
 
     protected void getData() {
@@ -115,6 +112,5 @@ public class PersonListFragment extends Fragment {
         }
         //loadingTextView.setVisibility(View.GONE);
     }
-
 
 }
