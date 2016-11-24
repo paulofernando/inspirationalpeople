@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.j256.ormlite.dao.Dao;
@@ -40,6 +41,7 @@ import butterknife.OnClick;
 public class ImportInspirationsActivity extends AppCompatActivity {
 
     @BindView(R.id.layout_import) LinearLayout containerImports;
+    @BindView(R.id.import_scrollview) ScrollView scrollView;
     @BindView(R.id.loading_import_text) TextView tvLoading;
     @BindView(R.id.buttons_add_inspiration) LinearLayout buttons;
     @BindView(R.id.btn_import_inspirations) Button btnImport;
@@ -83,11 +85,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
             public void run () {
                 try {
                     sleep(500);
+                    final DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
+                    importedPeople = backup.importPeopleFromLocalXML();
                     runOnUiThread(new Runnable() {
                         public void run() {
                             containerImports.removeAllViews();
-                            DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
-                            importedPeople = backup.importPeopleFromLocalXML();
                             createFields(importedPeople);
                             helper.close();
 
@@ -100,10 +102,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                             }
 
                             tvLoading.setVisibility(View.GONE);
+                            scrollView.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (InterruptedException e) {
-                    Log.e("ERROR", "Erro on loading inspirtaion to import");
+                    Log.e("ERROR", "Erro on loading inspirations to import");
                 }
             }
         }.start();

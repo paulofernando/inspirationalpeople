@@ -31,9 +31,21 @@
 	        />
     </LinearLayout>
 
-    <ScrollView
+    <TextView
+        android:id="@+id/loading_import_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/accent"
+        android:textStyle="italic|bold"
+        android:text="@string/loading"/>
+
+    <ScrollView
+        android:id="@+id/import_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/default_space"
@@ -44,16 +56,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/loading_import_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/loading"/>
-
             <LinearLayout
                 android:id="@+id/layout_import"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:orientation="vertical" >
             </LinearLayout>
 
