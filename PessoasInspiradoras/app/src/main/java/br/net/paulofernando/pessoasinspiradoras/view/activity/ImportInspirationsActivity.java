@@ -3,6 +3,7 @@ package br.net.paulofernando.pessoasinspiradoras.view.activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,11 @@ import android.widget.TextView;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,6 +39,7 @@ import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.util.parser.XMLPullParserHandler;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.ImportInspirationsView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,36 +88,40 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     }
 
     private void loadImports() {
-        new Thread() {
-            public void run () {
-                try {
-                    sleep(500);
-                    final DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
-                    importedPeople = backup.importPeopleFromLocalXML();
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            containerImports.removeAllViews();
-                            createFields(importedPeople);
-                            helper.close();
-
-                            if (containerImports.getChildCount() == 0) {
-                                Utils.showAlertDialog(ImportInspirationsActivity.this, ImportInspirationsActivity.this.getResources().getString(R.string.warning),
-                                        ImportInspirationsActivity.this.getResources().getString(R.string.no_data_to_import));
-                                btnImport.setEnabled(false);
-                            } else {
-                                buttons.setVisibility(View.VISIBLE);
-                            }
-
-                            tvLoading.setVisibility(View.GONE);
-                            scrollView.setVisibility(View.VISIBLE);
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    Log.e("ERROR", "Erro on loading inspirations to import");
-                }
+        final DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
+        new AsyncTask<Void, Integer, List<PersonParser>>() {
+            protected List<PersonParser> doInBackground(Void... filePaths) {
+                return backup.importPeopleFromLocalXML();
             }
-        }.start();
 
+            protected void onProgressUpdate(Integer... progress) {
+
+            }
+
+            protected void onPostExecute(List<PersonParser> result) {
+                containerImports.removeAllViews();
+                createFields(result);
+                helper.close();
+
+                if (containerImports.getChildCount() == 0) {
+                    Utils.showAlertDialog(ImportInspirationsActivity.this, ImportInspirationsActivity.this.getResources().getString(R.string.warning),
+                            ImportInspirationsActivity.this.getResources().getString(R.string.no_data_to_import));
+                    btnImport.setEnabled(false);
+                } else {
+                    buttons.setVisibility(View.VISIBLE);
+                }
+
+                tvLoading.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
+            }
+        }.execute();
+
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+
+            }
+        });
     }
 
     private void createFields(List<PersonParser> people) {
@@ -286,4 +297,5 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

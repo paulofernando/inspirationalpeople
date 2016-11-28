@@ -96,7 +96,6 @@ public class AddPersonActivity extends AppCompatActivity {
     }
 
     private boolean savePerson() {
-
         DatabaseHelper helper = new DatabaseHelper(this);
         if (helper.getPerson(etPersonName.getText().toString()) != null) {
             Utils.showErrorDialog(this, getString(R.string.error), getString(R.string.name_registered));

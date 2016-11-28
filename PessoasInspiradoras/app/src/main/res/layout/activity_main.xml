@@ -22,31 +22,5 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"/>
 
-    <LinearLayout
-        android:id="@+id/no_inspiration"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-	    <ImageView
-	        android:layout_width="64dp"
-	        android:layout_height="64dp"
-	        android:src="@drawable/zero_inspiration"
-	        />
-	    <TextView
-	        android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:text="@string/no_inspiration"
-        	android:textColor="#888"
-	        />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_new_person"
-            android:textColor="#888"
-            />
-    </LinearLayout>
 
 </RelativeLayout>

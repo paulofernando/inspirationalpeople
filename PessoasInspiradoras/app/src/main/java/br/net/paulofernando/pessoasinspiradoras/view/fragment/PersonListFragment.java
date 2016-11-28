@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PersonListFragment extends Fragment {
 
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PersonAdapter mAdapter;
+    @BindView(R.id.no_inspiration) LinearLayout noInspiration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,16 +78,13 @@ public class PersonListFragment extends Fragment {
 
 
     public void loadMoreData(int page) {
-        /*Log.i(TAG, "Loading page " + (page + 1) + "...");
-        loadingTextView.setVisibility(View.VISIBLE);
-        fillPeopleList(page + 1);*/
     }
 
     protected void getData() {
-        fillPeopleList(1);
+        fillPeopleList();
     }
 
-    public void fillPeopleList(final int pageNumber) {
+    public void fillPeopleList() {
         DatabaseHelper helper = new DatabaseHelper(this.getContext());
 
         final List<Person> result = helper.getPersonsData();
@@ -110,7 +109,22 @@ public class PersonListFragment extends Fragment {
         } else {
             mAdapter.addList(result);
         }
-        //loadingTextView.setVisibility(View.GONE);
+
+        if(result.size() > 0) {
+            noInspiration.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * Verifies if there are difference between the list and the database and update it if necessary.
+     */
+    public void syncList() {
+        DatabaseHelper helper = new DatabaseHelper(this.getContext());
+        if(mAdapter.getItemCount() != helper.getPersonsData().size()) {
+            mAdapter = null;
+            fillPeopleList();
+        }
+        helper.close();
     }
 
 }

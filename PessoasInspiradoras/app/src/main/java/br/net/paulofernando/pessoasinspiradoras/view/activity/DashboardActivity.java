@@ -5,12 +5,14 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.j256.ormlite.dao.Dao;
@@ -28,12 +30,12 @@ import br.net.paulofernando.pessoasinspiradoras.view.widget.PersonView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static br.net.paulofernando.pessoasinspiradoras.R.id.person_fragment;
+
 public class DashboardActivity extends AppCompatActivity {
 
-    //@BindView(R.id.no_inspiration) LinearLayout noInspiration;
     @BindView(R.id.toolbar) Toolbar toolbar;
-
-    private DtoFactory dtoFactory;
+    PersonListFragment personListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,54 +44,18 @@ public class DashboardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
-        dtoFactory = (DtoFactory) getApplication();
+        personListFragment = (PersonListFragment) getSupportFragmentManager().findFragmentById(R.id.person_fragment);
     }
-
-    /*private void loadPersons() {
-        dashboard.removeAllViews();
-        DatabaseHelper helper = new DatabaseHelper(this);
-        addPersons(helper.getPersonsData());
-        helper.close();
-
-        if (dashboard.getChildCount() > 0) {
-            noInspiration.setVisibility(View.GONE);
-        } else {
-            noInspiration.setVisibility(View.VISIBLE);
-        }
-    }*/
 
     void addPerson() {
         Intent intent = new Intent(this, AddPersonActivity.class);
         startActivity(intent);
     }
 
-    public void addPerson(String name, long id, String phoneNumber,
-                          String photoId) {
-        Dao<Person, Integer> pDao = dtoFactory.getPersonDao();
-
-        Person person;
-        try {
-            person = new Person(name, id, phoneNumber);
-            person.setPhoto(Utils.getPhotoByResource(R.drawable.person, this));
-            try {
-                pDao.create(person);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                Log.e("DashboardActivity", "Error on addSelectedPerson");
-            }
-
-            //dashboard.addView(new PersonView(person, this));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
-    }
-
-
-
     @Override
     protected void onResume() {
         super.onResume();
+        personListFragment.syncList();
     }
 
     @Override
