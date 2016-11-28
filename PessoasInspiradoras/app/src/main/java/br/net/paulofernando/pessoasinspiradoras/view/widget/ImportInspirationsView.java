@@ -17,14 +17,9 @@ import butterknife.OnClick;
 
 public class ImportInspirationsView extends LinearLayout {
 
-    @BindView(R.id.person_name_import)
-    TextView personName;
-
-    @BindView(R.id.person_amount_inspirations_import)
-    TextView amountInspirations;
-
-    @BindView(R.id.merge_icon)
-    ImageView mergeIcon;
+    @BindView(R.id.person_name_import) TextView personName;
+    @BindView(R.id.person_amount_inspirations_import) TextView amountInspirations;
+    @BindView(R.id.merge_icon) ImageView mergeIcon;
 
     @BindView(R.id.check_import)
     CheckBox check;
@@ -59,7 +54,7 @@ public class ImportInspirationsView extends LinearLayout {
         }
     }
 
-    @OnClick(R.id.check_import)
+    @OnClick(R.id.import_item)
     void click() {
         check.setChecked(!check.isChecked());
     }

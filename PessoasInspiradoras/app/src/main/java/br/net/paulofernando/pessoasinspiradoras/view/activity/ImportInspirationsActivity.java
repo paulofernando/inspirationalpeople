@@ -56,7 +56,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     @BindView(R.id.date_backup) TextView lastModifiedView;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    List<PersonParser> importedPeople;
+    List<PersonParser> importedPeople = new ArrayList<>();
     List<String> duplicatedInspirationsToDelete = new ArrayList<String>();
     private DtoFactory dtoFactory;
     private Backup backup;
@@ -126,7 +126,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
 
     private void createFields(List<PersonParser> people) {
         DatabaseHelper helper = new DatabaseHelper(this);
-
+        importedPeople.addAll(people);
         for (PersonParser person : people) {
             ImportEntity importEntity = new ImportEntity();
             importEntity.setName(person.getName());

@@ -44,7 +44,7 @@
     <string name="crop__done">FEITO</string>
     <string name="crop__cancel">CANELAR</string>
     <string name="no_inspiration">Nenhuma inspiração.</string>
-	<string name="add_new_person">Adicione uma pessoa antes.</string>
+	<string name="add_new_person">Adicione uma pessoa.</string>
     
 	<string name="edit_inspiration">Editar inspiração</string>
 	<string name="delete_inspiration_title">Deletar inspiração</string>

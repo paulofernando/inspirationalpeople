@@ -37,6 +37,8 @@
         android:layout_height="match_parent"
         android:textAlignment="center"
         android:gravity="center"
+        android:visibility="visible"
+        tools:visibility="gone"
         android:textColor="@color/accent"
         android:textStyle="italic|bold"
         android:text="@string/loading"/>
@@ -46,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        tools:visibility="visible"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/default_space"
@@ -60,8 +63,9 @@
                 android:id="@+id/layout_import"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:weightSum="1">
+
             </LinearLayout>
 
             <LinearLayout
