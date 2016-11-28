@@ -112,6 +112,8 @@ public class PersonListFragment extends Fragment {
 
         if(result.size() > 0) {
             noInspiration.setVisibility(View.GONE);
+        } else {
+            noInspiration.setVisibility(View.VISIBLE);
         }
     }
 
