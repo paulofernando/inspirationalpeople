@@ -19,7 +19,7 @@
         android:id="@+id/container_last_modified"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/image_gradient_start"
+        android:background="@color/accent"
         android:layout_below="@+id/toolbar">
 	    <TextView
 	        android:id="@+id/date_backup"
@@ -42,6 +42,33 @@
         android:textColor="@color/accent"
         android:textStyle="italic|bold"
         android:text="@string/loading"/>
+
+    <LinearLayout
+        android:id="@+id/nothing_to_import"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:gravity="center"
+            android:src="@drawable/info"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_space"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
+            android:text="@string/no_data_to_import"/>
+
+    </LinearLayout>
+
 
     <ScrollView
         android:id="@+id/import_scrollview"

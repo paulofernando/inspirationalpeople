@@ -55,6 +55,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     @BindView(R.id.btn_cancel_import_inspirations) Button btnCancel;
     @BindView(R.id.date_backup) TextView lastModifiedView;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.nothing_to_import) LinearLayout noImportContainer;
 
     List<PersonParser> importedPeople = new ArrayList<>();
     List<String> duplicatedInspirationsToDelete = new ArrayList<String>();
@@ -104,8 +105,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                 helper.close();
 
                 if (containerImports.getChildCount() == 0) {
-                    Utils.showAlertDialog(ImportInspirationsActivity.this, ImportInspirationsActivity.this.getResources().getString(R.string.warning),
-                            ImportInspirationsActivity.this.getResources().getString(R.string.no_data_to_import));
+                    noImportContainer.setVisibility(View.VISIBLE);
                     btnImport.setEnabled(false);
                 } else {
                     buttons.setVisibility(View.VISIBLE);

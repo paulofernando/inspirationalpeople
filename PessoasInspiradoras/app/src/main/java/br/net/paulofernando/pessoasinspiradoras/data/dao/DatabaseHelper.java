@@ -42,7 +42,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private RuntimeExceptionDao<Person, String> simpleRuntimePersonDao = null;
     private RuntimeExceptionDao<Inspiracao, String> simpleRuntimeInspirationDao = null;
 
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.contex = context;
