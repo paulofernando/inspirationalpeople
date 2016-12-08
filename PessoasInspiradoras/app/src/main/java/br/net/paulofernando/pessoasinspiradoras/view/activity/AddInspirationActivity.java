@@ -14,6 +14,7 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,6 +67,7 @@ public class AddInspirationActivity extends AppCompatActivity {
             Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
             try {
                 iDao.create(inspirationEntity);
+                PersonListFragment.UPDATE_PERSON_LIST = true;
             } catch (SQLException e) {
                 e.printStackTrace();
             }

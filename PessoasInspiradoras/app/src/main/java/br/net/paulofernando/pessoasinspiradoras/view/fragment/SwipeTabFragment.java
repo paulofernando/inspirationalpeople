@@ -82,6 +82,7 @@ public class SwipeTabFragment extends Fragment {
                         ((PagerInspirationsFragment) getActivity()).updateData();
 
                         helper.close();
+                        PersonListFragment.UPDATE_PERSON_LIST = true;
                     }
                 });
     }

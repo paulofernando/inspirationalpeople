@@ -20,20 +20,11 @@ import butterknife.OnClick;
 
 public class PersonView extends LinearLayout {
 
-    @BindView(R.id.person_name)
-    TextView personName;
-
-    @BindView(R.id.person_amount_inspirations)
-    TextView amountInspirations;
-
-    @BindView(R.id.medalha)
-    ImageView medalha;
-
-    @BindView(R.id.photo)
-    ImageView photo;
-
-    @BindView(R.id.person_container)
-    RelativeLayout componentPersonView;
+    @BindView(R.id.person_name) TextView personName;
+    @BindView(R.id.person_amount_inspirations) TextView amountInspirations;
+    @BindView(R.id.medal) ImageView medal;
+    @BindView(R.id.photo) ImageView photo;
+    @BindView(R.id.person_container) RelativeLayout componentPersonView;
 
     Person person;
 
@@ -62,16 +53,21 @@ public class PersonView extends LinearLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        amountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1 ? " " +
-                context.getString(R.string.inspirations) : " " + context.getString(R.string.inspiration)));
+
+        updateAmountInspirations();
         loadPhoto();
         loadMedal();
     }
 
+    public void updateAmountInspirations() {
+        amountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1 ? " " +
+                context.getString(R.string.inspirations) : " " + context.getString(R.string.inspiration)));
+    }
+
     private void loadMedal() {
         if (person.getMedal() != -1) {
-            medalha.setImageDrawable(getResources().getDrawable(person.getMedal()));
-            medalha.setVisibility(View.VISIBLE);
+            medal.setImageDrawable(getResources().getDrawable(person.getMedal()));
+            medal.setVisibility(View.VISIBLE);
         }
     }
 

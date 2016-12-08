@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -32,6 +33,8 @@ import br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.TabPagerAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.resource;
 
 public class PagerInspirationsFragment extends FragmentActivity implements
         ActionBar.TabListener {
@@ -146,16 +149,25 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     private void updateMedal(int amountInspirations) {
         if (amountInspirations >= 9) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.nine_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.nine_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 6) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.six_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.six_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 3) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.three_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.three_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else {
             medal.setVisibility(View.INVISIBLE);
@@ -190,7 +202,6 @@ public class PagerInspirationsFragment extends FragmentActivity implements
         }
 
         //updateMedal(listInspirations.size());
-
         helper.close();
     }
 

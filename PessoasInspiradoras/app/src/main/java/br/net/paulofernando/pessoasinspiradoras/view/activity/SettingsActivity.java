@@ -3,6 +3,7 @@ package br.net.paulofernando.pessoasinspiradoras.view.activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,11 +18,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static br.net.paulofernando.pessoasinspiradoras.R.id.input_layout_current_password;
+
 public class SettingsActivity extends AppCompatActivity {
 
     public final static String PREF_KEY = "pref_key";
 
     @BindView(R.id.et_password) EditText etPassword;
+    @BindView(R.id.input_layout_current_password) TextInputLayout textInputPass;
     @BindView(R.id.et_new_password) EditText etNewPassword;
     @BindView(R.id.et_confirm_new_password) EditText etConfirmNewPassword;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -41,9 +45,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY, "").
                 equals("")) {
-            etPassword.setVisibility(View.GONE);
+            textInputPass.setVisibility(View.GONE);
         } else {
-            etPassword.setVisibility(View.VISIBLE);
+            textInputPass.setVisibility(View.VISIBLE);
         }
 
         setSupportActionBar(toolbar);

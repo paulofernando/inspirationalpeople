@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 public class PersonListFragment extends Fragment {
 
     private static final String TAG = "PersonListFragment";
+    public static boolean UPDATE_PERSON_LIST = false;
 
     @BindView(R.id.list_rv) RecyclerView mRecyclerView;
 
@@ -122,9 +123,10 @@ public class PersonListFragment extends Fragment {
      */
     public void syncList() {
         DatabaseHelper helper = new DatabaseHelper(this.getContext());
-        if(mAdapter.getItemCount() != helper.getPersonsData().size()) {
+        if((mAdapter.getItemCount() != helper.getPersonsData().size()) || (UPDATE_PERSON_LIST)) {
             mAdapter = null;
             fillPeopleList();
+            UPDATE_PERSON_LIST = false;
         }
         helper.close();
     }

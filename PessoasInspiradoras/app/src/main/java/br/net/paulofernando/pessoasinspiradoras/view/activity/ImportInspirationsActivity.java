@@ -40,6 +40,7 @@ import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.util.parser.XMLPullParserHandler;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.ImportInspirationsView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -229,6 +230,7 @@ public class ImportInspirationsActivity extends AppCompatActivity {
 
             }
         }
+        PersonListFragment.UPDATE_PERSON_LIST = true;
         helper.close();
         finish();
     }

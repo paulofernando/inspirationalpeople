@@ -19,6 +19,7 @@ import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -98,6 +99,7 @@ public class EditInspirationActivity extends AppCompatActivity {
             updateInspiration(etInpiration.getText().toString());
         }
         changed = false;
+        PersonListFragment.UPDATE_PERSON_LIST = true;
         this.returnScreen(true);
     }
 
