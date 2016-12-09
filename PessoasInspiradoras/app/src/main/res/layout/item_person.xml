@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="viewModel" type="br.net.paulofernando.pessoasinspiradoras.viewModel.PersonViewModel" />
+    </data>
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/person_container"
+        android:background="?attr/selectableItemBackground"
+        android:onClick="@{viewModel.onClickPerson}">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/photo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FFCCCCCC"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:src="@{viewModel.photo}"/>
+
+        <ImageView
+            android:id="@+id/medal"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:visibility="@{viewModel.medalVisibility}"
+            android:src="@{viewModel.medal}"/>
+
+        <TextView
+            android:id="@+id/person_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/photo"
+            android:layout_toLeftOf="@id/medal"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginLeft="12dp"
+            android:textSize="18sp"
+            android:textColor="@color/text_name_person_view"
+            android:text="@{viewModel.personName}"/>
+
+        <TextView
+            android:id="@+id/person_amount_inspirations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/photo"
+            android:layout_below="@id/person_name"
+            android:layout_marginLeft="12dp"
+            android:textSize="14sp"
+            android:textColor="@color/text_inspirations_count"
+            android:text="@{viewModel.amountInspirations}"/>
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/separator"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_alignLeft="@+id/person_name"
+            android:layout_below="@id/photo"/>
+
+    </RelativeLayout>
+</layout>

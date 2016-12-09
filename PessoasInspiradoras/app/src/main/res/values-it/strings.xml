@@ -88,5 +88,7 @@
 
 	<string name="send_backup_email">You can send it to email as well...</string>
 	<string name="loading">Caricamento in corso...</string>
+	<string name="importing">Importando</string>
+	<string name="please_wait">Attendere prego...</string>
 
 </resources>

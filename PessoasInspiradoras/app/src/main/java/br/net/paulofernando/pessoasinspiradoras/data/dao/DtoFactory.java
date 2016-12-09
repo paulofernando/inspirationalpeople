@@ -9,16 +9,16 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 
 public class DtoFactory extends Application {
 
     private SharedPreferences preferences;
     private DatabaseHelper databaseHelper = null;
 
-    private Dao<PersonEntity, Integer> personDAO = null;
-    private Dao<InspiracaoEntity, Integer> inspirationDAO = null;
+    private Dao<Person, Integer> personDAO = null;
+    private Dao<Inspiracao, Integer> inspirationDAO = null;
 
     @Override
     public void onCreate() {
@@ -31,10 +31,10 @@ public class DtoFactory extends Application {
         return preferences;
     }
 
-    public Dao<PersonEntity, Integer> getPersonDao() throws SQLException {
+    public Dao<Person, Integer> getPersonDao() throws SQLException {
         if (personDAO == null) {
             try {
-                personDAO = databaseHelper.getDao(PersonEntity.class);
+                personDAO = databaseHelper.getDao(Person.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 Log.e("DtaFactory", "Erro on getPersonDao()");
@@ -43,10 +43,10 @@ public class DtoFactory extends Application {
         return personDAO;
     }
 
-    public Dao<InspiracaoEntity, Integer> getInspirationDao() throws SQLException {
+    public Dao<Inspiracao, Integer> getInspirationDao() throws SQLException {
         if (inspirationDAO == null) {
             try {
-                inspirationDAO = databaseHelper.getDao(InspiracaoEntity.class);
+                inspirationDAO = databaseHelper.getDao(Inspiracao.class);
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
                 Log.e("DtaFactory", "Erro on getInspirationDao()");

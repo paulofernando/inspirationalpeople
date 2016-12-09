@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.io.Serializable;
 
 @DatabaseTable(tableName = "inspiration")
-public class InspiracaoEntity implements Serializable {
+public class Inspiracao implements Serializable {
 
     private static final long serialVersionUID = 7495903875821643211L;
 
@@ -19,7 +19,7 @@ public class InspiracaoEntity implements Serializable {
     @DatabaseField
     public Long idUser;
 
-    public InspiracaoEntity() {
+    public Inspiracao() {
     }
 
 }

@@ -9,16 +9,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.SwipeTabFragment;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private ArrayList<InspiracaoEntity> inspirations;
+    private ArrayList<Inspiracao> inspirations;
 
-    public TabPagerAdapter(FragmentManager fm, List<InspiracaoEntity> inspirations) {
+    public TabPagerAdapter(FragmentManager fm, List<Inspiracao> inspirations) {
         super(fm);
-        this.inspirations = new ArrayList<InspiracaoEntity>(inspirations);
+        this.inspirations = new ArrayList<Inspiracao>(inspirations);
     }
 
     @Override

@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
@@ -131,6 +134,29 @@ public class Backup {
                     });
         } else {
             writeLocalBackup(file, text);
+        }
+    }
+
+    class ImportFromFile extends AsyncTask<Void, Integer, List<PersonParser>> {
+        protected List<PersonParser> doInBackground(Void... filePaths) {
+            try {
+                File myFile = new File(myDir + "/" + filename);
+                InputStream is = new FileInputStream(myFile);
+
+                XMLPullParserHandler parser = new XMLPullParserHandler();
+                return parser.parse(is);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(List<PersonParser> result) {
+
         }
     }
 

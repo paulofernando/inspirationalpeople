@@ -17,8 +17,9 @@ import java.sql.SQLException;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -98,6 +99,7 @@ public class EditInspirationActivity extends AppCompatActivity {
             updateInspiration(etInpiration.getText().toString());
         }
         changed = false;
+        PersonListFragment.UPDATE_PERSON_LIST = true;
         this.returnScreen(true);
     }
 
@@ -106,11 +108,11 @@ public class EditInspirationActivity extends AppCompatActivity {
             DatabaseHelper helper = new DatabaseHelper(this);
             helper.updateInspirationById(inspirationId, inspiration);
 
-            InspiracaoEntity inspirationEntity = new InspiracaoEntity();
+            Inspiracao inspirationEntity = new Inspiracao();
             inspirationEntity.inspiration = inspiration;
             inspirationEntity.idUser = userId;
 
-            Dao<InspiracaoEntity, Integer> iDao = dtoFactory.getInspirationDao();
+            Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
             try {
                 iDao.create(inspirationEntity);
             } catch (SQLException e) {

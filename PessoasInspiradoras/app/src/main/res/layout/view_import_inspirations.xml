@@ -1,8 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/import_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground">
     
     <CheckBox
         android:id="@+id/check_import"

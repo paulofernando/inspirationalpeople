@@ -3,8 +3,11 @@ package br.net.paulofernando.pessoasinspiradoras.view.fragment;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
@@ -20,14 +23,18 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
+import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity;
-import br.net.paulofernando.pessoasinspiradoras.R;
-import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.TabPagerAdapter;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static android.R.attr.resource;
 
 public class PagerInspirationsFragment extends FragmentActivity implements
         ActionBar.TabListener {
@@ -35,25 +42,25 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     
     long personId;
     private ViewPager viewPager;
-    private TextView personName;
-    private ImageView medal, photo, btnBack, btnEditPerson;
+    @BindView(R.id.person_name_detail_pager) TextView personName;
+    @BindView(R.id.medal_selected_person_pager) ImageView medal;
+    @BindView(R.id.photo_selected_person_pager) ImageView photo;
+    @BindView(R.id.back_person_pager) ImageView btnBack;
+    @BindView(R.id.edit_person_pager) ImageView btnEditPerson;
+
     private TabPagerAdapter tabPagerAdapter;
-    private PersonEntity person;
-    private List<InspiracaoEntity> listInspirations;
+    private Person person;
+    private List<Inspiracao> listInspirations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.pager_inspirations);
-        personName = (TextView) findViewById(R.id.person_name_detail_pager);
-        medal = (ImageView) findViewById(R.id.medal_selected_person_pager);
-        photo = (ImageView) findViewById(R.id.photo_selected_person_pager);
-        btnBack = (ImageView) findViewById(R.id.back_person_pager);
-        btnEditPerson = (ImageView) findViewById(R.id.edit_person_pager);
+        ButterKnife.bind(this);
 
-        personId = getIntent().getLongExtra("id", -1);
-        personName.setText(getIntent().getStringExtra("name"));
+        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        personName.setText(person.name);
+        personId = person.id;
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +68,7 @@ public class PagerInspirationsFragment extends FragmentActivity implements
                 BlurBehind.getInstance().execute(PagerInspirationsFragment.this, new OnBlurCompleteListener() {
                     @Override
                     public void onBlurComplete() {
-                        Intent intent = new Intent(new Intent(PagerInspirationsFragment.this, PopupImageActivity.class));
-                        intent.putExtra("photo", person.photo);
+                        Intent intent = PopupImageActivity.getStartIntent(PagerInspirationsFragment.this, person);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(intent);
                     }
@@ -111,11 +117,27 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     }
 
+    public static Intent getStartIntent(Context context, Person person, ImageView imageView) {
+        Intent intent = new Intent(context, PagerInspirationsFragment.class);
+
+        imageView.buildDrawingCache();
+        Bitmap image = imageView.getDrawingCache();
+
+        Bundle extras = new Bundle();
+        extras.putParcelable(context.getResources().getString(R.string.person_photo), image);
+        extras.putParcelable(context.getResources().getString(R.string.person_details), person);
+        intent.putExtras(extras);
+
+        return intent;
+    }
+
     private void editPersonData() {
-        Intent intent = new Intent(this, EditPersonActivity.class);
-        intent.putExtra("name", personName.getText());
-        intent.putExtra("photo", person.photo);
-        intent.putExtra("id", personId);
+        Intent intent = EditPersonActivity.getStartIntent(this, person);
+        /*String transitionName = context.getString(R.string.cover_name);
+        ActivityOptions transitionActivityOptions = ActivityOptions.
+                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
+
+        context.startActivity(intent, transitionActivityOptions.toBundle());*/
         startActivity(intent);
     }
 
@@ -127,16 +149,25 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     private void updateMedal(int amountInspirations) {
         if (amountInspirations >= 9) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.nine_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.nine_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 6) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.six_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.six_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 3) {
-            medal.setImageDrawable(getResources().getDrawable(
-                    R.drawable.three_plus_white));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus_white));
+            } else {
+                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.three_plus_white, null));
+            }
             medal.setVisibility(View.VISIBLE);
         } else {
             medal.setVisibility(View.INVISIBLE);
@@ -171,7 +202,6 @@ public class PagerInspirationsFragment extends FragmentActivity implements
         }
 
         //updateMedal(listInspirations.size());
-
         helper.close();
     }
 

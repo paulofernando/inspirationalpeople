@@ -3,7 +3,9 @@ package br.net.paulofernando.pessoasinspiradoras.view.activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,11 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,10 +37,12 @@ import br.net.paulofernando.pessoasinspiradoras.data.backup.Backup;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.ImportEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.PersonEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.util.parser.XMLPullParserHandler;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.ImportInspirationsView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,14 +51,16 @@ import butterknife.OnClick;
 public class ImportInspirationsActivity extends AppCompatActivity {
 
     @BindView(R.id.layout_import) LinearLayout containerImports;
+    @BindView(R.id.import_scrollview) ScrollView scrollView;
     @BindView(R.id.loading_import_text) TextView tvLoading;
     @BindView(R.id.buttons_add_inspiration) LinearLayout buttons;
     @BindView(R.id.btn_import_inspirations) Button btnImport;
     @BindView(R.id.btn_cancel_import_inspirations) Button btnCancel;
     @BindView(R.id.date_backup) TextView lastModifiedView;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.nothing_to_import) LinearLayout noImportContainer;
 
-    List<PersonParser> importedPeople;
+    List<PersonParser> importedPeople = new ArrayList<>();
     List<String> duplicatedInspirationsToDelete = new ArrayList<String>();
     private DtoFactory dtoFactory;
     private Backup backup;
@@ -79,47 +92,51 @@ public class ImportInspirationsActivity extends AppCompatActivity {
     }
 
     private void loadImports() {
-        new Thread() {
-            public void run () {
-                try {
-                    sleep(500);
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            containerImports.removeAllViews();
-                            DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
-                            importedPeople = backup.importPeopleFromLocalXML();
-                            createFields(importedPeople);
-                            helper.close();
-
-                            if (containerImports.getChildCount() == 0) {
-                                Utils.showAlertDialog(ImportInspirationsActivity.this, ImportInspirationsActivity.this.getResources().getString(R.string.warning),
-                                        ImportInspirationsActivity.this.getResources().getString(R.string.no_data_to_import));
-                                btnImport.setEnabled(false);
-                            } else {
-                                buttons.setVisibility(View.VISIBLE);
-                            }
-
-                            tvLoading.setVisibility(View.GONE);
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    Log.e("ERROR", "Erro on loading inspirtaion to import");
-                }
+        final DatabaseHelper helper = new DatabaseHelper(ImportInspirationsActivity.this);
+        new AsyncTask<Void, Integer, List<PersonParser>>() {
+            protected List<PersonParser> doInBackground(Void... filePaths) {
+                return backup.importPeopleFromLocalXML();
             }
-        }.start();
 
+            protected void onProgressUpdate(Integer... progress) {
+
+            }
+
+            protected void onPostExecute(List<PersonParser> result) {
+                containerImports.removeAllViews();
+                createFields(result);
+                helper.close();
+
+                if (containerImports.getChildCount() == 0) {
+                    noImportContainer.setVisibility(View.VISIBLE);
+                    btnImport.setEnabled(false);
+                } else {
+                    buttons.setVisibility(View.VISIBLE);
+                }
+
+                tvLoading.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
+            }
+        }.execute();
+
+
+        runOnUiThread(new Runnable() {
+            public void run() {
+
+            }
+        });
     }
 
     private void createFields(List<PersonParser> people) {
         DatabaseHelper helper = new DatabaseHelper(this);
-
+        importedPeople.addAll(people);
         for (PersonParser person : people) {
             ImportEntity importEntity = new ImportEntity();
             importEntity.setName(person.getName());
             importEntity.setPersonId(person.getPersonId());
             importEntity.setPhoto(person.getPhoto());
 
-            PersonEntity personEntity = helper.getPerson(person.name);
+            Person personEntity = helper.getPerson(person.name);
 
             if (personEntity != null) {
                 importEntity.setMerged(true);
@@ -149,15 +166,15 @@ public class ImportInspirationsActivity extends AppCompatActivity {
      * @param personEntity Person saved
      * @return if there are new inspiration
      */
-    private boolean hasNewInspirations(PersonParser personParser, PersonEntity personEntity) {
+    private boolean hasNewInspirations(PersonParser personParser, Person personEntity) {
         DatabaseHelper helper = new DatabaseHelper(this);
 
-        List<InspiracaoEntity> userInspirations = helper.getInspirationData(personEntity.id);
+        List<Inspiracao> userInspirations = helper.getInspirationData(personEntity.id);
 
         boolean newInspiration = false;
         int countFound = 0;
         for (String importedInspiration : personParser.getInspirations()) {
-            for (InspiracaoEntity inspirationEntity : userInspirations) {
+            for (Inspiracao inspirationEntity : userInspirations) {
                 if (importedInspiration.equals(inspirationEntity.inspiration)) {
                     /* Put the inspiration in a List to delete later */
                     duplicatedInspirationsToDelete.add(importedInspiration);
@@ -181,42 +198,56 @@ public class ImportInspirationsActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_import_inspirations)
     void addClick() {
-        DatabaseHelper helper = new DatabaseHelper(this);
+        final DatabaseHelper helper = new DatabaseHelper(this);
 
-        for (int i = 0; i < containerImports.getChildCount(); i++) {
-            if (((ImportInspirationsView) containerImports.getChildAt(i)).isChecked()) {
-                ImportEntity importEntity = ((ImportInspirationsView) containerImports.getChildAt(i)).getImportPerson();
+        new MaterialDialog.Builder(this)
+                .title(this.getResources().getString(R.string.importing))
+                .content(this.getResources().getString(R.string.please_wait))
+                .progress(true, 0)
+                .show();
 
-                long personId;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < containerImports.getChildCount(); i++) {
+                    if (((ImportInspirationsView) containerImports.getChildAt(i)).isChecked()) {
+                        ImportEntity importEntity = ((ImportInspirationsView) containerImports.getChildAt(i)).getImportPerson();
 
-                if (importEntity.isMerged()) {
-                    //get the id of the person with the same name of the imported data
-                    personId = helper.getPerson(importEntity.getName()).id;
-                } else {
-                    personId = createPerson(importEntity);
-                }
+                        long personId;
 
-                if (personId != -1) {
-                    PersonParser personToImport = getPersonToImportByName(importEntity.getName());
-                    //---------------- Adding inspirations ---------------------
-                    for (String inspiration : personToImport.inspirations) {
-                        InspiracaoEntity inspirationEntity = new InspiracaoEntity();
-                        inspirationEntity.inspiration = inspiration;
-                        inspirationEntity.idUser = personId;
-
-                        Dao<InspiracaoEntity, Integer> iDao = dtoFactory.getInspirationDao();
-                        try {
-                            iDao.create(inspirationEntity);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                        if (importEntity.isMerged()) {
+                            //get the id of the person with the same name of the imported data
+                            personId = helper.getPerson(importEntity.getName()).id;
+                        } else {
+                            personId = createPerson(importEntity);
                         }
+
+                        if (personId != -1) {
+                            PersonParser personToImport = getPersonToImportByName(importEntity.getName());
+                            //---------------- Adding inspirations ---------------------
+                            for (String inspiration : personToImport.inspirations) {
+                                Inspiracao inspirationEntity = new Inspiracao();
+                                inspirationEntity.inspiration = inspiration;
+                                inspirationEntity.idUser = personId;
+
+                                Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
+                                try {
+                                    iDao.create(inspirationEntity);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
                     }
                 }
-
+                PersonListFragment.UPDATE_PERSON_LIST = true;
+                helper.close();
+                finish();
             }
-        }
-        helper.close();
-        finish();
+        }, 500);
+
+
     }
 
     /**
@@ -231,11 +262,11 @@ public class ImportInspirationsActivity extends AppCompatActivity {
      * @return the id of the person or -1 if a error occurred
      */
     private long createPerson(ImportEntity importEntity) {
-        Dao<PersonEntity, Integer> pDao = dtoFactory.getPersonDao();
-        PersonEntity person;
+        Dao<Person, Integer> pDao = dtoFactory.getPersonDao();
+        Person person;
         long personId = Calendar.getInstance().getTimeInMillis();
         try {
-            person = new PersonEntity(importEntity.getName(), personId, "");
+            person = new Person(importEntity.getName(), personId, "");
 
             if (importEntity.getPhoto() != null) {
                 //Set image to size 256x256
@@ -283,4 +314,5 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

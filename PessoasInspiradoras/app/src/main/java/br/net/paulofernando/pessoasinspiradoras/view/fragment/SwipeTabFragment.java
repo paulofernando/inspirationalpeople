@@ -14,21 +14,21 @@ import br.net.paulofernando.pessoasinspiradoras.view.activity.EditInspirationAct
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.util.ImageFromSentence;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.InspiracaoEntity;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 
 public class SwipeTabFragment extends Fragment {
 
     private TextView tv;
 
-    private InspiracaoEntity inspirationEntity;
+    private Inspiracao inspirationEntity;
     private ImageView btEdit, btDelete, btShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        inspirationEntity = new InspiracaoEntity();
+        inspirationEntity = new Inspiracao();
 
         inspirationEntity.inspiration = bundle.getString("inspiration");
         inspirationEntity.id = bundle.getLong("id");
@@ -82,6 +82,7 @@ public class SwipeTabFragment extends Fragment {
                         ((PagerInspirationsFragment) getActivity()).updateData();
 
                         helper.close();
+                        PersonListFragment.UPDATE_PERSON_LIST = true;
                     }
                 });
     }

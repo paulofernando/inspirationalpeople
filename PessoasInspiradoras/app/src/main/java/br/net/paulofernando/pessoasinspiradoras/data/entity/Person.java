@@ -1,5 +1,8 @@
 package br.net.paulofernando.pessoasinspiradoras.data.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -9,7 +12,7 @@ import java.io.Serializable;
 import br.net.paulofernando.pessoasinspiradoras.R;
 
 @DatabaseTable(tableName = "person")
-public class PersonEntity implements Serializable {
+public class Person implements Parcelable, Serializable {
 
     private static final long serialVersionUID = -6347760237875943686L;
 
@@ -23,16 +26,35 @@ public class PersonEntity implements Serializable {
     public String phone;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     public byte[] photo;
-    int amountInpirations = 0;
+    private int amountInpirations = 0;
 
-    public PersonEntity(String name, long personId, String phone) {
+    public Person(String name, long personId, String phone) {
         this.name = name;
         this.id = personId;
         this.phone = phone;
     }
 
-    public PersonEntity() {
+    public Person() {}
+
+    protected Person(Parcel in) {
+        id = in.readLong();
+        name = in.readString();
+        phone = in.readString();
+        photo = in.createByteArray();
+        amountInpirations = in.readInt();
     }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
@@ -56,5 +78,19 @@ public class PersonEntity implements Serializable {
         } else {
             return -1;
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(name);
+        parcel.writeString(phone);
+        parcel.writeByteArray(photo);
+        parcel.writeInt(amountInpirations);
     }
 }

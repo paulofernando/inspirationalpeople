@@ -40,6 +40,7 @@
     <!-- Separator -->
     <color name="separator">#e5e5e5</color>
     <color name="separator_person_info">#aaaaaa</color>
+    <color name="divider">#e5e5e5</color>
 
     <!-- Screen Background -->
     <color name="screen_background">#f1f1f1</color>

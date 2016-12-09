@@ -1,6 +1,7 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,7 +33,9 @@ import java.io.IOException;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,14 +49,12 @@ public class EditPersonActivity extends AppCompatActivity {
     @BindView(R.id.et_person_name) EditText etPersonName;
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    private long personId;
     private boolean changed;
 
     private Bitmap bmp;
     private Uri outputUri;
     private byte[] photoRaw;
-
-
+    private Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,9 @@ public class EditPersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_person);
         ButterKnife.bind(this);
 
-        personId = getIntent().getLongExtra("id", -1);
-        photoRaw = getIntent().getByteArrayExtra("photo");
-
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(photoRaw, 0,
-                photoRaw.length));
-
-        etPersonName.setText((getIntent().getStringExtra("name")));
+        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+        etPersonName.setText(person.name);
 
         etPersonName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,6 +84,14 @@ public class EditPersonActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    public static Intent getStartIntent(Context context, Person person) {
+        Intent intent = new Intent(context, EditPersonActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(context.getResources().getString(R.string.person_details), person);
+        intent.putExtras(extras);
+        return intent;
     }
 
     @OnClick(R.id.bt_edit_cancel)
@@ -118,10 +123,10 @@ public class EditPersonActivity extends AppCompatActivity {
     void save() {
         DatabaseHelper helper = new DatabaseHelper(this);
         if (bmp != null) {
-            helper.updatePersonById(personId, etPersonName.getText().toString(),
+            helper.updatePersonById(person.id, etPersonName.getText().toString(),
                     Utils.getByteArrayFromBitmap(bmp));
         } else {
-            helper.updatePersonById(personId, etPersonName.getText().toString());
+            helper.updatePersonById(person.id, etPersonName.getText().toString());
         }
         changed = false;
         helper.close();
@@ -139,8 +144,7 @@ public class EditPersonActivity extends AppCompatActivity {
         BlurBehind.getInstance().execute(this, new OnBlurCompleteListener() {
             @Override
             public void onBlurComplete() {
-                Intent intent = new Intent(new Intent(EditPersonActivity.this, PopupImageActivity.class));
-                intent.putExtra("photo", photoRaw);
+                Intent intent = PopupImageActivity.getStartIntent(EditPersonActivity.this, person);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
@@ -241,8 +245,8 @@ public class EditPersonActivity extends AppCompatActivity {
 
     private void deletePersonData() {
         DatabaseHelper helper = new DatabaseHelper(EditPersonActivity.this);
-        helper.deletePersonById(personId);
-        helper.deleteAllInspirationsByUserId(personId);
+        helper.deletePersonById(person.id);
+        helper.deleteAllInspirationsByUserId(person.id);
         helper.close();
     }
 
