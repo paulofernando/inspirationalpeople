@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.ByteArrayOutputStream;
@@ -196,43 +198,56 @@ public class ImportInspirationsActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_import_inspirations)
     void addClick() {
-        DatabaseHelper helper = new DatabaseHelper(this);
+        final DatabaseHelper helper = new DatabaseHelper(this);
 
-        for (int i = 0; i < containerImports.getChildCount(); i++) {
-            if (((ImportInspirationsView) containerImports.getChildAt(i)).isChecked()) {
-                ImportEntity importEntity = ((ImportInspirationsView) containerImports.getChildAt(i)).getImportPerson();
+        new MaterialDialog.Builder(this)
+                .title(this.getResources().getString(R.string.importing))
+                .content(this.getResources().getString(R.string.please_wait))
+                .progress(true, 0)
+                .show();
 
-                long personId;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < containerImports.getChildCount(); i++) {
+                    if (((ImportInspirationsView) containerImports.getChildAt(i)).isChecked()) {
+                        ImportEntity importEntity = ((ImportInspirationsView) containerImports.getChildAt(i)).getImportPerson();
 
-                if (importEntity.isMerged()) {
-                    //get the id of the person with the same name of the imported data
-                    personId = helper.getPerson(importEntity.getName()).id;
-                } else {
-                    personId = createPerson(importEntity);
-                }
+                        long personId;
 
-                if (personId != -1) {
-                    PersonParser personToImport = getPersonToImportByName(importEntity.getName());
-                    //---------------- Adding inspirations ---------------------
-                    for (String inspiration : personToImport.inspirations) {
-                        Inspiracao inspirationEntity = new Inspiracao();
-                        inspirationEntity.inspiration = inspiration;
-                        inspirationEntity.idUser = personId;
-
-                        Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
-                        try {
-                            iDao.create(inspirationEntity);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
+                        if (importEntity.isMerged()) {
+                            //get the id of the person with the same name of the imported data
+                            personId = helper.getPerson(importEntity.getName()).id;
+                        } else {
+                            personId = createPerson(importEntity);
                         }
+
+                        if (personId != -1) {
+                            PersonParser personToImport = getPersonToImportByName(importEntity.getName());
+                            //---------------- Adding inspirations ---------------------
+                            for (String inspiration : personToImport.inspirations) {
+                                Inspiracao inspirationEntity = new Inspiracao();
+                                inspirationEntity.inspiration = inspiration;
+                                inspirationEntity.idUser = personId;
+
+                                Dao<Inspiracao, Integer> iDao = dtoFactory.getInspirationDao();
+                                try {
+                                    iDao.create(inspirationEntity);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
                     }
                 }
-
+                PersonListFragment.UPDATE_PERSON_LIST = true;
+                helper.close();
+                finish();
             }
-        }
-        PersonListFragment.UPDATE_PERSON_LIST = true;
-        helper.close();
-        finish();
+        }, 500);
+
+
     }
 
     /**
