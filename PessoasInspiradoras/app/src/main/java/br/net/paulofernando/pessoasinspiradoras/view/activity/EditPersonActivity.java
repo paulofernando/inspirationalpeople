@@ -36,6 +36,7 @@ import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
+import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -129,6 +130,7 @@ public class EditPersonActivity extends AppCompatActivity {
             helper.updatePersonById(person.id, etPersonName.getText().toString());
         }
         changed = false;
+        PersonListFragment.UPDATE_PERSON_LIST = true;
         helper.close();
         this.finish();
     }
