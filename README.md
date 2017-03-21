@@ -8,11 +8,7 @@ Do you want a place to register all inspirational action/sentences of the people
 
 ## Screenshots
 
-<img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/1.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/2.png" width="31%" />
-&nbsp;
-<img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/3.png" width="31%" />
+<img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/1.png" width="31%" /> &nbsp; <img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/2.png" width="31%" /> &nbsp; <img src="https://github.com/paulofernando/inspirationalpeople/blob/master/screenshots/3.png" width="31%" />
 
 ## License
 
