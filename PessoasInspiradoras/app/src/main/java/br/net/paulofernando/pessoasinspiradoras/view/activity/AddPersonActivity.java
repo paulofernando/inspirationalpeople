@@ -1,19 +1,22 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -29,20 +32,16 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityAddPersonBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddPersonActivity extends AppCompatActivity {
 
     public static final int RESULT_LOAD_IMAGE = 1;
     public static final int RESULT_CROP = 2;
+    private static final int PERMISSION_REQUEST_READ_MEDIA = 100;
 
-    @BindView(R.id.add_person_photo) ImageView photo;
-    @BindView(R.id.et_add_person_name) EditText etPersonName;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
+    private ActivityAddPersonBinding binding;
     private boolean changed;
     private Bitmap bmp = null;
     private Uri outputUri;
@@ -53,13 +52,17 @@ public class AddPersonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_person);
-        ButterKnife.bind(this);
+        binding = ActivityAddPersonBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         dtoFactory = (DtoFactory) getApplication();
-        photo.setImageDrawable(getResources().getDrawable(R.drawable.person));
+        binding.addPersonPhoto.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.person));
 
-        etPersonName.addTextChangedListener(new TextWatcher() {
+        binding.btAddCancel.setOnClickListener(v -> cancelSettings());
+        binding.btAddSave.setOnClickListener(v -> save());
+        binding.addPersonPhoto.setOnClickListener(v -> changePhoto());
+
+        binding.etAddPersonName.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -74,17 +77,15 @@ public class AddPersonActivity extends AppCompatActivity {
             }
         });
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
     }
 
-    @OnClick(R.id.bt_add_cancel)
     void cancelSettings() {
         this.finish();
     }
 
-    @OnClick(R.id.bt_add_save)
     void save() {
-        if (etPersonName.getText().toString().equals("")) {
+        if (binding.etAddPersonName.getText().toString().equals("")) {
             Toast.makeText(this, getString(R.string.empty_field_name), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -97,7 +98,7 @@ public class AddPersonActivity extends AppCompatActivity {
 
     private boolean savePerson() {
         DatabaseHelper helper = new DatabaseHelper(this);
-        if (helper.getPerson(etPersonName.getText().toString()) != null) {
+        if (helper.getPerson(binding.etAddPersonName.getText().toString()) != null) {
             Utils.showErrorDialog(this, getString(R.string.error), getString(R.string.name_registered));
             return false;
         }
@@ -108,7 +109,7 @@ public class AddPersonActivity extends AppCompatActivity {
         try {
             // person = new Person(SimpleCrypto.encrypt(Utils.key, name),
             // id, SimpleCrypto.encrypt(Utils.key, phoneNumber));
-            person = new Person(etPersonName.getText().toString(), Calendar.getInstance().getTimeInMillis(), "");
+            person = new Person(binding.etAddPersonName.getText().toString(), Calendar.getInstance().getTimeInMillis(), "");
 
             if (bmp != null) {
                 person.setPhoto(Utils.getByteArrayFromBitmap(bmp));
@@ -130,11 +131,52 @@ public class AddPersonActivity extends AppCompatActivity {
         return true;
     }
 
-    @OnClick(R.id.add_person_photo)
     void changePhoto() {
+        if (checkStoragePermission()) {
+            pickImage();
+        } else {
+            requestStoragePermission();
+        }
+        changed = true;
+    }
+
+    private boolean checkStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                    PERMISSION_REQUEST_READ_MEDIA);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_READ_MEDIA);
+        }
+    }
+
+    private void pickImage() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
-        changed = true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_READ_MEDIA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickImage();
+            } else {
+                Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -158,7 +200,7 @@ public class AddPersonActivity extends AppCompatActivity {
                     bmp = Bitmap.createScaledBitmap(bmp, 256, 256, true);
                 }
 
-                photo.setImageBitmap(bmp);
+                binding.addPersonPhoto.setImageBitmap(bmp);
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -1,30 +1,19 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.j256.ormlite.dao.Dao;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,54 +28,44 @@ import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.ImportEntity;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
-import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityImportInspirationsBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import br.net.paulofernando.pessoasinspiradoras.util.parser.XMLPullParserHandler;
+import br.net.paulofernando.pessoasinspiradoras.util.parser.PersonParser;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
 import br.net.paulofernando.pessoasinspiradoras.view.widget.ImportInspirationsView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ImportInspirationsActivity extends AppCompatActivity {
 
-    @BindView(R.id.layout_import) LinearLayout containerImports;
-    @BindView(R.id.import_scrollview) ScrollView scrollView;
-    @BindView(R.id.loading_import_text) TextView tvLoading;
-    @BindView(R.id.buttons_add_inspiration) LinearLayout buttons;
-    @BindView(R.id.btn_import_inspirations) Button btnImport;
-    @BindView(R.id.btn_cancel_import_inspirations) Button btnCancel;
-    @BindView(R.id.date_backup) TextView lastModifiedView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nothing_to_import) LinearLayout noImportContainer;
+    private ActivityImportInspirationsBinding binding;
 
     List<PersonParser> importedPeople = new ArrayList<>();
     List<String> duplicatedInspirationsToDelete = new ArrayList<String>();
     private DtoFactory dtoFactory;
     private Backup backup;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_import_inspirations);
-        ButterKnife.bind(this);
+        binding = ActivityImportInspirationsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         dtoFactory = (DtoFactory) getApplication();
         backup = new Backup(this);
 
+        binding.btnCancelImportInspirations.setOnClickListener(v -> cancelSettings());
+        binding.btnImportInspirations.setOnClickListener(v -> addClick());
+
         Date lastModified = new Date(backup.getLocalBackupLastModified());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         String formattedDate = sdf.format(lastModified);
-        lastModifiedView.setText(this.getResources().getString(R.string.date_backup) + " " + formattedDate);
+        binding.dateBackup.setText(this.getResources().getString(R.string.date_backup) + " " + formattedDate);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loadImports();
     }
 
-    @OnClick(R.id.btn_cancel_import_inspirations)
     void cancelSettings() {
         this.finish();
     }
@@ -103,19 +82,19 @@ public class ImportInspirationsActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(List<PersonParser> result) {
-                containerImports.removeAllViews();
+                binding.layoutImport.removeAllViews();
                 createFields(result);
                 helper.close();
 
-                if (containerImports.getChildCount() == 0) {
-                    noImportContainer.setVisibility(View.VISIBLE);
-                    btnImport.setEnabled(false);
+                if (binding.layoutImport.getChildCount() == 0) {
+                    binding.nothingToImport.setVisibility(View.VISIBLE);
+                    binding.btnImportInspirations.setEnabled(false);
                 } else {
-                    buttons.setVisibility(View.VISIBLE);
+                    binding.buttonsAddInspiration.setVisibility(View.VISIBLE);
                 }
 
-                tvLoading.setVisibility(View.GONE);
-                scrollView.setVisibility(View.VISIBLE);
+                binding.loadingImportText.setVisibility(View.GONE);
+                binding.importScrollview.setVisibility(View.VISIBLE);
             }
         }.execute();
 
@@ -143,12 +122,12 @@ public class ImportInspirationsActivity extends AppCompatActivity {
                 if (hasNewInspirations(person, personEntity)) {
                     person.inspirations.removeAll(duplicatedInspirationsToDelete);
                     importEntity.setAmountInpirations(person.inspirations.size());
-                    containerImports.addView(new ImportInspirationsView(importEntity, this));
+                    binding.layoutImport.addView(new ImportInspirationsView(importEntity, this));
                 }
             } else {
                 person.inspirations.removeAll(duplicatedInspirationsToDelete);
                 importEntity.setAmountInpirations(person.inspirations.size());
-                containerImports.addView(new ImportInspirationsView(importEntity, this));
+                binding.layoutImport.addView(new ImportInspirationsView(importEntity, this));
             }
 
 
@@ -196,7 +175,6 @@ public class ImportInspirationsActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.btn_import_inspirations)
     void addClick() {
         final DatabaseHelper helper = new DatabaseHelper(this);
 
@@ -209,9 +187,9 @@ public class ImportInspirationsActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < containerImports.getChildCount(); i++) {
-                    if (((ImportInspirationsView) containerImports.getChildAt(i)).isChecked()) {
-                        ImportEntity importEntity = ((ImportInspirationsView) containerImports.getChildAt(i)).getImportPerson();
+                for (int i = 0; i < binding.layoutImport.getChildCount(); i++) {
+                    if (((ImportInspirationsView) binding.layoutImport.getChildAt(i)).isChecked()) {
+                        ImportEntity importEntity = ((ImportInspirationsView) binding.layoutImport.getChildAt(i)).getImportPerson();
 
                         long personId;
 

@@ -3,28 +3,20 @@ package br.net.paulofernando.pessoasinspiradoras.view.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ItemPersonBinding;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
-import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PersonView extends LinearLayout {
 
-    @BindView(R.id.person_name) TextView personName;
-    @BindView(R.id.person_amount_inspirations) TextView amountInspirations;
-    @BindView(R.id.medal) ImageView medal;
-    @BindView(R.id.photo) ImageView photo;
-    @BindView(R.id.person_container) RelativeLayout componentPersonView;
+    private ItemPersonBinding binding;
 
     Person person;
 
@@ -44,11 +36,10 @@ public class PersonView extends LinearLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.item_person, this); // your layout with <merge> as the root tag
-        ButterKnife.bind(this);
+        binding = ItemPersonBinding.inflate(LayoutInflater.from(getContext()), this, true);
 
         try {
-            personName.setText(person.name);
+            binding.personName.setText(person.name);
             //personName.setText(SimpleCrypto.decrypt(Utils.key, person.name));
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,25 +48,27 @@ public class PersonView extends LinearLayout {
         updateAmountInspirations();
         loadPhoto();
         loadMedal();
+
+        binding.personContainer.setOnClickListener(v -> click());
+        binding.photo.setOnClickListener(v -> clickPhoto());
     }
 
     public void updateAmountInspirations() {
-        amountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1 ? " " +
+        binding.personAmountInspirations.setText(person.getAmountInpirations() + (person.getAmountInpirations() > 1 ? " " +
                 context.getString(R.string.inspirations) : " " + context.getString(R.string.inspiration)));
     }
 
     private void loadMedal() {
         if (person.getMedal() != -1) {
-            medal.setImageDrawable(getResources().getDrawable(person.getMedal()));
-            medal.setVisibility(View.VISIBLE);
+            binding.medal.setImageDrawable(ContextCompat.getDrawable(this.getContext(), person.getMedal()));
+            binding.medal.setVisibility(View.VISIBLE);
         }
     }
 
     void loadPhoto() {
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+        binding.photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
     }
 
-    @OnClick(R.id.person_container)
     void click() {
         Intent intent = new Intent(getContext(), PagerInspirationsFragment.class);
         intent.putExtra("name", person.name);
@@ -84,12 +77,8 @@ public class PersonView extends LinearLayout {
         getContext().startActivity(intent);
     }
 
-    @OnClick(R.id.photo)
     void clickPhoto() {
-        Intent intent = new Intent(getContext(), EditPersonActivity.class);
-        intent.putExtra("name", person.name);
-        intent.putExtra("photo", person.photo);
-        intent.putExtra("id", person.id);
+        Intent intent = EditPersonActivity.getStartIntent(getContext(), person);
         getContext().startActivity(intent);
     }
 

@@ -1,28 +1,18 @@
 package br.net.paulofernando.pessoasinspiradoras.view.widget;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.ImportEntity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ViewImportInspirationsBinding;
 
 
 public class ImportInspirationsView extends LinearLayout {
 
-    @BindView(R.id.person_name_import) TextView personName;
-    @BindView(R.id.person_amount_inspirations_import) TextView amountInspirations;
-    @BindView(R.id.merge_icon) ImageView mergeIcon;
-
-    @BindView(R.id.check_import)
-    CheckBox check;
+    private ViewImportInspirationsBinding binding;
 
     ImportEntity importPerson;
 
@@ -42,25 +32,25 @@ public class ImportInspirationsView extends LinearLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.view_import_inspirations, this); // your layout with <merge> as the root tag
-        ButterKnife.bind(this);
+        binding = ViewImportInspirationsBinding.inflate(LayoutInflater.from(getContext()), this, true);
 
-        personName.setText(importPerson.getName());
-        amountInspirations.setText(importPerson.getAmountInpirations() + (importPerson.getAmountInpirations() > 1 ? " " +
+        binding.personNameImport.setText(importPerson.getName());
+        binding.personAmountInspirationsImport.setText(importPerson.getAmountInpirations() + (importPerson.getAmountInpirations() > 1 ? " " +
                 context.getString(R.string.inspirations) : " " + context.getString(R.string.inspiration)));
 
         if (importPerson.isMerged()) {
-            mergeIcon.setVisibility(View.VISIBLE);
+            binding.mergeIcon.setVisibility(View.VISIBLE);
         }
+
+        binding.importItem.setOnClickListener(v -> click());
     }
 
-    @OnClick(R.id.import_item)
     void click() {
-        check.setChecked(!check.isChecked());
+        binding.checkImport.setChecked(!binding.checkImport.isChecked());
     }
 
     public boolean isChecked() {
-        return check.isChecked();
+        return binding.checkImport.isChecked();
     }
 
     public ImportEntity getImportPerson() {

@@ -3,12 +3,10 @@ package br.net.paulofernando.pessoasinspiradoras.view.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -18,18 +16,15 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityEditInspirationBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class EditInspirationActivity extends AppCompatActivity {
 
     public static final int EDIT_INSPIRATION = 0;
 
-    @BindView(R.id.et_add_inspiration) EditText etInpiration;
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    private ActivityEditInspirationBinding binding;
 
     private long inspirationId, userId;
     private DtoFactory dtoFactory;
@@ -38,14 +33,17 @@ public class EditInspirationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_inspiration);
-        ButterKnife.bind(this);
+        binding = ActivityEditInspirationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.btAddInpirationCancel.setOnClickListener(v -> cancel());
+        binding.btAddInspirationSave.setOnClickListener(v -> save());
 
         inspirationId = getIntent().getLongExtra("idInspiration", -1);
         userId = getIntent().getLongExtra("idInspiration", -1);
-        etInpiration.setText(getIntent().getStringExtra("inspiration"));
+        binding.etAddInspiration.setText(getIntent().getStringExtra("inspiration"));
 
-        etInpiration.addTextChangedListener(new TextWatcher() {
+        binding.etAddInspiration.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -60,11 +58,10 @@ public class EditInspirationActivity extends AppCompatActivity {
             }
         });
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         dtoFactory = (DtoFactory) getApplication();
     }
 
-    @OnClick(R.id.bt_add_inpiration_cancel)
     void cancel() {
         if (changed) {
             Utils.showConfirmDialog(
@@ -89,14 +86,13 @@ public class EditInspirationActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.bt_add_inspiration_save)
     void save() {
-        if (etInpiration.getText().toString().equals("")) {
+        if (binding.etAddInspiration.getText().toString().equals("")) {
             Utils.showAlertDialog(this, getString(R.string.warning),
                     getString(R.string.empty_field_inspiration));
             return;
         } else {
-            updateInspiration(etInpiration.getText().toString());
+            updateInspiration(binding.etAddInspiration.getText().toString());
         }
         changed = false;
         PersonListFragment.UPDATE_PERSON_LIST = true;

@@ -3,54 +3,40 @@ package br.net.paulofernando.pessoasinspiradoras.view.activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivitySettingsBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import static br.net.paulofernando.pessoasinspiradoras.R.id.input_layout_current_password;
 
 public class SettingsActivity extends AppCompatActivity {
 
     public final static String PREF_KEY = "pref_key";
 
-    @BindView(R.id.et_password) EditText etPassword;
-    @BindView(R.id.input_layout_current_password) TextInputLayout textInputPass;
-    @BindView(R.id.et_new_password) EditText etNewPassword;
-    @BindView(R.id.et_confirm_new_password) EditText etConfirmNewPassword;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
+    private ActivitySettingsBinding binding;
     private boolean changed;
-
-    @OnClick(R.id.bt_cancel)
-    void cancelSettings() {
-        this.finish();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        ButterKnife.bind(this);
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.btCancel.setOnClickListener(v -> cancelSettings());
+        binding.btSave.setOnClickListener(v -> saveSettings());
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY, "").
                 equals("")) {
-            textInputPass.setVisibility(View.GONE);
+            binding.inputLayoutCurrentPassword.setVisibility(View.GONE);
         } else {
-            textInputPass.setVisibility(View.VISIBLE);
+            binding.inputLayoutCurrentPassword.setVisibility(View.VISIBLE);
         }
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextWatcher textWatcher = new TextWatcher() {
@@ -68,22 +54,25 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-        etPassword.addTextChangedListener(textWatcher);
-        etNewPassword.addTextChangedListener(textWatcher);
-        etConfirmNewPassword.addTextChangedListener(textWatcher);
+        binding.etPassword.addTextChangedListener(textWatcher);
+        binding.etNewPassword.addTextChangedListener(textWatcher);
+        binding.etConfirmNewPassword.addTextChangedListener(textWatcher);
     }
 
-    @OnClick(R.id.bt_save)
+    void cancelSettings() {
+        this.finish();
+    }
+
     void saveSettings() {
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY, "").
-                equals(etPassword.getText().toString())) {
-            if (etNewPassword.getText().toString().equals(etConfirmNewPassword.getText().toString())) {
+                equals(binding.etPassword.getText().toString())) {
+            if (binding.etNewPassword.getText().toString().equals(binding.etConfirmNewPassword.getText().toString())) {
                 PreferenceManager.getDefaultSharedPreferences(this).edit().
-                        putString(PREF_KEY, etNewPassword.getText().toString()).commit();
+                        putString(PREF_KEY, binding.etNewPassword.getText().toString()).commit();
                 //Toast.makeText(this, getString(R.string.password_changed), Toast.LENGTH_SHORT).show();
-                etPassword.setText("");
-                etNewPassword.setText("");
-                etConfirmNewPassword.setText("");
+                binding.etPassword.setText("");
+                binding.etNewPassword.setText("");
+                binding.etConfirmNewPassword.setText("");
                 changed = false;
                 this.finish();
             } else {
@@ -92,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                 changed = true;
             }
         } else {
-            etPassword.requestFocus();
+            binding.etPassword.requestFocus();
             Utils.showErrorDialog(this, getResources().getString(R.string.error),
                     getResources().getString(R.string.password_incorrect));
             changed = true;

@@ -1,7 +1,6 @@
 package br.net.paulofernando.pessoasinspiradoras.view.fragment;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -9,17 +8,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.faradaj.blurbehind.BlurBehind;
 import com.faradaj.blurbehind.OnBlurCompleteListener;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.List;
 
@@ -27,26 +24,20 @@ import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
+import br.net.paulofernando.pessoasinspiradoras.databinding.PagerInspirationsBinding;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ContentPagerInspirationsBinding;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.TabPagerAdapter;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static android.R.attr.resource;
 
 public class PagerInspirationsFragment extends FragmentActivity implements
         ActionBar.TabListener {
 
     
     long personId;
-    private ViewPager viewPager;
-    @BindView(R.id.person_name_detail_pager) TextView personName;
-    @BindView(R.id.medal_selected_person_pager) ImageView medal;
-    @BindView(R.id.photo_selected_person_pager) ImageView photo;
-    @BindView(R.id.back_person_pager) ImageView btnBack;
-    @BindView(R.id.edit_person_pager) ImageView btnEditPerson;
+    private PagerInspirationsBinding binding;
+    private ContentPagerInspirationsBinding contentBinding;
 
     private TabPagerAdapter tabPagerAdapter;
     private Person person;
@@ -55,14 +46,19 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pager_inspirations);
-        ButterKnife.bind(this);
+        binding = PagerInspirationsBinding.inflate(getLayoutInflater());
+        contentBinding = ContentPagerInspirationsBinding.bind(binding.getRoot());
+        setContentView(binding.getRoot());
 
-        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
-        personName.setText(person.name);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details), Person.class);
+        } else {
+            person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        }
+        contentBinding.personNameDetailPager.setText(person.name);
         personId = person.id;
 
-        photo.setOnClickListener(new View.OnClickListener() {
+        contentBinding.photoSelectedPersonPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BlurBehind.getInstance().execute(PagerInspirationsFragment.this, new OnBlurCompleteListener() {
@@ -76,21 +72,21 @@ public class PagerInspirationsFragment extends FragmentActivity implements
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        contentBinding.backPersonPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PagerInspirationsFragment.this.finish();
             }
         });
 
-        btnEditPerson.setOnClickListener(new View.OnClickListener() {
+        contentBinding.editPersonPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editPersonData();
             }
         });
 
-        personName.setOnClickListener(new View.OnClickListener() {
+        contentBinding.personNameDetailPager.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editPersonData();
@@ -102,11 +98,9 @@ public class PagerInspirationsFragment extends FragmentActivity implements
         tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(),
                 listInspirations);
 
-        viewPager = (ViewPager) findViewById(R.id.pager_inspirations);
-        viewPager.setAdapter(tabPagerAdapter);
+        contentBinding.pagerInspirations.setAdapter(tabPagerAdapter);
 
-        CirclePageIndicator mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
-        mIndicator.setViewPager(viewPager);
+        contentBinding.indicator.setViewPager(contentBinding.pagerInspirations);
 
         FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
@@ -117,14 +111,10 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     }
 
-    public static Intent getStartIntent(Context context, Person person, ImageView imageView) {
+    public static Intent getStartIntent(Context context, Person person) {
         Intent intent = new Intent(context, PagerInspirationsFragment.class);
 
-        imageView.buildDrawingCache();
-        Bitmap image = imageView.getDrawingCache();
-
         Bundle extras = new Bundle();
-        extras.putParcelable(context.getResources().getString(R.string.person_photo), image);
         extras.putParcelable(context.getResources().getString(R.string.person_details), person);
         intent.putExtras(extras);
 
@@ -133,11 +123,6 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     private void editPersonData() {
         Intent intent = EditPersonActivity.getStartIntent(this, person);
-        /*String transitionName = context.getString(R.string.cover_name);
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
-
-        context.startActivity(intent, transitionActivityOptions.toBundle());*/
         startActivity(intent);
     }
 
@@ -149,28 +134,16 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
     private void updateMedal(int amountInspirations) {
         if (amountInspirations >= 9) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                medal.setImageDrawable(getResources().getDrawable(R.drawable.nine_plus_white));
-            } else {
-                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.nine_plus_white, null));
-            }
-            medal.setVisibility(View.VISIBLE);
+            contentBinding.medalSelectedPersonPager.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.nine_plus_white));
+            contentBinding.medalSelectedPersonPager.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 6) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                medal.setImageDrawable(getResources().getDrawable(R.drawable.six_plus_white));
-            } else {
-                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.six_plus_white, null));
-            }
-            medal.setVisibility(View.VISIBLE);
+            contentBinding.medalSelectedPersonPager.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.six_plus_white));
+            contentBinding.medalSelectedPersonPager.setVisibility(View.VISIBLE);
         } else if (amountInspirations >= 3) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                medal.setImageDrawable(getResources().getDrawable(R.drawable.three_plus_white));
-            } else {
-                medal.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.three_plus_white, null));
-            }
-            medal.setVisibility(View.VISIBLE);
+            contentBinding.medalSelectedPersonPager.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.three_plus_white));
+            contentBinding.medalSelectedPersonPager.setVisibility(View.VISIBLE);
         } else {
-            medal.setVisibility(View.INVISIBLE);
+            contentBinding.medalSelectedPersonPager.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -179,25 +152,25 @@ public class PagerInspirationsFragment extends FragmentActivity implements
 
         person = helper.getPerson(personId);
 
-        personName.setText(person.name);
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+        contentBinding.personNameDetailPager.setText(person.name);
+        contentBinding.photoSelectedPersonPager.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
 
-        int currentPage = viewPager.getCurrentItem();
+        int currentPage = contentBinding.pagerInspirations.getCurrentItem();
         int sizeBeforeUpdate = listInspirations.size(); //listInspiration is updated in the loadInspirations
         loadInspirations();
 
         tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), listInspirations);
-        viewPager.setAdapter(tabPagerAdapter);
+        contentBinding.pagerInspirations.setAdapter(tabPagerAdapter);
 
         if (sizeBeforeUpdate == listInspirations.size()) { //edited
-            viewPager.setCurrentItem(currentPage);
+            contentBinding.pagerInspirations.setCurrentItem(currentPage);
         } else if (sizeBeforeUpdate > listInspirations.size()) { //deleted
             if (currentPage > 0) {
-                viewPager.setCurrentItem(currentPage - 1);
+                contentBinding.pagerInspirations.setCurrentItem(currentPage - 1);
             }
         } else { //added
             if (listInspirations.size() > 0) {
-                viewPager.setCurrentItem(listInspirations.size() - 1);
+                contentBinding.pagerInspirations.setCurrentItem(listInspirations.size() - 1);
             }
         }
 
@@ -216,8 +189,6 @@ public class PagerInspirationsFragment extends FragmentActivity implements
         }
     }
 
-
-
     void addInspiration() {
         Intent i = new Intent(this, AddInspirationActivity.class);
         i.putExtra("id", personId);
@@ -231,19 +202,19 @@ public class PagerInspirationsFragment extends FragmentActivity implements
     }
 
     public ViewPager getViewPager() {
-        return viewPager;
+        return contentBinding.pagerInspirations;
     }
 
     @Override
-    public void onTabReselected(Tab tab, FragmentTransaction ft) {
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 
     @Override
-    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-        viewPager.setCurrentItem(tab.getPosition());
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        contentBinding.pagerInspirations.setCurrentItem(tab.getPosition());
     }
 
     @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
     }
 }
