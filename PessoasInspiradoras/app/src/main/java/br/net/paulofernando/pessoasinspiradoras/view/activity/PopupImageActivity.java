@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -14,8 +14,6 @@ import com.faradaj.blurbehind.BlurBehind;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
-import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
-import butterknife.ButterKnife;
 
 public class PopupImageActivity extends Activity {
 

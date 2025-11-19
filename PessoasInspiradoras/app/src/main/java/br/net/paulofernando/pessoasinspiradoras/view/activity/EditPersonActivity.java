@@ -1,17 +1,22 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -20,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.faradaj.blurbehind.BlurBehind;
@@ -34,40 +38,43 @@ import java.io.IOException;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityEditPersonBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
-import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class EditPersonActivity extends AppCompatActivity {
 
     public static final int RESULT_LOAD_IMAGE = 1;
     public static final int RESULT_CROP = 2;
+    private static final int PERMISSION_REQUEST_READ_MEDIA = 100;
 
-    @BindView(R.id.person_photo) ImageView photo;
-    @BindView(R.id.et_person_name) EditText etPersonName;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
+    private ActivityEditPersonBinding binding;
     private boolean changed;
 
     private Bitmap bmp;
     private Uri outputUri;
-    private byte[] photoRaw;
     private Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_person);
-        ButterKnife.bind(this);
+        binding = ActivityEditPersonBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
-        photo.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
-        etPersonName.setText(person.name);
+        binding.btEditCancel.setOnClickListener(v -> cancelSettings());
+        binding.btEditSave.setOnClickListener(v -> save());
+        binding.btEditPhoto.setOnClickListener(v -> changePhoto());
+        binding.personPhoto.setOnClickListener(v -> viewPhoto());
 
-        etPersonName.addTextChangedListener(new TextWatcher() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details), Person.class);
+        } else {
+            person = getIntent().getParcelableExtra(getResources().getString(R.string.person_details));
+        }
+        binding.personPhoto.setImageBitmap(BitmapFactory.decodeByteArray(person.photo, 0, person.photo.length));
+        binding.etPersonName.setText(person.name);
+
+        binding.etPersonName.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -82,7 +89,7 @@ public class EditPersonActivity extends AppCompatActivity {
             }
         });
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -95,7 +102,6 @@ public class EditPersonActivity extends AppCompatActivity {
         return intent;
     }
 
-    @OnClick(R.id.bt_edit_cancel)
     void cancelSettings() {
         if (changed) {
             Utils.showConfirmDialog(
@@ -120,14 +126,13 @@ public class EditPersonActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.bt_edit_save)
     void save() {
         DatabaseHelper helper = new DatabaseHelper(this);
         if (bmp != null) {
-            helper.updatePersonById(person.id, etPersonName.getText().toString(),
+            helper.updatePersonById(person.id, binding.etPersonName.getText().toString(),
                     Utils.getByteArrayFromBitmap(bmp));
         } else {
-            helper.updatePersonById(person.id, etPersonName.getText().toString());
+            helper.updatePersonById(person.id, binding.etPersonName.getText().toString());
         }
         changed = false;
         PersonListFragment.UPDATE_PERSON_LIST = true;
@@ -135,13 +140,53 @@ public class EditPersonActivity extends AppCompatActivity {
         this.finish();
     }
 
-    @OnClick(R.id.bt_edit_photo)
     void changePhoto() {
+        if (checkStoragePermission()) {
+            pickImage();
+        } else {
+            requestStoragePermission();
+        }
+    }
+
+    private boolean checkStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
+                    == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED;
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                    PERMISSION_REQUEST_READ_MEDIA);
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_READ_MEDIA);
+        }
+    }
+
+    private void pickImage() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
-    @OnClick(R.id.person_photo)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_READ_MEDIA) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickImage();
+            } else {
+                Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     void viewPhoto() {
         BlurBehind.getInstance().execute(this, new OnBlurCompleteListener() {
             @Override
@@ -175,7 +220,7 @@ public class EditPersonActivity extends AppCompatActivity {
                     bmp = Bitmap.createScaledBitmap(bmp, maxImageMeasure, maxImageMeasure, false);
                 }
 
-                photo.setImageBitmap(bmp);
+                binding.personPhoto.setImageBitmap(bmp);
                 changed = true;
 
             } catch (FileNotFoundException e) {
@@ -256,22 +301,21 @@ public class EditPersonActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_edit_person, menu);
-        menu.getItem(0).setIcon(getResources().getDrawable(R.drawable.content_discard_white));
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.content_discard_white));
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                cancelSettings();
-                return true;
-            case R.id.delete_person:
-                deletePerson();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            cancelSettings();
+            return true;
+        } else if (itemId == R.id.delete_person) {
+            deletePerson();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
 }

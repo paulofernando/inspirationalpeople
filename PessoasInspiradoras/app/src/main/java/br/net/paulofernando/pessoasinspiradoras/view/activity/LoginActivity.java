@@ -8,24 +8,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import br.net.paulofernando.pessoasinspiradoras.R;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends Activity {
 
-    @BindView(R.id.ed_key) EditText edKey;
-
+    private ActivityLoginBinding binding;
     private float downXValue, downYValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         if (PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, "").equals("")) {
             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
@@ -33,7 +30,7 @@ public class LoginActivity extends Activity {
             return;
         }
 
-        edKey.addTextChangedListener(new TextWatcher() {
+        binding.edKey.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -49,7 +46,7 @@ public class LoginActivity extends Activity {
                 if (isPassCorrect()) {
                     Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                     startActivity(intent);
-                    edKey.setText("");
+                    binding.edKey.setText("");
                 }
             }
         });
@@ -57,7 +54,7 @@ public class LoginActivity extends Activity {
 
     void enterLogin() {
         if (isPassCorrect()) {
-            edKey.setText("");
+            binding.edKey.setText("");
             Intent intent = new Intent(this, DashboardActivity.class);
             startActivity(intent);
         } else {
@@ -66,7 +63,7 @@ public class LoginActivity extends Activity {
     }
 
     private boolean isPassCorrect() {
-        return edKey.getText().toString().equals(
+        return binding.edKey.getText().toString().equals(
                 PreferenceManager.getDefaultSharedPreferences(this).getString(SettingsActivity.PREF_KEY, ""));
     }
 

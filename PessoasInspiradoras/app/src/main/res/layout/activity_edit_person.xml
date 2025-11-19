@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
 	android:background="@color/screen_background">
 
-	<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+	<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
 		android:theme="@style/ThemeOverlay.AppCompat.Dark"
 		android:elevation="6dp">
 
-	</android.support.v7.widget.Toolbar>
+	</androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -69,7 +69,7 @@
 
 
 
-				<android.support.design.widget.TextInputLayout
+				<com.google.android.material.textfield.TextInputLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">
 
@@ -79,7 +79,7 @@
 						android:layout_height="wrap_content"
 						android:hint="@string/person_name"/>
 
-				</android.support.design.widget.TextInputLayout>
+				</com.google.android.material.textfield.TextInputLayout>
 
 			</LinearLayout>
 

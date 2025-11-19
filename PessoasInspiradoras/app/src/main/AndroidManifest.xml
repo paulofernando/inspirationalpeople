@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.net.paulofernando.pessoasinspiradoras">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="14" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +18,7 @@
             android:name=".view.activity.SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,7 @@
             android:name=".view.activity.LoginActivity"
             android:windowSoftInputMode="adjustResize"
             android:noHistory="true"
+            android:exported="false"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
@@ -37,6 +38,7 @@
         <activity
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.DashboardActivity"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
@@ -44,6 +46,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.SettingsActivity"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 
@@ -51,6 +54,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity"
             android:label="@string/title_edit_person"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
@@ -60,6 +64,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.ImportInspirationsActivity"
             android:label="@string/title_import"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
@@ -68,6 +73,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AddPersonActivity"
             android:label="@string/title_add_person"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
@@ -77,6 +83,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AddInspirationActivity"
             android:label="@string/title_add_inspiration"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
@@ -85,6 +92,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.EditInspirationActivity"
             android:label="@string/title_edit_inspiration"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
@@ -93,6 +101,7 @@
             android:name="br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
+            android:exported="false"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             />
@@ -100,6 +109,7 @@
         <activity
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.AboutActivity"
             android:label="@string/app_name"
+            android:exported="false"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
@@ -108,10 +118,12 @@
         <activity
             android:name="br.net.paulofernando.pessoasinspiradoras.view.activity.PopupImageActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.PopupImage"
             />
 
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:exported="false" />
 
     </application>
 

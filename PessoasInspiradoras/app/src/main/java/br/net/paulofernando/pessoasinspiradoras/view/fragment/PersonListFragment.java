@@ -1,34 +1,30 @@
 package br.net.paulofernando.pessoasinspiradoras.view.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
-import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DatabaseHelper;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
+import br.net.paulofernando.pessoasinspiradoras.databinding.FragmentMainBinding;
 import br.net.paulofernando.pessoasinspiradoras.listener.EndlessRecyclerViewScrollListener;
 import br.net.paulofernando.pessoasinspiradoras.view.adapter.PersonAdapter;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PersonListFragment extends Fragment {
 
     private static final String TAG = "PersonListFragment";
     public static boolean UPDATE_PERSON_LIST = false;
 
-    @BindView(R.id.list_rv) RecyclerView mRecyclerView;
+    private FragmentMainBinding binding;
 
     protected RecyclerView.LayoutManager mLayoutManager;
     protected PersonAdapter mAdapter;
-    @BindView(R.id.no_inspiration) LinearLayout noInspiration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +35,11 @@ public class PersonListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this, rootView);
+        binding = FragmentMainBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
-        mRecyclerView.setItemViewCacheSize(30);
-        mRecyclerView.setDrawingCacheEnabled(true);
+        binding.listRv.setItemViewCacheSize(30);
+        binding.listRv.setDrawingCacheEnabled(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         setRecyclerViewLayoutManager();
 
@@ -57,9 +53,9 @@ public class PersonListFragment extends Fragment {
      */
     public void setRecyclerViewLayoutManager() {
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        binding.listRv.setLayoutManager(mLayoutManager);
         positionScroll();
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(mLayoutManager) {
+        binding.listRv.addOnScrollListener(new EndlessRecyclerViewScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 loadMoreData(page);
@@ -70,11 +66,11 @@ public class PersonListFragment extends Fragment {
     private void positionScroll() {
         int scrollPosition = 0;
         // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
+        if (binding.listRv.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) binding.listRv.getLayoutManager())
                     .findFirstCompletelyVisibleItemPosition();
         }
-        mRecyclerView.scrollToPosition(scrollPosition);
+        binding.listRv.scrollToPosition(scrollPosition);
     }
 
 
@@ -104,17 +100,17 @@ public class PersonListFragment extends Fragment {
     private void updateList(List<Person> result) {
         if (mAdapter == null) {
             mAdapter = new PersonAdapter(PersonListFragment.this.getContext());
-            mRecyclerView.setAdapter(mAdapter);
+            binding.listRv.setAdapter(mAdapter);
             mAdapter.setItems(result);
-            mRecyclerView.setVisibility(View.VISIBLE);
+            binding.listRv.setVisibility(View.VISIBLE);
         } else {
             mAdapter.addList(result);
         }
 
         if(result.size() > 0) {
-            noInspiration.setVisibility(View.GONE);
+            binding.noInspiration.setVisibility(View.GONE);
         } else {
-            noInspiration.setVisibility(View.VISIBLE);
+            binding.noInspiration.setVisibility(View.VISIBLE);
         }
     }
 
@@ -131,4 +127,9 @@ public class PersonListFragment extends Fragment {
         helper.close();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

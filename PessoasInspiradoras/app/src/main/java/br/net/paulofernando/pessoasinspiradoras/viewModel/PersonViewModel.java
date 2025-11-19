@@ -2,8 +2,9 @@ package br.net.paulofernando.pessoasinspiradoras.viewModel;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.BaseObservable;
-import android.databinding.ObservableField;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.ObservableField;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,9 +16,6 @@ import br.net.paulofernando.pessoasinspiradoras.data.entity.Person;
 import br.net.paulofernando.pessoasinspiradoras.databinding.ItemPersonBinding;
 import br.net.paulofernando.pessoasinspiradoras.view.activity.EditPersonActivity;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PagerInspirationsFragment;
-import butterknife.OnClick;
-
-import static java.security.AccessController.getContext;
 
 public class PersonViewModel extends BaseObservable {
 
@@ -59,7 +57,7 @@ public class PersonViewModel extends BaseObservable {
 
     public Drawable getMedal() {
         if(person.getMedal() != -1) {
-            return context.getResources().getDrawable(person.getMedal());
+            return ContextCompat.getDrawable(context, person.getMedal());
         }
         return null;
     }
@@ -89,23 +87,12 @@ public class PersonViewModel extends BaseObservable {
     }
 
     private void launchPersonDetailsActivity() {
-        Intent intent = PagerInspirationsFragment.getStartIntent(context, person, binding.photo);
-
-        /*String transitionName = context.getString(R.string.cover_name);
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
-
-        context.startActivity(intent, transitionActivityOptions.toBundle());*/
+        Intent intent = PagerInspirationsFragment.getStartIntent(context, person);
         context.startActivity(intent);
     }
 
     private void launchPhotoActivity() {
         Intent intent = EditPersonActivity.getStartIntent(context, person);
-        /*String transitionName = context.getString(R.string.cover_name);
-        ActivityOptions transitionActivityOptions = ActivityOptions.
-                makeSceneTransitionAnimation((Activity) context, binding.coverIv, transitionName);
-
-        context.startActivity(intent, transitionActivityOptions.toBundle());*/
         context.startActivity(intent);
     }
 }

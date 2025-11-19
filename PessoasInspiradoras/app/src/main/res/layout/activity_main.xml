@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +14,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         android:elevation="6dp">
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <fragment android:name="br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment"
         android:id="@+id/person_fragment"

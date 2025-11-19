@@ -1,10 +1,8 @@
 package br.net.paulofernando.pessoasinspiradoras.view.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.j256.ormlite.dao.Dao;
 
@@ -13,15 +11,13 @@ import java.sql.SQLException;
 import br.net.paulofernando.pessoasinspiradoras.R;
 import br.net.paulofernando.pessoasinspiradoras.data.dao.DtoFactory;
 import br.net.paulofernando.pessoasinspiradoras.data.entity.Inspiracao;
+import br.net.paulofernando.pessoasinspiradoras.databinding.ActivityAddInspirationBinding;
 import br.net.paulofernando.pessoasinspiradoras.util.Utils;
 import br.net.paulofernando.pessoasinspiradoras.view.fragment.PersonListFragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddInspirationActivity extends AppCompatActivity {
 
-    @BindView(R.id.et_add_inspiration) EditText etInpiration;
+    private ActivityAddInspirationBinding binding;
 
     private long personId;
     private DtoFactory dtoFactory;
@@ -29,30 +25,30 @@ public class AddInspirationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_inspiration);
-        ButterKnife.bind(this);
+        binding = ActivityAddInspirationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        binding.btAddInpirationCancel.setOnClickListener(v -> cancelSettings());
+        binding.btAddInspirationSave.setOnClickListener(v -> save());
 
         personId = getIntent().getLongExtra("id", -1);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dtoFactory = (DtoFactory) getApplication();
     }
 
-    @OnClick(R.id.bt_add_inpiration_cancel)
     void cancelSettings() {
         this.finish();
     }
 
-    @OnClick(R.id.bt_add_inspiration_save)
     void save() {
-        if (etInpiration.getText().toString().equals("")) {
+        if (binding.etAddInspiration.getText().toString().equals("")) {
             Utils.showAlertDialog(this, getString(R.string.warning),
                     getString(R.string.empty_field_inspiration));
             return;
         } else {
-            saveInspiration(etInpiration.getText().toString());
+            saveInspiration(binding.etAddInspiration.getText().toString());
         }
 
         this.finish();
